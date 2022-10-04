@@ -1,9 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
-#include "PhysBody3D.h"
 #include "ModuleCamera3D.h"
-#include "ModulePlayer.h"
-#include "PhysVehicle3d.h"
+
 
 ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -53,14 +51,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	if (firstPerson == true && finish == false)
 	{
-		Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 2 * App->player->vehicle->vehicle->getForwardVector().getX();
-		Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 2 * App->player->vehicle->vehicle->getUpAxis();
-		Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 3 * App->player->vehicle->vehicle->getForwardVector().getZ();
-
-		float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-		float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-
-		LookAt(vec3(x_value, 1, z_value));
+		
 	}
 
 	if (finish == false)
@@ -72,13 +63,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (freeCamera == false && firstPerson == false)
 		{
-			Position.x = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() - 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-			Position.y = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getY() + 6 * App->player->vehicle->vehicle->getUpAxis();
-			Position.z = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() - 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-			float x_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getX() + 10 * App->player->vehicle->vehicle->getForwardVector().getX();
-			float z_value = App->player->vehicle->vehicle->getChassisWorldTransform().getOrigin().getZ() + 10 * App->player->vehicle->vehicle->getForwardVector().getZ();
-
-			LookAt(vec3(x_value, 1, z_value));
+			
 		}
 		else if (freeCamera == true) 
 		{
