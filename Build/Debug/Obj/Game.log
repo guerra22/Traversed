@@ -1,0 +1,142 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(499,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  Main.cpp
+  App.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Animation.h(55,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Animation.h(57,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Log.h(4,1): warning C4005: 'LOG': macro redefinition
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Globals.h(5): message : see previous definition of 'LOG'
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\App.cpp(183,28): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\App.cpp(205,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\App.cpp(211,47): warning C4244: 'argument': conversion from 'float' to 'Uint32', possible loss of data
+  Audio.cpp
+  Input.cpp
+  Map.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Log.h(4,1): warning C4005: 'LOG': macro redefinition
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Globals.h(5): message : see previous definition of 'LOG'
+  PerfTimer.cpp
+  PhysicBody.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicBody.cpp(14,24): warning C4244: '=': conversion from 'TYPE' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=int
+          ]
+          and
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicBody.cpp(15,24): warning C4244: '=': conversion from 'TYPE' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=int
+          ]
+          and
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicBody.cpp(24,24): warning C4244: '=': conversion from 'TYPE' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=int
+          ]
+          and
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicBody.cpp(25,24): warning C4244: '=': conversion from 'TYPE' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=int
+          ]
+          and
+          [
+              TYPE=float
+          ]
+  PhysicWorld.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(16,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(39,71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(53,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(101,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(112,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(150,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(162,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(183,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(187,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(210,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(251,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(268,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(230,8): warning C4101: 'height': unreferenced local variable
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(231,8): warning C4101: 'width': unreferenced local variable
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Point.h(231,14): warning C4244: 'return': conversion from 'double' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Point.h(230): message : while compiling class template member function 'TYPE Point<TYPE>::magnitude(void)'
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(247): message : see reference to function template instantiation 'TYPE Point<TYPE>::magnitude(void)' being compiled
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicBody.h(24): message : see reference to class template instantiation 'Point<float>' being compiled
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Point.h(197,11): warning C4244: '=': conversion from 'double' to 'TYPE', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Point.h(194): message : while compiling class template member function 'TYPE Point<TYPE>::Module(void)'
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\PhysicWorld.cpp(37): message : see reference to function template instantiation 'TYPE Point<TYPE>::Module(void)' being compiled
+          with
+          [
+              TYPE=float
+          ]
+  Scene.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Animation.h(55,19): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Animation.h(57,30): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Log.h(4,1): warning C4005: 'LOG': macro redefinition
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Globals.h(5): message : see previous definition of 'LOG'
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Scene.cpp(113,24): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Scene.cpp(181,95): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Scene.cpp(181,65): warning C4244: 'argument': conversion from 'TYPE' to 'int', possible loss of data
+          with
+          [
+              TYPE=float
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Scene.cpp(206,20): warning C4018: '<': signed/unsigned mismatch
+  Render.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Log.h(4,1): warning C4005: 'LOG': macro redefinition
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Globals.h(5): message : see previous definition of 'LOG'
+  Textures.cpp
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Log.h(4,1): warning C4005: 'LOG': macro redefinition
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Globals.h(5): message : see previous definition of 'LOG'
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\List.h(118,1): warning C4150: deletion of pointer to incomplete type 'SDL_Texture'; no destructor called
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Textures.h(8): message : see declaration of 'SDL_Texture'
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\List.h(85): message : while compiling class template member function 'bool List<SDL_Texture *>::del(ListItem<tdata> *)'
+          with
+          [
+              tdata=SDL_Texture *
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Textures.cpp(92): message : see reference to function template instantiation 'bool List<SDL_Texture *>::del(ListItem<tdata> *)' being compiled
+          with
+          [
+              tdata=SDL_Texture *
+          ]
+C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Game\Source\Textures.h(37): message : see reference to class template instantiation 'List<SDL_Texture *>' being compiled
+  Timer.cpp
+  Window.cpp
+  Log.cpp
+  pugixml.cpp
+  Generating Code...
+  Game.vcxproj -> C:\Users\guerr\OneDrive\Documentos\GitHub\Traversed\Build\Debug\Game.exe
+          1 archivo(s) copiado(s).
