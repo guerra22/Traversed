@@ -1,19 +1,19 @@
 ﻿  Application.cpp
   glmath.cpp
-D:\Traversed\Traversed\glmath.cpp(12,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(27,17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(43,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(53,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(53,26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(72,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(87,17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(103,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(600,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(618,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(618,33): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(758,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(778,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\glmath.cpp(778,33): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(12,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(27,17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(43,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(53,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(53,26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(72,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(87,17): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(103,34): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(600,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(618,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(618,33): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(758,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(778,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\hangx\Documents\GitHub\Traversed\Traversed\glmath.cpp(778,33): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   log.cpp
   Main.cpp
   ModuleCamera3D.cpp
@@ -22,4 +22,4 @@ D:\Traversed\Traversed\glmath.cpp(778,33): warning C4244: 'initializing': conver
   ModuleWindow.cpp
   Timer.cpp
   Generating Code...
-  Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe
+  Traversed.vcxproj -> C:\Users\hangx\Documents\GitHub\Traversed\Debug\Traversed.exe
