@@ -19,6 +19,9 @@
     <Filter Include="Sources\Modules\Game">
       <UniqueIdentifier>{83f46af7-e02f-40c0-9e56-41d76082527b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\Ui">
+      <UniqueIdentifier>{e3f32db3-b878-4503-9eba-8dd6fdd71a9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -48,8 +51,8 @@
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleImgui.h">
-      <Filter>Sources\Modules</Filter>
+    <ClInclude Include="ModuleUi.h">
+      <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -80,8 +83,8 @@
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleImgui.cpp">
-      <Filter>Sources\Modules</Filter>
+    <ClCompile Include="ModuleUi.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
