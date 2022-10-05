@@ -51,7 +51,7 @@
     <ClInclude Include="Timer.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleUi.h">
+    <ClInclude Include="ModuleUI.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
   </ItemGroup>
@@ -83,7 +83,7 @@
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Containers</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleUi.cpp">
+    <ClCompile Include="ModuleUI.cpp">
       <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
   </ItemGroup>
