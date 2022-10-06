@@ -60,7 +60,7 @@ update_status ModuleUI::Update(float dt)
 update_status ModuleUI::PostUpdate(float dt)
 {
 	ImGui::ShowDemoWindow();
-	ImGui::Begin("Edge Engine");
+	ImGui::Begin("Traversed");
 	ImGui::SetWindowSize({ 250,250 }, 0);
 	ImGui::Text("First Window");
 	if (ImGui::Button("TEST", { 100,50 }))

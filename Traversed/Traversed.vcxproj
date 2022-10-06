@@ -47,7 +47,8 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -65,7 +66,8 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,6 +80,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="External\Imgui\imconfig.h" />
+    <ClInclude Include="External\Imgui\imgui.h" />
+    <ClInclude Include="External\Imgui\imgui_impl_opengl2.h" />
+    <ClInclude Include="External\Imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="External\Imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="External\Imgui\imgui_impl_sdl.h" />
+    <ClInclude Include="External\Imgui\imgui_internal.h" />
+    <ClInclude Include="External\Imgui\imstb_rectpack.h" />
+    <ClInclude Include="External\Imgui\imstb_textedit.h" />
+    <ClInclude Include="External\Imgui\imstb_truetype.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="ModuleCamera3D.h" />
@@ -90,6 +102,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="External\Imgui\imgui.cpp" />
+    <ClCompile Include="External\Imgui\imgui_demo.cpp" />
+    <ClCompile Include="External\Imgui\imgui_draw.cpp" />
+    <ClCompile Include="External\Imgui\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="External\Imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="External\Imgui\imgui_impl_sdl.cpp" />
+    <ClCompile Include="External\Imgui\imgui_tables.cpp" />
+    <ClCompile Include="External\Imgui\imgui_widgets.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />

@@ -22,6 +22,12 @@
     <Filter Include="Sources\Modules\Ui">
       <UniqueIdentifier>{e3f32db3-b878-4503-9eba-8dd6fdd71a9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External">
+      <UniqueIdentifier>{28425b99-a72e-42ab-9a48-cbf3d78eba28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\External\Imgui">
+      <UniqueIdentifier>{7c7dbc32-7508-4c42-9d7f-0e1b072478f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -54,6 +60,36 @@
     <ClInclude Include="ModuleUI.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
+    <ClInclude Include="External\Imgui\imgui_impl_opengl2.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imgui_impl_opengl3.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imgui_impl_opengl3_loader.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imgui_impl_sdl.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imgui_internal.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imstb_rectpack.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imstb_textedit.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imstb_truetype.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imconfig.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\imgui.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -85,6 +121,30 @@
     </ClCompile>
     <ClCompile Include="ModuleUI.cpp">
       <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_impl_opengl3.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_impl_sdl.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_tables.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_widgets.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_demo.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_draw.cpp">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\imgui_impl_opengl2.cpp">
+      <Filter>Sources\External\Imgui</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
