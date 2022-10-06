@@ -1,10 +1,27 @@
-﻿  Application.cpp
-  Main.cpp
-  ModuleCamera3D.cpp
+﻿  ModuleUI.cpp
   ModuleInput.cpp
-  ModuleRenderer3D.cpp
-  ModuleUI.cpp
-  ModuleWindow.cpp
   Timer.cpp
   Generating Code...
-  Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe
+ModuleUI.obj : error LNK2019: unresolved external symbol "struct ImGuiContext * __cdecl ImGui::CreateContext(struct ImFontAtlas *)" (?CreateContext@ImGui@@YAPAUImGuiContext@@PAUImFontAtlas@@@Z) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::DestroyContext(struct ImGuiContext *)" (?DestroyContext@ImGui@@YAXPAUImGuiContext@@@Z) referenced in function "public: virtual bool __thiscall ModuleUI::CleanUp(void)" (?CleanUp@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "struct ImGuiIO & __cdecl ImGui::GetIO(void)" (?GetIO@ImGui@@YAAAUImGuiIO@@XZ) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "struct ImGuiStyle & __cdecl ImGui::GetStyle(void)" (?GetStyle@ImGui@@YAAAUImGuiStyle@@XZ) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::NewFrame(void)" (?NewFrame@ImGui@@YAXXZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PreUpdate(float)" (?PreUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::Render(void)" (?Render@ImGui@@YAXXZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "struct ImDrawData * __cdecl ImGui::GetDrawData(void)" (?GetDrawData@ImGui@@YAPAUImDrawData@@XZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::ShowDemoWindow(bool *)" (?ShowDemoWindow@ImGui@@YAXPA_N@Z) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::StyleColorsDark(struct ImGuiStyle *)" (?StyleColorsDark@ImGui@@YAXPAUImGuiStyle@@@Z) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "bool __cdecl ImGui::Begin(char const *,bool *,int)" (?Begin@ImGui@@YA_NPBDPA_NH@Z) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::End(void)" (?End@ImGui@@YAXXZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::SetWindowSize(struct ImVec2 const &,int)" (?SetWindowSize@ImGui@@YAXABUImVec2@@H@Z) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui::Text(char const *,...)" (?Text@ImGui@@YAXPBDZZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "bool __cdecl ImGui::Button(char const *,struct ImVec2 const &)" (?Button@ImGui@@YA_NPBDABUImVec2@@@Z) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "bool __cdecl ImGui::DebugCheckVersionAndDataLayout(char const *,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int,unsigned int)" (?DebugCheckVersionAndDataLayout@ImGui@@YA_NPBDIIIIII@Z) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "bool __cdecl ImGui_ImplSDL2_InitForOpenGL(struct SDL_Window *,void *)" (?ImGui_ImplSDL2_InitForOpenGL@@YA_NPAUSDL_Window@@PAX@Z) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui_ImplSDL2_Shutdown(void)" (?ImGui_ImplSDL2_Shutdown@@YAXXZ) referenced in function "public: virtual bool __thiscall ModuleUI::CleanUp(void)" (?CleanUp@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui_ImplSDL2_NewFrame(void)" (?ImGui_ImplSDL2_NewFrame@@YAXXZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PreUpdate(float)" (?PreUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "bool __cdecl ImGui_ImplOpenGL2_Init(void)" (?ImGui_ImplOpenGL2_Init@@YA_NXZ) referenced in function "public: virtual bool __thiscall ModuleUI::Init(void)" (?Init@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui_ImplOpenGL2_Shutdown(void)" (?ImGui_ImplOpenGL2_Shutdown@@YAXXZ) referenced in function "public: virtual bool __thiscall ModuleUI::CleanUp(void)" (?CleanUp@ModuleUI@@UAE_NXZ)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui_ImplOpenGL2_NewFrame(void)" (?ImGui_ImplOpenGL2_NewFrame@@YAXXZ) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PreUpdate(float)" (?PreUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+ModuleUI.obj : error LNK2019: unresolved external symbol "void __cdecl ImGui_ImplOpenGL2_RenderDrawData(struct ImDrawData *)" (?ImGui_ImplOpenGL2_RenderDrawData@@YAXPAUImDrawData@@@Z) referenced in function "public: virtual enum update_status __thiscall ModuleUI::PostUpdate(float)" (?PostUpdate@ModuleUI@@UAE?AW4update_status@@M@Z)
+D:\Traversed\Debug\Traversed.exe : fatal error LNK1120: 22 unresolved externals
