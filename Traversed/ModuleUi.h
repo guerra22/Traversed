@@ -5,6 +5,8 @@
 
 #include "lib/Imgui/imgui.h"
 #include "lib/SDL/include/SDL.h"
+#include "lib/ImGui/imgui_impl_glut.h"
+#include "lib/ImGui/imgui_impl_opengl2.h"
 #include <vector>
 
 class UI_Item;
@@ -16,16 +18,14 @@ public:
 	ModuleUI(Application* app, bool start_enabled = true);
 	~ModuleUI();
 
-	bool Init();
-
 	bool Start();
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	void RenderImGui();
+	//void RenderImGui();
 
-	bool MainMenu();
+	//bool MainMenu();
 
 private:
 	
