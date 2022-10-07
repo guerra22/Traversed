@@ -69,6 +69,7 @@ update_status ModuleUI::PostUpdate(float dt)
 	}
 	ImGui::End();
 	ImGui::Render();
+	ImGui::EndFrame();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 
     return UPDATE_CONTINUE;
