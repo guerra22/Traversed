@@ -28,6 +28,9 @@
     <Filter Include="Sources\External\Imgui">
       <UniqueIdentifier>{7c7dbc32-7508-4c42-9d7f-0e1b072478f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External\MathGeo">
+      <UniqueIdentifier>{a347f9fb-8a9b-4cf8-b7c0-6026f86cbab7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -90,6 +93,231 @@
     <ClInclude Include="External\Imgui\imgui.h">
       <Filter>Sources\External\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="External\MathGeo\src\MathGeoLib.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\MathGeoLibFwd.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\MathBuildConfig.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Algorithm\Random\LCG.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Algorithm\GJK2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Algorithm\SAT.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Algorithm\GJK.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Ray.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Sphere.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Triangle.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Triangle2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\TriangleMesh.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\AABB.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\AABB2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Capsule.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Circle.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Circle2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Frustum.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\GeometryAll.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\GeomType.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\HitInfo.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\KDTree.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Line.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\LineSegment.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\LineSegment2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\OBB.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\OBB2D.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\PBVolume.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Plane.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Polygon.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Polygon2DRef.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\Polyhedron.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Geometry\QuadTree.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Polynomial.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Quat.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\quat_simd.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Rect.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Reinterpret.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\simd.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\sse_mathfun.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\SSEMath.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Swap.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\TransformOps.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\vec2d.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\assume.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\BitFuncs.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\BitOps.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Callstack.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\FixedPoint.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float2.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float3.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float3x3.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float3x4.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4_neon.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4_sse.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4d.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4x4.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4x4_neon.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\float4x4_sse.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\FloatCmp.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\grisu3.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\InclWindows.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\Interpolate.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathAll.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathConstants.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathFunc.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathLog.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathNamespace.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MathTypes.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MatrixProxy.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MiniFloat.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\MultiLineMacro.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Math\myassert.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\MathGeo\src\Time\Clock.h">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -146,5 +374,154 @@
     <ClCompile Include="External\Imgui\imgui_impl_opengl2.cpp">
       <Filter>Sources\External\Imgui</Filter>
     </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Algorithm\Random\LCG.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Algorithm\GJK2D.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Algorithm\SAT.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Algorithm\GJK.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Sphere.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Triangle.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Triangle2D.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\TriangleMesh.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\AABB.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Capsule.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Circle.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Circle2D.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Frustum.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Line.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\LineSegment.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\LineSegment2D.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\OBB.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\PBVolume.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Plane.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Polygon.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Polyhedron.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Geometry\Ray.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\Quat.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\SSEMath.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\TransformOps.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\BitOps.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\Callstack.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float2.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float3.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float3x3.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float3x4.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float4.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float4d.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\float4x4.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\grisu3.c">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\grisu3_cpp.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\MathFunc.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\MathLog.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\MathOps.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\MiniFloat.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Math\Polynomial.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\MathGeo\src\Time\Clock.cpp">
+      <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="External\MathGeo\src\Geometry\TriangleMesh_IntersectRay_AVX.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Geometry\TriangleMesh_IntersectRay_CPP.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Geometry\TriangleMesh_IntersectRay_SSE.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Geometry\KDTree.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Geometry\QuadTree.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Math\float2.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
+    <None Include="External\MathGeo\src\Math\Matrix.inl">
+      <Filter>Sources\External\MathGeo</Filter>
+    </None>
   </ItemGroup>
 </Project>
