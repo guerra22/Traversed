@@ -19,9 +19,12 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	//void RenderImGui();
+public:
+	void MainMenu();
 
-	//bool MainMenu();
+	bool fullscreen;
+	int screenWidth;
+	int screenHeight;
 
 private:
 	

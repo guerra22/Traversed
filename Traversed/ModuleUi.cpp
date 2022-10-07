@@ -44,22 +44,30 @@ bool ModuleUI::Init()
 
 update_status ModuleUI::PreUpdate(float dt)
 {
-	ImGui_ImplOpenGL2_NewFrame();
-	ImGui_ImplSDL2_NewFrame();
-	ImGui::NewFrame();
 
     return UPDATE_CONTINUE;
 }
 
 update_status ModuleUI::Update(float dt)
 {
-    
+	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplSDL2_NewFrame();
+	ImGui::NewFrame();
+
+	MainMenu();
+
+	ImGui::Render();
+	ImGui::EndFrame();
+	ImGui::UpdatePlatformWindows();
+
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+
     return UPDATE_CONTINUE;
 }
 
 update_status ModuleUI::PostUpdate(float dt)
 {
-	ImGui::ShowDemoWindow();
+	/*ImGui::ShowDemoWindow();
 	ImGui::Begin("Traversed");
 	ImGui::SetWindowSize({ 250,250 }, 0);
 	ImGui::Text("First Window");
@@ -70,7 +78,9 @@ update_status ModuleUI::PostUpdate(float dt)
 	ImGui::End();
 	ImGui::Render();
 	ImGui::EndFrame();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui::UpdatePlatformWindows();
+
+	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());*/
 
     return UPDATE_CONTINUE;
 }
@@ -83,4 +93,56 @@ bool ModuleUI::CleanUp()
 	ImGui::DestroyContext();
 
     return true;
+}
+
+void ModuleUI::MainMenu()
+{
+	//MENUS 
+	ImGui::BeginMainMenuBar();
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			ImGui::EndMenu();
+
+		}
+		if (ImGui::BeginMenu("Configuration"))
+		{
+			ImGui::EndMenu();
+
+		}
+		if (ImGui::BeginMenu("Window"))
+		{
+
+			if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			{
+				App->window->SetFullscreen(fullscreen);
+			}
+			if (ImGui::SliderInt("Width", &screenWidth, 0, 1920))
+			{
+				App->window->ModifyWidth(screenWidth);
+			}
+			if (ImGui::SliderInt("Height", &screenHeight, 0, 1920))
+			{
+				App->window->ModifyHeight(screenHeight);
+			}
+
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("File System"))
+		{
+			ImGui::EndMenu();
+
+		}
+		if (ImGui::BeginMenu("Input"))
+		{
+			ImGui::EndMenu();
+
+		}
+		if (ImGui::BeginMenu("Hardware"))
+		{
+			ImGui::EndMenu();
+
+		}
+	}
+	ImGui::EndMainMenuBar();
 }
