@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AboutUi.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="External\Imgui\imconfig.h" />
     <ClInclude Include="External\Imgui\imgui.h" />
@@ -174,8 +175,10 @@
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="UiElements.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AboutUi.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="External\Imgui\imgui.cpp" />
     <ClCompile Include="External\Imgui\imgui_demo.cpp" />
@@ -236,6 +239,7 @@
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="UiElements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeo\include\Geometry\KDTree.inl" />

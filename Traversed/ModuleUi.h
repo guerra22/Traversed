@@ -1,11 +1,11 @@
-#pragma once
-#include "Module.h"
-#include "ModuleWindow.h"
+#ifndef __ModuleUI_H__
+#define __ModuleUI_H__
 
-#include "External/SDL/include/SDL.h"
 #include <vector>
 
 class Application;
+class AboutUi;
+class UiElements;
 
 class ModuleUI : public Module
 {
@@ -22,12 +22,17 @@ public:
 public:
 	void MainMenu();
 
-	bool fullscreen;
-	int screenWidth;
-	int screenHeight;
+	bool fullscreen = false;
+	int screenWidth = 0;
+	int screenHeight = 0;
+
+	bool enableAboutUi = false;
+
+	AboutUi* aboutUi = nullptr;
 
 private:
 	
-
+	std::vector<UiElements*> menus;
 };
 
+#endif

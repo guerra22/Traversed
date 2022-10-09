@@ -3,21 +3,22 @@
 #include <list>
 #include "Globals.h"
 #include "Timer.h"
-#include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModuleUI.h"
+
+class Module;
+class ModuleCamera3D;
+class ModuleWindow;
+class ModuleInput;
+class ModuleUI;
+class ModuleRenderer3D;
 
 class Application
 {
 public:
-	ModuleWindow* window;
-	ModuleInput* input;
-	ModuleRenderer3D* renderer3D;
-	ModuleCamera3D* camera;
-	ModuleUI* ui;
+	ModuleWindow* window = nullptr;
+	ModuleInput* input = nullptr;
+	ModuleRenderer3D* renderer3D = nullptr;
+	ModuleCamera3D* camera = nullptr;
+	ModuleUI* ui = nullptr;
 
 private:
 

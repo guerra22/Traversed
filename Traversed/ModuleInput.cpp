@@ -1,6 +1,6 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleRenderer3D.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 
 #define MAX_KEYS 300

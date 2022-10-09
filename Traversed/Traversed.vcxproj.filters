@@ -318,6 +318,12 @@
     <ClInclude Include="External\MathGeo\include\Geometry\QuadTree.h">
       <Filter>Sources\External\MathGeo</Filter>
     </ClInclude>
+    <ClInclude Include="UiElements.h">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="AboutUi.h">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -499,6 +505,12 @@
     </ClCompile>
     <ClCompile Include="External\MathGeo\include\Geometry\Polyhedron.cpp">
       <Filter>Sources\External\MathGeo</Filter>
+    </ClCompile>
+    <ClCompile Include="UiElements.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="AboutUi.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
