@@ -23,7 +23,7 @@ bool ModuleCamera3D::Start()
 {
 	LOG("Setting up the camera");
 	bool ret = true;
-
+	
 	freeCamera = false;
 	finish = false;
 	firstPerson = false;

@@ -1,9 +1,13 @@
 #pragma once
 
 class Application;
+class JsonParsing;
 
 class Module
 {
+public:
+	const char* name;
+
 private :
 	bool enabled;
 
@@ -44,5 +48,15 @@ public:
 	virtual bool CleanUp() 
 	{ 
 		return true; 
+	}
+
+	virtual bool LoadConfig(JsonParsing& node)
+	{
+		return true;
+	}
+
+	virtual bool SaveConfig(JsonParsing& node) const
+	{
+		return true;
 	}
 };

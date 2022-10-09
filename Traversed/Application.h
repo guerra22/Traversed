@@ -4,6 +4,7 @@
 #include "Globals.h"
 #include "Timer.h"
 
+
 class Module;
 class ModuleCamera3D;
 class ModuleWindow;
@@ -20,11 +21,15 @@ public:
 	ModuleCamera3D* camera = nullptr;
 	ModuleUI* ui = nullptr;
 
+	JsonParsing jsonFile;
 private:
 
 	Timer	ms_timer;
 	float	dt;
 	std::list<Module*> list_modules;
+
+	bool saveRequest;
+	bool loadRequest;
 
 public:
 
@@ -40,4 +45,7 @@ private:
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
+	void SaveConfig();
+	void LoadConfig();
 };

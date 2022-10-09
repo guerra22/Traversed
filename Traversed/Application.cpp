@@ -6,6 +6,8 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUI.h"
 
+#include "JsonParsing.h"
+
 Application::Application()
 {
 	window = new ModuleWindow(this);
@@ -28,6 +30,9 @@ Application::Application()
 
 	// Renderer last!
 	AddModule(renderer3D);
+
+	loadRequest = false;
+	saveRequest = false;
 }
 
 Application::~Application()
@@ -138,4 +143,47 @@ bool Application::CleanUp()
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
+}
+
+void Application::SaveConfig()
+{
+	JsonParsing jsonFile;
+
+	// Call Init() in all modules
+	std::list<Module*>::iterator item;
+
+	for (item = list_modules.begin(); item != list_modules.end(); ++item)
+	{
+		(*item)->SaveConfig(jsonFile.SetChild(jsonFile.GetRootValue(), (*item)->name));
+	}
+
+	char* buf;
+	uint size = jsonFile.Save(&buf);
+
+	RELEASE_ARRAY(buf);
+
+	//jsonFile.SerializeFile(root, CONFIG_FILENAME);
+	saveRequest = false;
+}
+
+void Application::LoadConfig()
+{
+	char* buffer = nullptr;
+
+	if (buffer != nullptr)
+	{
+		JsonParsing jsonFile((const char*)buffer);
+		jsonFile.ValueToObject(jsonFile.GetRootValue());
+
+		std::list<Module*>::iterator item;
+
+		for (item = list_modules.begin(); item != list_modules.end(); ++item)
+		{
+			(*item)->LoadConfig(jsonFile.GetChild(jsonFile.GetRootValue(), (*item)->name));
+		}
+
+		RELEASE_ARRAY(buffer);
+	}
+
+	loadRequest = false;
 }
