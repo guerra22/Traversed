@@ -31,6 +31,9 @@
     <Filter Include="Sources\External\MathGeo">
       <UniqueIdentifier>{a347f9fb-8a9b-4cf8-b7c0-6026f86cbab7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Json">
+      <UniqueIdentifier>{fb3705c9-f321-4e52-a3e3-35739a878551}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -324,6 +327,12 @@
     <ClInclude Include="AboutUi.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
+    <ClInclude Include="JsonParsing.h">
+      <Filter>Sources\Tools\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Json\parson.h">
+      <Filter>Sources\Tools\Json</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -511,6 +520,12 @@
     </ClCompile>
     <ClCompile Include="AboutUi.cpp">
       <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonParsing.cpp">
+      <Filter>Sources\Tools\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Json\parson.c">
+      <Filter>Sources\Tools\Json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
