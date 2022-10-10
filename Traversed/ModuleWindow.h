@@ -22,11 +22,16 @@ public:
 
 	void SetFullscreen(bool fullscreen);
 
-	void ModifyWidth(int x);
+	void SetWidth(int x);
 
-	void ModifyHeight(int y);
+	void SetHeight(int y);
 
+	void Vsync(bool vsync);
+
+	void SetBrightness(float brightness);
 public:
+	bool vsync = false;
+
 	//The window we'll be rendering to
 	SDL_Window* window;
 

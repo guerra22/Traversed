@@ -23,8 +23,10 @@ public:
 	void MainMenu();
 
 	bool fullscreen = false;
-	int screenWidth = 0;
-	int screenHeight = 0;
+	int screenWidth;
+	int screenHeight;
+	bool Vsync = false;
+	float screenBrightness;
 
 	bool enableAboutUi = false;
 

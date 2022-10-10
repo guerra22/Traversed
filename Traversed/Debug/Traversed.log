@@ -1,20 +1,7 @@
-﻿  AboutUi.cpp
-  Application.cpp
-  JsonParser.cpp
-D:\Traversed\Traversed\JsonParser.cpp(174,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(175,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(176,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(185,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(186,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(187,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\JsonParser.cpp(188,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Main.cpp
-  ModuleCamera3D.cpp
-  ModuleUI.cpp
-D:\Traversed\Traversed\ModuleUI.cpp(88,20): warning C4018: '<': signed/unsigned mismatch
-  ModuleInput.cpp
+﻿  Application.cpp
   ModuleRenderer3D.cpp
+  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
   ModuleWindow.cpp
-  UiElements.cpp
   Generating Code...
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

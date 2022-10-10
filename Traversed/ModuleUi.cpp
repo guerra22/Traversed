@@ -23,6 +23,10 @@ ModuleUI::~ModuleUI()
 
 bool ModuleUI::Init()
 {
+	screenHeight = App->window->screen_surface->h;
+	screenWidth = App->window->screen_surface->w;
+	screenBrightness = 1.0f;
+
     LOGGING("Loading start UI")
 
 	//IMGUI start
@@ -125,18 +129,27 @@ void ModuleUI::MainMenu()
 
 		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::Checkbox("Vsync", &Vsync))
+			{
+				App->window->Vsync(Vsync);
+			}
 			if (ImGui::Checkbox("Fullscreen", &fullscreen))
 			{
 				App->window->SetFullscreen(fullscreen);
 			}
-			if (ImGui::SliderInt("Width", &screenWidth, 0, 1080))
+			if (ImGui::SliderFloat("Brightness", &screenBrightness, 0.0001f, 1.0001f))
 			{
-				App->window->ModifyWidth(screenWidth);
+				App->window->SetBrightness(screenBrightness);
 			}
-			if (ImGui::SliderInt("Height", &screenHeight, 0, 1920))
+			if (ImGui::SliderInt("Width", &screenWidth, 800, 1920))
 			{
-				App->window->ModifyHeight(screenHeight);
+				App->window->SetWidth(screenWidth);
 			}
+			if (ImGui::SliderInt("Height", &screenHeight, 600, 1080))
+			{
+				App->window->SetHeight(screenHeight);
+			}
+
 			ImGui::EndMenu();
 		}
 

@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -98,12 +99,31 @@ void ModuleWindow::SetFullscreen(bool fullscreen)
 	SDL_SetWindowFullscreen(window, fullscreen);
 }
 
-void ModuleWindow::ModifyWidth(int x)
+void ModuleWindow::SetWidth(int x)
 {
 	SDL_SetWindowSize(window, x, screen_surface->h);
+	App->renderer3D->OnResize(x, screen_surface->h);
+	screen_surface->w = x;
 }
 
-void ModuleWindow::ModifyHeight(int y)
+void ModuleWindow::SetHeight(int y)
 {
 	SDL_SetWindowSize(window, screen_surface->w, y);
+	App->renderer3D->OnResize(screen_surface->w, y);
+	screen_surface->h = y;
+}
+
+void ModuleWindow::Vsync(bool vsync)
+{
+	vsync = SDL_HINT_RENDER_VSYNC;
+}
+
+void ModuleWindow::SetBrightness(float brightness)
+{
+	int result = SDL_SetWindowBrightness(window, brightness);
+
+	if (result != 0)
+	{
+		LOGGING("Setting Brightness Value");
+	}
 }
