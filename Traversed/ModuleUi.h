@@ -30,6 +30,8 @@ public:
 
 	bool enableAboutUi = false;
 
+	bool testCube = false;
+
 	AboutUi* aboutUi = nullptr;
 
 private:

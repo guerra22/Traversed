@@ -81,6 +81,7 @@
   <ItemGroup>
     <ClInclude Include="AboutUi.h" />
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="External\Imgui\imconfig.h" />
     <ClInclude Include="External\Imgui\imgui.h" />
     <ClInclude Include="External\Imgui\imgui_impl_opengl2.h" />
@@ -171,17 +172,20 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="JsonParser.h" />
     <ClInclude Include="ModuleCamera3D.h" />
+    <ClInclude Include="ModuleSceneIntro.h" />
     <ClInclude Include="ModuleUI.h" />
     <ClInclude Include="ModuleRenderer3D.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="UiElements.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AboutUi.cpp" />
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="External\Imgui\imgui.cpp" />
     <ClCompile Include="External\Imgui\imgui_demo.cpp" />
     <ClCompile Include="External\Imgui\imgui_draw.cpp" />
@@ -238,10 +242,12 @@
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
+    <ClCompile Include="ModuleSceneIntro.cpp" />
     <ClCompile Include="ModuleUI.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
+    <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiElements.cpp" />
   </ItemGroup>

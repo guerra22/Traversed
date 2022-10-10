@@ -11,6 +11,7 @@ class ModuleCamera3D;
 class ModuleWindow;
 class ModuleInput;
 class ModuleUI;
+class ModuleSceneIntro;
 class ModuleRenderer3D;
 
 class Application
@@ -21,6 +22,7 @@ public:
 	ModuleRenderer3D* renderer3D = nullptr;
 	ModuleCamera3D* camera = nullptr;
 	ModuleUI* ui = nullptr;
+	ModuleSceneIntro* sceneintro = nullptr;
 
 	JsonParser jsonFile;
 private:
