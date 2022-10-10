@@ -3,6 +3,7 @@
 #include <list>
 #include "Globals.h"
 #include "Timer.h"
+#include "JsonParser.h"
 
 
 class Module;
@@ -21,7 +22,7 @@ public:
 	ModuleCamera3D* camera = nullptr;
 	ModuleUI* ui = nullptr;
 
-	JsonParsing jsonFile;
+	JsonParser jsonFile;
 private:
 
 	Timer	ms_timer;

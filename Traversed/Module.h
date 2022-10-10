@@ -1,7 +1,7 @@
 #pragma once
 
 class Application;
-class JsonParsing;
+class JsonParser;
 
 class Module
 {
@@ -50,12 +50,12 @@ public:
 		return true; 
 	}
 
-	virtual bool LoadConfig(JsonParsing& node)
+	virtual bool LoadConfig(JsonParser& node)
 	{
 		return true;
 	}
 
-	virtual bool SaveConfig(JsonParsing& node) const
+	virtual bool SaveConfig(JsonParser& node) const
 	{
 		return true;
 	}

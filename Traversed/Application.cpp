@@ -6,7 +6,6 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUI.h"
 
-#include "JsonParsing.h"
 
 Application::Application()
 {
@@ -63,7 +62,7 @@ bool Application::Init()
 	}
 
 	// After all Init calls we call Start() in all modules
-	LOG("Application Start --------------");
+	LOGGING("Application Start --------------");
 	item = list_modules.begin();
 
 	while (item != list_modules.end() && ret == true)
@@ -147,7 +146,8 @@ void Application::AddModule(Module* mod)
 
 void Application::SaveConfig()
 {
-	JsonParsing jsonFile;
+	LOGGING("Saving configuration");
+	JsonParser jsonFile;
 
 	// Call Init() in all modules
 	std::list<Module*>::iterator item;
@@ -168,11 +168,13 @@ void Application::SaveConfig()
 
 void Application::LoadConfig()
 {
+	LOGGING("Loading configuration");
+
 	char* buffer = nullptr;
 
 	if (buffer != nullptr)
 	{
-		JsonParsing jsonFile((const char*)buffer);
+		JsonParser jsonFile((const char*)buffer);
 		jsonFile.ValueToObject(jsonFile.GetRootValue());
 
 		std::list<Module*>::iterator item;

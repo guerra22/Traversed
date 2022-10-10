@@ -327,7 +327,7 @@
     <ClInclude Include="AboutUi.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
-    <ClInclude Include="JsonParsing.h">
+    <ClInclude Include="JsonParser.h">
       <Filter>Sources\Tools\Json</Filter>
     </ClInclude>
     <ClInclude Include="External\Json\parson.h">
@@ -521,7 +521,7 @@
     <ClCompile Include="AboutUi.cpp">
       <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="JsonParsing.cpp">
+    <ClCompile Include="JsonParser.cpp">
       <Filter>Sources\Tools\Json</Filter>
     </ClCompile>
     <ClCompile Include="External\Json\parson.c">

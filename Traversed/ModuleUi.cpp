@@ -23,7 +23,7 @@ ModuleUI::~ModuleUI()
 
 bool ModuleUI::Init()
 {
-    LOG("Loading start UI")
+    LOGGING("Loading start UI")
 
 	//IMGUI start
 	IMGUI_CHECKVERSION();

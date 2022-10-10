@@ -5,13 +5,13 @@
 #include "External/MathGeo/include/Math/float4.h"
 #include "External/MathGeo/include/Math/Quat.h"
 
-class JsonParsing
+class JsonParser
 {
 public:
-	JsonParsing();
-	JsonParsing(const char* string);
-	JsonParsing(JSON_Value* value);
-	~JsonParsing();
+	JsonParser();
+	JsonParser(const char* string);
+	JsonParser(JSON_Value* value);
+	~JsonParser();
 
 	size_t Save(char** buf);
 	size_t SaveFile(const char* name);
@@ -19,12 +19,12 @@ public:
 	JSON_Object* SetNewJsonNode(JSON_Object* parent, const char* nodeName) const;
 	JSON_Status SetNewJsonString(JSON_Object* node, const char* name, const char* string) const;
 	JSON_Status SetNewJsonNumber(JSON_Object* node, const char* name, double number) const;
-	JSON_Status SetNewJson3Number(JsonParsing& node, const char* name, float3 number) const;
-	JSON_Status SetNewJson4Number(JsonParsing& node, const char* name, Quat number) const;
+	JSON_Status SetNewJson3Number(JsonParser& node, const char* name, float3 number) const;
+	JSON_Status SetNewJson4Number(JsonParser& node, const char* name, Quat number) const;
 	JSON_Status SetNewJsonBool(JSON_Object* node, const char* name, bool boolean) const;
 	JSON_Array* SetNewJsonArray(JSON_Value* parent, const char* name) const;
 	JSON_Status SetValueToArray(JSON_Array* jsonArray, JSON_Value* value);
-	JsonParsing SetChild(JSON_Value* parent, const char* name);
+	JsonParser SetChild(JSON_Value* parent, const char* name);
 
 	JSON_Object* GetJsonObject(JSON_Object* parentObject, const char* node) const;
 	JSON_Array* GetJsonArray(JSON_Object* parentObject, const char* node) const;
@@ -33,11 +33,11 @@ public:
 	const char* GetJsonString(const char* name) const;
 	double GetJsonNumber(const char* name) const;
 	bool GetJsonBool(const char* name) const;
-	JsonParsing GetChild(JSON_Value* parent, const char* name);
+	JsonParser GetChild(JSON_Value* parent, const char* name);
 
-	JsonParsing GetJsonArrayValue(JSON_Array* array, int index) const;
-	float3 GetJson3Number(JsonParsing& node, const char* name);
-	float4 GetJson4Number(JsonParsing& node, const char* name);
+	JsonParser GetJsonArrayValue(JSON_Array* array, int index) const;
+	float3 GetJson3Number(JsonParser& node, const char* name);
+	float4 GetJson4Number(JsonParser& node, const char* name);
 	//GetValor("Width")
 
 	size_t ParseFile(const char* fileName);
