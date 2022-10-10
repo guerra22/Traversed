@@ -171,6 +171,7 @@
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="JsonParser.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="ModuleCamera3D.h" />
     <ClInclude Include="ModuleSceneIntro.h" />
     <ClInclude Include="ModuleUI.h" />
@@ -239,6 +240,7 @@
     <ClCompile Include="External\MathGeo\include\Time\Clock.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="JsonParser.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />

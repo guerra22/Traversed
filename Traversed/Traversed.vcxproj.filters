@@ -342,6 +342,9 @@
     <ClInclude Include="Primitive.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -543,6 +546,9 @@
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
     <ClCompile Include="Primitive.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>

@@ -30,7 +30,7 @@ public:
 
 	bool enableAboutUi = false;
 
-	bool testCube = false;
+	bool testCube = true;
 
 	AboutUi* aboutUi = nullptr;
 

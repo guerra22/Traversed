@@ -1,3 +1,7 @@
-﻿  ModuleSceneIntro.cpp
+﻿  Application.cpp
+  ModuleSceneIntro.cpp
 D:\Traversed\Traversed\ModuleSceneIntro.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
+  Generating Code...
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe
