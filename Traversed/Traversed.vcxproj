@@ -79,7 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AboutUi.h" />
+    <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="External\Imgui\imconfig.h" />
@@ -181,10 +181,10 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.h" />
-    <ClInclude Include="UiElements.h" />
+    <ClInclude Include="UiPanel.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AboutUi.cpp" />
+    <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="External\Imgui\imgui.cpp" />
@@ -251,7 +251,7 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Timer.cpp" />
-    <ClCompile Include="UiElements.cpp" />
+    <ClCompile Include="UiPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeo\include\Geometry\KDTree.inl" />

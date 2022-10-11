@@ -3,7 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUI.h"
-#include "AboutUi.h"
+#include "PanelAbout.h"
 
 #include "External/Glew/include/glew.h"
 #include "External/Imgui/imgui.h"
@@ -43,7 +43,7 @@ bool ModuleUI::Init()
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 	ImGui_ImplOpenGL2_Init();
 
-	menus.push_back(aboutUi = new AboutUi());
+	panels.push_back(about = new PanelAbout());
 
     return true;
 }
@@ -63,7 +63,7 @@ update_status ModuleUI::Update(float dt)
 
 	MainMenu();
 
-	for (std::vector<UiElements*>::iterator it = menus.begin(); it != menus.end(); ++it)
+	for (std::vector<UiPanel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 	{
 		if ((*it)->IsActive())
 		{
@@ -89,12 +89,12 @@ update_status ModuleUI::PostUpdate(float dt)
 
 bool ModuleUI::CleanUp()
 {
-	for (int i = 0; i < menus.size(); i++)
+	for (int i = 0; i < panels.size(); i++)
 	{
-		menus[i]->CleanUp();
-		delete menus[i];
+		panels[i]->CleanUp();
+		delete panels[i];
 	}
-	menus.clear();
+	panels.clear();
 
 	ImGui_ImplOpenGL2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
@@ -110,9 +110,9 @@ void ModuleUI::MainMenu()
 	{
 		if (ImGui::BeginMenu("GeneralStuff"))
 		{
-			if (ImGui::Checkbox("AboutUi", &enableAboutUi))
+			if (ImGui::Checkbox("AboutUi", &enableAboutPanel))
 			{
-				aboutUi->active = enableAboutUi;
+				about->active = enableAboutPanel;
 			}
 			ImGui::EndMenu();
 		}

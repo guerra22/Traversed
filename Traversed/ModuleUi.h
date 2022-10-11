@@ -4,8 +4,8 @@
 #include <vector>
 
 class Application;
-class AboutUi;
-class UiElements;
+class PanelAbout;
+class UiPanel;
 
 class ModuleUI : public Module
 {
@@ -28,15 +28,15 @@ public:
 	bool Vsync = false;
 	float screenBrightness;
 
-	bool enableAboutUi = false;
+	bool enableAboutPanel = false;
 
 	bool testCube = true;
 
-	AboutUi* aboutUi = nullptr;
+	PanelAbout* about = nullptr;
 
 private:
 	
-	std::vector<UiElements*> menus;
+	std::vector<UiPanel*> panels;
 };
 
 #endif

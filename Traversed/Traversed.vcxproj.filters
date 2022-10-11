@@ -321,10 +321,10 @@
     <ClInclude Include="External\MathGeo\include\Geometry\QuadTree.h">
       <Filter>Sources\External\MathGeo</Filter>
     </ClInclude>
-    <ClInclude Include="UiElements.h">
+    <ClInclude Include="UiPanel.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
-    <ClInclude Include="AboutUi.h">
+    <ClInclude Include="PanelAbout.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
     <ClInclude Include="JsonParser.h">
@@ -527,10 +527,10 @@
     <ClCompile Include="External\MathGeo\include\Geometry\Polyhedron.cpp">
       <Filter>Sources\External\MathGeo</Filter>
     </ClCompile>
-    <ClCompile Include="UiElements.cpp">
+    <ClCompile Include="UiPanel.cpp">
       <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
-    <ClCompile Include="AboutUi.cpp">
+    <ClCompile Include="PanelAbout.cpp">
       <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
     <ClCompile Include="JsonParser.cpp">
