@@ -36,7 +36,7 @@ bool ModuleUI::Init()
 	//io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	//io.BackendFlags 
-	ImGui::StyleColorsDark();
+	ImGui::StyleColorsClassic();
 
 	ImGuiStyle& style = ImGui::GetStyle();
 
@@ -59,7 +59,7 @@ update_status ModuleUI::Update(float dt)
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
 	MainMenu();
 
@@ -108,21 +108,12 @@ void ModuleUI::MainMenu()
 	//MENUS 
 	ImGui::BeginMainMenuBar();
 	{
-		if (ImGui::BeginMenu("GeneralStuff"))
-		{
-			if (ImGui::Checkbox("AboutUi", &enableAboutPanel))
-			{
-				about->active = enableAboutPanel;
-			}
-			ImGui::EndMenu();
-		}
-
 		if (ImGui::BeginMenu("File"))
 		{
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Configuration"))
+		if (ImGui::BeginMenu("View"))
 		{
 			ImGui::EndMenu();
 		}
@@ -153,17 +144,16 @@ void ModuleUI::MainMenu()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("File System"))
+		if (ImGui::BeginMenu("Help"))
 		{
+			if (ImGui::Checkbox("AboutUi", &enableAboutPanel))
+			{
+				about->active = enableAboutPanel;
+			}
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Input"))
-		{
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Hardware"))
+		if (ImGui::BeginMenu("Configuration"))
 		{
 			ImGui::EndMenu();
 		}

@@ -1,9 +1,1 @@
-﻿  PanelAbout.cpp
-  Application.cpp
-  ModuleSceneIntro.cpp
-C:\Users\hangx\Documents\GitHub\Traversed\Traversed\ModuleSceneIntro.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
-  ModuleUI.cpp
-C:\Users\hangx\Documents\GitHub\Traversed\Traversed\ModuleUI.cpp(92,20): warning C4018: '<': signed/unsigned mismatch
-  UiPanel.cpp
-  Generating Code...
-  Traversed.vcxproj -> C:\Users\hangx\Documents\GitHub\Traversed\Debug\Traversed.exe
+﻿  Traversed.vcxproj -> C:\Users\hangx\Documents\GitHub\Traversed\Debug\Traversed.exe
