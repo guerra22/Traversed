@@ -113,6 +113,18 @@ void ModuleUI::MainMenu()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			ImGui::MenuItem("New ...");
+			ImGui::MenuItem("Load ...");
+			if (ImGui::MenuItem("Save ..."))
+			{
+
+			}
+
+			if (ImGui::MenuItem("Quit", "ESC"))
+			{
+
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -131,9 +143,16 @@ void ModuleUI::MainMenu()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Configuration"))
+		if (ImGui::BeginMenu("Help"))
 		{
-			
+			if (ImGui::MenuItem("Documentation"))
+				App->RequestBrowser("https://github.com/guerra22/Traversed");
+
+			if (ImGui::MenuItem("Download latest"))
+				App->RequestBrowser("https://github.com/guerra22/Traversed");
+
+			if (ImGui::MenuItem("Report a bug"))
+				App->RequestBrowser("https://github.com/guerra22/Traversed/issues");
 
 			ImGui::EndMenu();
 		}

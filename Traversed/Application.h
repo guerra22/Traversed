@@ -31,10 +31,15 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	int		capped_ms;
+
 	std::list<Module*> list_modules;
 
 	bool saveRequest;
 	bool loadRequest;
+
+	std::string app_name;
+	std::string organization_name;
 
 public:
 
@@ -45,6 +50,13 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	const char* GetAppName() const;
+	void SetAppName(const char* name);
+	const char* GetOrganizationName() const;
+	void SetOrganizationName(const char* name);
+	uint GetFramerateLimit() const;
+	void SetFramerateLimit(uint max_framerate);
+	void RequestBrowser(const char* url) const;
 private:
 
 	void AddModule(Module* mod);

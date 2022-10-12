@@ -36,6 +36,8 @@ Application::Application()
 	// Renderer last!
 	AddModule(renderer3D);
 
+	capped_ms = 1000 / 60;
+
 	loadRequest = false;
 	saveRequest = false;
 }
@@ -194,4 +196,52 @@ void Application::LoadConfig()
 	}
 
 	loadRequest = false;
+}
+
+const char* Application::GetAppName() const
+{
+	return app_name.c_str();
+}
+
+void Application::SetAppName(const char* name)
+{
+	if (name != nullptr && name != app_name)
+	{
+		app_name = name;
+		window->SetTitle(name);
+	}
+}
+
+const char* Application::GetOrganizationName() const
+{
+	return organization_name.c_str();
+}
+
+void Application::SetOrganizationName(const char* name)
+{
+	if (name != nullptr && name != organization_name)
+	{
+		organization_name = name;
+	}
+}
+
+uint Application::GetFramerateLimit() const
+{
+	if (capped_ms > 0)
+		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
+	else
+		return 0;
+}
+
+void Application::SetFramerateLimit(uint max_framerate)
+{
+	if (max_framerate > 0)
+		capped_ms = 1000 / max_framerate;
+	else
+		capped_ms = 0;
+}
+
+void Application::RequestBrowser(const char* url) const
+{
+	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
