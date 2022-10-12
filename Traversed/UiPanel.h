@@ -7,7 +7,7 @@
 class UiPanel
 {
 public:
-	UiPanel();
+	UiPanel(Application* app);
 	virtual ~UiPanel();
 
 	virtual void Draw() {};
@@ -17,6 +17,7 @@ public:
 
 	bool active = false;
 
+	Application* App = nullptr;
 };
 
 #endif

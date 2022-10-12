@@ -3,7 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUI.h"
-#include "PanelAbout.h"
+#include "panelConfiguration.h"
 
 #include "External/Glew/include/glew.h"
 #include "External/Imgui/imgui.h"
@@ -36,14 +36,15 @@ bool ModuleUI::Init()
 	//io.ConfigFlags = ImGuiConfigFlags_NoMouseCursorChange;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
 	//io.BackendFlags 
-	ImGui::StyleColorsClassic();
+	ImGui::StyleColorsDark();
 
 	ImGuiStyle& style = ImGui::GetStyle();
 
 	ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 	ImGui_ImplOpenGL2_Init();
 
-	panels.push_back(about = new PanelAbout());
+	panels.push_back(about = new PanelAbout(this->App));
+	panels.push_back(configuration = new PanelConfiguration(this->App));
 
     return true;
 }
@@ -60,6 +61,8 @@ update_status ModuleUI::Update(float dt)
 	ImGui_ImplSDL2_NewFrame();
 	ImGui::NewFrame();
 	//ImGui::ShowDemoWindow();
+
+	//ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 
 	MainMenu();
 
@@ -113,12 +116,21 @@ void ModuleUI::MainMenu()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("View"))
+		if (ImGui::BeginMenu("Window"))
 		{
+			if (ImGui::MenuItem("AboutUi"))
+			{
+				about->active = true;
+			}
+			if (ImGui::MenuItem("Configuration"))
+			{
+				configuration->active = true;
+			}
+
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Window"))
+		if (ImGui::BeginMenu("Configuration"))
 		{
 			if (ImGui::Checkbox("Vsync", &Vsync))
 			{
@@ -141,20 +153,6 @@ void ModuleUI::MainMenu()
 				App->window->SetHeight(screenHeight);
 			}
 
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Help"))
-		{
-			if (ImGui::Checkbox("AboutUi", &enableAboutPanel))
-			{
-				about->active = enableAboutPanel;
-			}
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Configuration"))
-		{
 			ImGui::EndMenu();
 		}
 	}

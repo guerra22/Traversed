@@ -25,8 +25,8 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(ui);
 	AddModule(sceneintro);
+	AddModule(ui);
 	
 	// Scenes
 

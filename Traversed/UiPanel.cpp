@@ -1,13 +1,13 @@
 #include "UiPanel.h"
 
-UiPanel::UiPanel()
+UiPanel::UiPanel(Application* app)
 {
-
+	this->App = app;
 }
 
 UiPanel::~UiPanel()
 {
-
+	
 }
 
 bool UiPanel::IsActive() const

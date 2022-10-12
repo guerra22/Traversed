@@ -5,6 +5,7 @@
 
 class Application;
 class PanelAbout;
+class PanelConfiguration;
 class UiPanel;
 
 class ModuleUI : public Module
@@ -12,7 +13,7 @@ class ModuleUI : public Module
 public:
 	ModuleUI(Application* app, bool start_enabled = true);
 	~ModuleUI();
-
+	
 	bool Init();
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
@@ -28,14 +29,12 @@ public:
 	bool Vsync = false;
 	float screenBrightness;
 
-	bool enableAboutPanel = false;
-
 	bool testCube = true;
 
 	PanelAbout* about = nullptr;
+	PanelConfiguration* configuration = nullptr;
 
 private:
-	
 	std::vector<UiPanel*> panels;
 };
 

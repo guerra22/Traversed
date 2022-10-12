@@ -6,10 +6,17 @@
 class PanelAbout : public UiPanel
 {
 public:
-	PanelAbout();
+	PanelAbout(Application* app);
 	virtual ~PanelAbout();
 
 	void Draw() override;
+
+private:
+	std::string sdlVersion;
+	std::string glewVersion;
+	std::string imGUIVersion;
+	std::string jsonVersion;
+	std::string mathGeoLibVersion;
 };
 
 #endif
