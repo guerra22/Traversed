@@ -1,8 +1,13 @@
 #ifndef __PANEL_CONFIGURATION_H_
 #define __PANEL_CONFIGURATION_H_
 
-#include "PanelAbout.h"
+#define IMGUI_YELLOW ImVec4(1.f,1.f,0.f,1.f)
+#define IMGUI_PRINT(field, format, ...) \
+	ImGui::Text(field); \
+	ImGui::SameLine(); \
+	ImGui::TextColored(IMGUI_YELLOW, format, __VA_ARGS__)
 
+#include "PanelAbout.h"
 
 class PanelConfiguration : public UiPanel
 {

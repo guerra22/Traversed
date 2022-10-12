@@ -13,9 +13,6 @@
     <Filter Include="Sources\Tools">
       <UniqueIdentifier>{7e4dfaf7-022c-4f7d-92aa-f3b3fa9d6248}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Helpers">
-      <UniqueIdentifier>{121f8e6b-df36-4ab0-be0d-601ddfc9e503}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Modules\Game">
       <UniqueIdentifier>{83f46af7-e02f-40c0-9e56-41d76082527b}</UniqueIdentifier>
     </Filter>
@@ -33,6 +30,9 @@
     </Filter>
     <Filter Include="Sources\Tools\Json">
       <UniqueIdentifier>{fb3705c9-f321-4e52-a3e3-35739a878551}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\External\gpudetect">
+      <UniqueIdentifier>{a457913d-a546-4de8-be86-58a07187e51e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +351,15 @@
     <ClInclude Include="PanelConfiguration.h">
       <Filter>Sources\Modules\Ui</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleHardware.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="External\gpudetect\dxgi1_4.h">
+      <Filter>Sources\External\gpudetect</Filter>
+    </ClInclude>
+    <ClInclude Include="External\gpudetect\DeviceId.h">
+      <Filter>Sources\External\gpudetect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -562,6 +571,12 @@
     </ClCompile>
     <ClCompile Include="PanelConfiguration.cpp">
       <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleHardware.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="External\gpudetect\DeviceId.cpp">
+      <Filter>Sources\External\gpudetect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

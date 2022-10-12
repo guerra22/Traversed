@@ -118,13 +118,14 @@ void ModuleUI::MainMenu()
 
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::MenuItem("AboutUi"))
-			{
-				about->active = true;
-			}
 			if (ImGui::MenuItem("Configuration"))
 			{
 				configuration->active = true;
+			}
+
+			if (ImGui::MenuItem("About"))
+			{
+				about->active = true;
 			}
 
 			ImGui::EndMenu();
@@ -132,26 +133,7 @@ void ModuleUI::MainMenu()
 
 		if (ImGui::BeginMenu("Configuration"))
 		{
-			if (ImGui::Checkbox("Vsync", &Vsync))
-			{
-				App->window->Vsync(Vsync);
-			}
-			if (ImGui::Checkbox("Fullscreen", &fullscreen))
-			{
-				App->window->SetFullscreen(fullscreen);
-			}
-			if (ImGui::SliderFloat("Brightness", &screenBrightness, 0.0001f, 1.0001f))
-			{
-				App->window->SetBrightness(screenBrightness);
-			}
-			if (ImGui::SliderInt("Width", &screenWidth, 800, 1920))
-			{
-				App->window->SetWidth(screenWidth);
-			}
-			if (ImGui::SliderInt("Height", &screenHeight, 600, 1080))
-			{
-				App->window->SetHeight(screenHeight);
-			}
+			
 
 			ImGui::EndMenu();
 		}

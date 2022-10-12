@@ -3,6 +3,7 @@
 #include "ImGuiUtils.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
+#include "ModuleHardware.h"
 
 
 PanelConfiguration::PanelConfiguration(Application* app) : UiPanel(app)
@@ -83,20 +84,37 @@ void PanelConfiguration::Draw()
 			ImGui::TextColored(ImVec4(255, 255, 0, 255), "%d", App->input->GetMouseY());
 		}
 
-		/*if (ImGui::CollapsingHeader("Hardware", ImGuiTreeNodeFlags_DefaultOpen))
+		if (ImGui::CollapsingHeader("Hardware", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			ImGui::TextWrapped("CPU Count: "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(255, 255, 0, 255), std::to_string(countCPU).c_str());
+			ModuleHardware::hw_info info = App->hardware->GetInfo(); 
+			IMGUI_PRINT("SDL Version:", info.sdl_version);
 
-			ImGui::TextWrapped("RAM: "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(255, 255, 0, 255), std::to_string(systemRAM).c_str());
+			ImGui::Separator();
+			IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.l1_cachekb);
+			IMGUI_PRINT("System RAM:", "%.1fGb", info.ram_gb);
+			IMGUI_PRINT("Caps:", "%s%s%s%s%s%s",
+				info.rdtsc ? "RDTSC," : "",
+				info.altivec ? "AltiVec," : "",
+				info.mmx ? "MMX," : "",
+				info.now3d ? "3DNow," : "",
+				info.sse ? "SSE," : "",
+				info.sse2 ? "SSE2," : "");
+			IMGUI_PRINT("", "%s%s%s%s%s",
+				info.sse3 ? "SSE3," : "",
+				info.sse41 ? "SSE41," : "",
+				info.sse42 ? "SSE42," : "",
+				info.avx ? "AVX," : "",
+				info.avx2 ? "AVX2" : "");
 
-			ImGui::TextWrapped("--------OpenGL-------- ");
-			ImGui::TextWrapped("Vendor %s", glGetString(GL_VENDOR));
-			ImGui::TextWrapped("Renderer: %s", glGetString(GL_RENDERER));
-			ImGui::TextWrapped("OpenGL version supported %s", glGetString(GL_VERSION));
-			ImGui::TextWrapped("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-		}*/
+
+			ImGui::Separator();
+			IMGUI_PRINT("GPU:", "vendor %u device %u", info.gpu_vendor, info.gpu_device);
+			IMGUI_PRINT("Brand:", info.gpu_brand);
+			IMGUI_PRINT("VRAM Budget:", "%.1f Mb", info.vram_mb_budget);
+			IMGUI_PRINT("VRAM Usage:", "%.1f Mb", info.vram_mb_usage);
+			IMGUI_PRINT("VRAM Available:", "%.1f Mb", info.vram_mb_available);
+			IMGUI_PRINT("VRAM Reserved:", "%.1f Mb", info.vram_mb_reserved);
+		}
 	}
 	ImGui::End();
 

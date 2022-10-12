@@ -7,6 +7,7 @@
 
 
 class Module;
+class ModuleHardware;
 class ModuleCamera3D;
 class ModuleWindow;
 class ModuleInput;
@@ -18,6 +19,7 @@ class Application
 {
 public:
 	ModuleWindow* window = nullptr;
+	ModuleHardware* hardware = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleRenderer3D* renderer3D = nullptr;
 	ModuleCamera3D* camera = nullptr;

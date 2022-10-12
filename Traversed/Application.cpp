@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Module.h"
+#include "ModuleHardware.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
@@ -11,6 +12,7 @@
 Application::Application()
 {
 	window = new ModuleWindow(this);
+	hardware = new ModuleHardware(this);
 	input = new ModuleInput(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
@@ -23,6 +25,7 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
+	AddModule(hardware);
 	AddModule(camera);
 	AddModule(input);
 	AddModule(sceneintro);
