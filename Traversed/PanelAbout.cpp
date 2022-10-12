@@ -31,11 +31,11 @@ void PanelAbout::Draw()
 		ImGui::NewLine();
 
 		ImGui::TextWrapped("Libraries used: ");
-		ImGui::BulletText("SDL %s", sdlVersion.c_str()); ImGui::TextURL("(?)", "https://github.com/libsdl-org/SDL", 1, 0);
-		ImGui::BulletText("Glew %s", glewVersion.c_str()); ImGui::TextURL("(?)", "https://github.com/nigels-com/glew", 1, 0);
-		ImGui::BulletText("ImGUI %s", imGUIVersion.c_str()); ImGui::TextURL("(?)", "https://github.com/ocornut/imgui", 1, 0);
-		ImGui::BulletText("JSON by nlhomann %s", jsonVersion.c_str()); ImGui::TextURL("(?)", "https://github.com/nlohmann/json", 1, 0);
-		ImGui::BulletText("MathGeoLib %s", mathGeoLibVersion.c_str()); ImGui::TextURL("(?)", "https://github.com/juj/MathGeoLib", 1, 0);
+		ImGui::BulletText("SDL %s", sdlVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/libsdl-org/SDL", 1, 0);
+		ImGui::BulletText("Glew %s", glewVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/nigels-com/glew", 1, 0);
+		ImGui::BulletText("ImGUI %s", imGUIVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/ocornut/imgui", 1, 0);
+		ImGui::BulletText("JSON by nlhomann %s", jsonVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/nlohmann/json", 1, 0);
+		ImGui::BulletText("MathGeoLib %s", mathGeoLibVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/juj/MathGeoLib", 1, 0);
 		
 		ImGui::NewLine();
 

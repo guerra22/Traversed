@@ -1,17 +1,2 @@
-﻿  Application.cpp
-  Main.cpp
-  ModuleCamera3D.cpp
-  ModuleHardware.cpp
-  ModuleInput.cpp
-D:\Traversed\Traversed\External\MathGeo\include\Geometry\AABB2D.h(191,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  ModuleRenderer3D.cpp
-  ModuleSceneIntro.cpp
-D:\Traversed\Traversed\ModuleSceneIntro.cpp(31,20): warning C4018: '<': signed/unsigned mismatch
-  ModuleUI.cpp
-D:\Traversed\Traversed\ModuleUI.cpp(95,20): warning C4018: '<': signed/unsigned mismatch
-  ModuleWindow.cpp
-  PanelAbout.cpp
-  PanelConfiguration.cpp
-  UiPanel.cpp
-  Generating Code...
+﻿  PanelAbout.cpp
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe
