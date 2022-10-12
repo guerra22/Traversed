@@ -31,6 +31,11 @@ private:
 
 	Timer	ms_timer;
 	float	dt;
+	Timer	fps_timer;
+	Uint32	frames;
+	int		fps_counter;
+	int		last_frame_ms;
+	int		last_fps;
 	int		capped_ms;
 
 	std::list<Module*> list_modules;

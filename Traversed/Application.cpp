@@ -36,7 +36,11 @@ Application::Application()
 	// Renderer last!
 	AddModule(renderer3D);
 
+	frames = 0;
+	last_frame_ms = -1;
+	last_fps = -1;
 	capped_ms = 1000 / 60;
+	fps_counter = 0;
 
 	loadRequest = false;
 	saveRequest = false;
@@ -94,6 +98,25 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	// Recap on framecount and fps
+	++frames;
+	++fps_counter;
+
+	if (fps_timer.Read() >= 1000)
+	{
+		last_fps = fps_counter;
+		fps_counter = 0;
+		fps_timer.Start();
+	}
+
+	last_frame_ms = ms_timer.Read();
+
+	// cap fps
+	if (capped_ms > 0 && (last_frame_ms < capped_ms))
+		SDL_Delay(capped_ms - last_frame_ms);
+
+	// notify the editor
+	ui->LogFPS((float)last_fps, (float)last_frame_ms);
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

@@ -22,6 +22,7 @@ public:
 
 public:
 	void MainMenu();
+	void LogFPS(float fps, float ms);
 
 	bool fullscreen = false;
 	int screenWidth;

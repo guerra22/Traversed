@@ -159,3 +159,9 @@ void ModuleUI::MainMenu()
 	}
 	ImGui::EndMainMenuBar();
 }
+
+void ModuleUI::LogFPS(float fps, float ms)
+{
+	if (configuration != nullptr)
+		configuration->AddFPS(fps, ms);
+}
