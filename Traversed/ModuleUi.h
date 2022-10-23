@@ -30,7 +30,7 @@ public:
 	bool Vsync = false;
 	float screenBrightness;
 
-	bool testCube = true;
+	bool testCube = false;
 
 	PanelAbout* about = nullptr;
 	PanelConfiguration* configuration = nullptr;

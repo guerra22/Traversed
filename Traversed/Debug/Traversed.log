@@ -1,2 +1,3 @@
-﻿  PanelAbout.cpp
+﻿  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(95,20): warning C4018: '<': signed/unsigned mismatch
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

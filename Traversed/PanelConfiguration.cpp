@@ -4,6 +4,7 @@
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleHardware.h"
+#include "ModuleRenderer3D.h"
 
 
 PanelConfiguration::PanelConfiguration(Application* app) : UiPanel(app), fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
@@ -71,6 +72,38 @@ void PanelConfiguration::Draw()
 			if (ImGui::SliderInt("Height", &screenHeight, 600, 1080))
 			{
 				App->window->SetHeight(screenHeight);
+			}
+		}
+
+		if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::Checkbox("GL_Depth_test", &App->renderer3D->atributes.Depth_test))
+			{
+
+			}
+			if (ImGui::Checkbox("GL_Cull_face", &App->renderer3D->atributes.Cull_Face))
+			{
+
+			}
+			if (ImGui::Checkbox("GL_Lightning", &App->renderer3D->atributes.Lightning))
+			{
+
+			}
+			if (ImGui::Checkbox("GL_Front", &App->renderer3D->atributes.Front))
+			{
+
+			}
+			if (ImGui::Checkbox("GL_AmbientOclussion", &App->renderer3D->atributes.AmbientOclussion))
+			{
+
+			}
+			if (ImGui::Checkbox("GL_Color_material", &App->renderer3D->atributes.Color_Materials))
+			{
+
+			}
+			if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->atributes.Wireframe))
+			{
+
 			}
 		}
 

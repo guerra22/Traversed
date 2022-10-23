@@ -122,7 +122,7 @@ void ModuleUI::MainMenu()
 
 			if (ImGui::MenuItem("Quit", "ESC"))
 			{
-
+				exit(0);
 			}
 
 			ImGui::EndMenu();
@@ -141,6 +141,16 @@ void ModuleUI::MainMenu()
 			}
 
 			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("test"))
+		{
+			if (ImGui::Checkbox("CreateTestCube", &testCube))
+			{
+
+			}
+			ImGui::EndMenu();
+
 		}
 
 		if (ImGui::BeginMenu("Help"))

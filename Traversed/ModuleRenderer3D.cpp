@@ -119,6 +119,63 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
+	if (atributes.Depth_test == true)
+	{
+		glEnable(GL_DEPTH_TEST);
+	}
+	if (atributes.Depth_test == false)
+	{
+		glDisable(GL_DEPTH_TEST);
+	}
+	if (atributes.Cull_Face == true)
+	{
+		glEnable(GL_CULL_FACE);
+	}
+	if (atributes.Cull_Face == false)
+	{
+		glDisable(GL_CULL_FACE);
+	}
+	if (atributes.Lightning == true)
+	{
+		glEnable(GL_LIGHTING);
+	}
+	if (atributes.Lightning == false)
+	{
+		glDisable(GL_LIGHTING);
+	}
+	if (atributes.Front == true)
+	{
+		glEnable(GL_FRONT);
+	}
+	if (atributes.Front == false)
+	{
+		glDisable(GL_FRONT);
+	}
+	if (atributes.AmbientOclussion == true)
+	{
+		glEnable(GL_AMBIENT);
+	}
+	if (atributes.AmbientOclussion == false)
+	{
+		glDisable(GL_AMBIENT);
+	}
+	if (atributes.Color_Materials == true)
+	{
+		glEnable(GL_COLOR_MATERIAL);
+	}
+	if (atributes.Color_Materials == false)
+	{
+		glDisable(GL_COLOR_MATERIAL);
+	}
+	if (atributes.Wireframe == true)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
+	if (atributes.Wireframe == false)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
+
 	return UPDATE_CONTINUE;
 }
 
