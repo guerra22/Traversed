@@ -95,6 +95,15 @@ void ModuleWindow::SetTitle(const char* title)
 	SDL_SetWindowTitle(window, title);
 }
 
+void ModuleWindow::SetResizable(bool resizable)
+{
+
+}
+void ModuleWindow::SetFullDesktop(bool fullDesktop)
+{
+
+}
+
 void ModuleWindow::SetFullscreen(bool fullscreen)
 {
 	SDL_SetWindowFullscreen(window, fullscreen);

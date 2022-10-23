@@ -1,5 +1,6 @@
 #include "PanelAbout.h"
 #include "ImGuiUtils.h"
+#include "ModuleWindow.h"
 
 #include "External/Glew/include/glew.h"
 
@@ -25,6 +26,8 @@ void PanelAbout::Draw()
 {
 	ImGui::Begin("about", &active);
 	{
+		//ImGui::SetWindowPos({ 0,20 });
+		//ImGui::SetWindowSize({ 250,700 });
 		ImGui::TextWrapped("TraversedEngine %s", "v 0.1");
 		ImGui::TextWrapped("by Hang Xue & Oriol Via");
 
@@ -34,7 +37,7 @@ void PanelAbout::Draw()
 		ImGui::BulletText("SDL %s", sdlVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/libsdl-org/SDL", 1, 0);
 		ImGui::BulletText("Glew %s", glewVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/nigels-com/glew", 1, 0);
 		ImGui::BulletText("ImGUI %s", imGUIVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/ocornut/imgui", 1, 0);
-		ImGui::BulletText("JSON by nlhomann %s", jsonVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/nlohmann/json", 1, 0);
+		ImGui::BulletText("JSON %s", jsonVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/nlohmann/json", 1, 0);
 		ImGui::BulletText("MathGeoLib %s", mathGeoLibVersion.c_str()); ImGui::TextURL("(GitHub)", "https://github.com/juj/MathGeoLib", 1, 0);
 		
 		ImGui::NewLine();

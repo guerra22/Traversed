@@ -360,6 +360,9 @@
     <ClInclude Include="External\gpudetect\DeviceId.h">
       <Filter>Sources\External\gpudetect</Filter>
     </ClInclude>
+    <ClInclude Include="AssimpDefs.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -577,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="External\gpudetect\DeviceId.cpp">
       <Filter>Sources\External\gpudetect</Filter>
+    </ClCompile>
+    <ClCompile Include="AssimpDefs.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

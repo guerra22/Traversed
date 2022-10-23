@@ -47,7 +47,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include;$(SolutionDir)Traversed\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -66,7 +66,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include;$(SolutionDir)Traversed\External\PhysFS\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -79,6 +79,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AssimpDefs.h" />
     <ClInclude Include="External\gpudetect\DeviceId.h" />
     <ClInclude Include="External\gpudetect\dxgi1_4.h" />
     <ClInclude Include="ImGuiUtils.h" />
@@ -189,6 +190,7 @@
     <ClInclude Include="UiPanel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AssimpDefs.cpp" />
     <ClCompile Include="External\gpudetect\DeviceId.cpp" />
     <ClCompile Include="ImGuiUtils.cpp" />
     <ClCompile Include="ModuleHardware.cpp" />

@@ -57,6 +57,16 @@ void PanelConfiguration::Draw()
 			{
 				App->window->Vsync(Vsync);
 			}
+			ImGui::SameLine();
+			if (ImGui::Checkbox("Resizable", &resizable))
+			{
+				
+			}
+			if (ImGui::Checkbox("FullDesktop", &fullDesktop))
+			{
+				
+			}
+			ImGui::SameLine();
 			if (ImGui::Checkbox("Fullscreen", &fullscreen))
 			{
 				App->window->SetFullscreen(fullscreen);

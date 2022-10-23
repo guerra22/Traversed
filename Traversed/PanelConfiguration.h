@@ -21,6 +21,8 @@ public:
 	void AddFPS(float fps, float ms);
 
 	bool fullscreen = false;
+	bool resizable = false;
+	bool fullDesktop = false;
 	int screenWidth;
 	int screenHeight;
 	bool Vsync = false;

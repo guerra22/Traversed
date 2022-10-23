@@ -20,6 +20,10 @@ public:
 
 	void SetTitle(const char* title);
 
+	void SetResizable(bool resizable);
+
+	void SetFullDesktop(bool fullDesktop);
+
 	void SetFullscreen(bool fullscreen);
 
 	void SetWidth(int x);
