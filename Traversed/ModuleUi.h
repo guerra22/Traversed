@@ -26,12 +26,6 @@ public:
 	void MainMenu();
 	void LogFPS(float fps, float ms);
 
-	bool fullscreen = false;
-	int screenWidth;
-	int screenHeight;
-	bool Vsync = false;
-	float screenBrightness;
-
 	bool testCube = false;
 
 	PanelAbout* about = nullptr;

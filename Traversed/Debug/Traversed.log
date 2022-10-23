@@ -1,4 +1,19 @@
-﻿  ModuleRenderer3D.cpp
+﻿  Application.cpp
+  ModuleFileSystem.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\ostream(411,1): warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\ostream(404): message : while compiling class template member function 'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)'
+D:\Traversed\Traversed\External\MathGeo\include\Math\assume.h(126): message : see reference to function template instantiation 'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\istream(711): message : see reference to class template instantiation 'std::basic_ostream<char,std::char_traits<char>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\sstream(515): message : see reference to class template instantiation 'std::basic_iostream<char,std::char_traits<char>>' being compiled
+D:\Traversed\Traversed\External\MathGeo\include\Math\assume.h(113): message : see reference to class template instantiation 'std::basic_stringstream<char,std::char_traits<char>,std::allocator<char>>' being compiled
+  ModuleRenderer3D.cpp
+  ModuleSceneIntro.cpp
+D:\Traversed\Traversed\ModuleSceneIntro.cpp(31,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(91,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleWindow.cpp
+  PanelAbout.cpp
   PanelConfiguration.cpp
+  UiPanel.cpp
   Generating Code...
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

@@ -16,7 +16,7 @@ public:
 	virtual bool CleanUp() { return true; }
 
 	bool active = false;
-
+	
 	Application* App = nullptr;
 };
 

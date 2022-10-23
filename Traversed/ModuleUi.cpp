@@ -23,10 +23,6 @@ ModuleUI::~ModuleUI()
 
 bool ModuleUI::Init()
 {
-	screenHeight = App->window->screen_surface->h;
-	screenWidth = App->window->screen_surface->w;
-	screenBrightness = 1.0f;
-
     LOGGING("Loading start UI")
 
 	//IMGUI start

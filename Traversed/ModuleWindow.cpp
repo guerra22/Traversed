@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "PanelConfiguration.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -136,4 +137,21 @@ void ModuleWindow::SetBrightness(float brightness)
 	{
 		LOGGING("Setting Brightness Value");
 	}
+}
+
+bool ModuleWindow::LoadConfig(JsonParser& node)
+{
+	/*screenBrightness = node.GetJsonNumber("brightness");
+	
+	App->window->SetBrightness(screenBrightness);*/
+
+	return true;
+}
+
+bool ModuleWindow::SaveConfig(JsonParser& node) const
+{
+	/*node.SetNewJsonNumber(node.ValueToObject(node.GetRootValue()), "brightness", screenBrightness);*/
+
+
+	return true;
 }

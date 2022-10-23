@@ -33,6 +33,10 @@ public:
 	void Vsync(bool vsync);
 
 	void SetBrightness(float brightness);
+
+	bool LoadConfig(JsonParser& node) override;
+	bool SaveConfig(JsonParser& node) const override;
+
 public:
 	bool vsync = false;
 
