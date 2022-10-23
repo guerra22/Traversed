@@ -22,7 +22,7 @@ public:
 
 	bool fullscreen = false;
 	bool resizable = false;
-	bool fullDesktop = false;
+	bool fulldesktop = false;
 	int screenWidth;
 	int screenHeight;
 	bool Vsync = false;

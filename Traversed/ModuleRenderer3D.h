@@ -30,6 +30,9 @@ public:
 
 	void OnResize(int width, int height);
 
+	bool LoadConfig(JsonParser& node) override;
+	bool SaveConfig(JsonParser& node) const override;
+
 public:
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;

@@ -62,7 +62,7 @@ void PanelConfiguration::Draw()
 			{
 				
 			}
-			if (ImGui::Checkbox("FullDesktop", &fullDesktop))
+			if (ImGui::Checkbox("Fulldesktop", &fulldesktop))
 			{
 				
 			}

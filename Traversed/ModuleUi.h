@@ -1,6 +1,8 @@
 #ifndef __ModuleUI_H__
 #define __ModuleUI_H__
 
+#include "Module.h"
+
 #include <vector>
 
 class Application;

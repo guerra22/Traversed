@@ -5,7 +5,7 @@
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "window";
+	name = "Window";
 	window = NULL;
 	screen_surface = NULL;
 }

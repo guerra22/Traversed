@@ -56,3 +56,6 @@ enum update_status
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
 #define TITLE "Traversed"
+
+#define RESOURCES_FOLDER "Assets/Resources/"
+#define SETTINGS_FOLDER ""

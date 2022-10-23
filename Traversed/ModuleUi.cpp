@@ -14,7 +14,7 @@
 
 ModuleUI::ModuleUI(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "ui";
+	name = "Ui";
 }
 
 // Destructor
@@ -114,10 +114,14 @@ void ModuleUI::MainMenu()
 		if (ImGui::BeginMenu("File"))
 		{
 			ImGui::MenuItem("New ...");
-			ImGui::MenuItem("Load ...");
+
+			if (ImGui::MenuItem("Load ..."))
+			{
+				App->LoadConfigRequest();
+			}
 			if (ImGui::MenuItem("Save ..."))
 			{
-
+				App->SaveConfigRequest();
 			}
 
 			if (ImGui::MenuItem("Quit", "ESC"))

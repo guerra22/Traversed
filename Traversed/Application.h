@@ -1,10 +1,13 @@
 #pragma once
 
+#define CONFIG_FILENAME	"config.json"
+#define APPLICATION_NAME "Traversed"
+#define ORGANIZATION_NAME "Singularity Studio"
+
 #include <list>
 #include "Globals.h"
 #include "Timer.h"
 #include "JsonParser.h"
-
 
 class Module;
 class ModuleHardware;
@@ -13,6 +16,7 @@ class ModuleWindow;
 class ModuleInput;
 class ModuleUI;
 class ModuleSceneIntro;
+class ModuleFileSystem;
 class ModuleRenderer3D;
 
 class Application
@@ -25,6 +29,7 @@ public:
 	ModuleCamera3D* camera = nullptr;
 	ModuleUI* ui = nullptr;
 	ModuleSceneIntro* sceneintro = nullptr;
+	ModuleFileSystem* filesystem = nullptr;
 
 	JsonParser jsonFile;
 private:
@@ -55,10 +60,10 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	const char* GetAppName() const;
-	void SetAppName(const char* name);
-	const char* GetOrganizationName() const;
-	void SetOrganizationName(const char* name);
+	inline const char* GetAppName() const { return APPLICATION_NAME; }
+	inline const char* GetOrganizationName() const { return ORGANIZATION_NAME; }
+	inline void SaveConfigRequest() { saveRequest = true; }
+	inline void LoadConfigRequest() { loadRequest = true; }
 	uint GetFramerateLimit() const;
 	void SetFramerateLimit(uint max_framerate);
 	void RequestBrowser(const char* url) const;

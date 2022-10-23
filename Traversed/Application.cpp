@@ -7,7 +7,9 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUI.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleFileSystem.h"
 
+#include "Resource.h"
 
 Application::Application()
 {
@@ -18,6 +20,7 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	ui = new ModuleUI(this);
 	sceneintro = new ModuleSceneIntro(this);
+	filesystem = new ModuleFileSystem(this, RESOURCES_FOLDER);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -55,36 +58,64 @@ Application::~Application()
 		delete item._Ptr->_Myval;
 		item++;
 	}
+
+	RELEASE(filesystem);
 	list_modules.clear();
 }
 
 bool Application::Init()
 {
+	//bool ret = true;
+
+	//filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
+
+	//std::list<Module*>::iterator item = list_modules.begin();
+
+	//// Call Init() in all modules
+
+	//while (item != list_modules.end() && ret == true)
+	//{
+	//	ret = item._Ptr->_Myval->Init();
+
+	//	item++;
+	//}
+
+	//// After all Init calls we call Start() in all modules
+	//LOGGING("Application Start --------------");
+	//item = list_modules.begin();
+
+	//while (item != list_modules.end() && ret == true)
+	//{
+	//	ret = item._Ptr->_Myval->Start();
+
+	//	item++;
+	//}
+	//
+	//return ret;
+
 	bool ret = true;
 
-	std::list<Module*>::iterator item = list_modules.begin();
+	char* buffer = nullptr;
+	filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
 
-	// Call Init() in all modules
-
-	while (item != list_modules.end() && ret == true)
+	if (buffer != nullptr)
 	{
-		ret = item._Ptr->_Myval->Init();
+		JsonParser jsonFile((const char*)buffer);
+		jsonFile.ValueToObject(jsonFile.GetRootValue());
 
-		item++;
+		std::list<Module*>::iterator item;
+
+		RELEASE_ARRAY(buffer);
 	}
 
-	// After all Init calls we call Start() in all modules
-	LOGGING("Application Start --------------");
-	item = list_modules.begin();
-
-	while (item != list_modules.end() && ret == true)
-	{
-		ret = item._Ptr->_Myval->Start();
-
-		item++;
-	}
+	std::list<Module*>::iterator item;
 	
-	ms_timer.Start();
+	for (item = list_modules.begin(); item != list_modules.end() && ret; ++item)
+	{
+		ret = (*item)->Init();
+		ret = (*item)->Start();
+	}
+
 	return ret;
 }
 
@@ -98,6 +129,9 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	if (loadRequest) LoadConfig();
+	if (saveRequest) SaveConfig();
+
 	// Recap on framecount and fps
 	++frames;
 	++fps_counter;
@@ -191,6 +225,11 @@ void Application::SaveConfig()
 	char* buf;
 	uint size = jsonFile.Save(&buf);
 
+	if (filesystem->Save(SETTINGS_FOLDER CONFIG_FILENAME, buf, size) > 0)
+	{
+		LOGGING("Saved Engine Preferences");
+	}
+
 	RELEASE_ARRAY(buf);
 
 	//jsonFile.SerializeFile(root, CONFIG_FILENAME);
@@ -202,6 +241,8 @@ void Application::LoadConfig()
 	LOGGING("Loading configuration");
 
 	char* buffer = nullptr;
+
+	filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
 
 	if (buffer != nullptr)
 	{
@@ -219,33 +260,6 @@ void Application::LoadConfig()
 	}
 
 	loadRequest = false;
-}
-
-const char* Application::GetAppName() const
-{
-	return app_name.c_str();
-}
-
-void Application::SetAppName(const char* name)
-{
-	if (name != nullptr && name != app_name)
-	{
-		app_name = name;
-		window->SetTitle(name);
-	}
-}
-
-const char* Application::GetOrganizationName() const
-{
-	return organization_name.c_str();
-}
-
-void Application::SetOrganizationName(const char* name)
-{
-	if (name != nullptr && name != organization_name)
-	{
-		organization_name = name;
-	}
 }
 
 uint Application::GetFramerateLimit() const

@@ -11,7 +11,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "renderer3D";
+	name = "Renderer";
 }
 
 // Destructor
@@ -209,4 +209,16 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+bool ModuleRenderer3D::LoadConfig(JsonParser& node)
+{
+
+	return true;
+}
+
+bool ModuleRenderer3D::SaveConfig(JsonParser& node) const
+{
+
+	return true;
 }
