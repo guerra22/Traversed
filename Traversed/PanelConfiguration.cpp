@@ -87,27 +87,27 @@ void PanelConfiguration::Draw()
 
 		if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			if (ImGui::Checkbox("GL_Depth_test", &App->renderer3D->atributes.Depth_test))
+			if (ImGui::Checkbox("Depth test", &App->renderer3D->atributes.Depth_test))
 			{
 
 			}
-			if (ImGui::Checkbox("GL_Cull_face", &App->renderer3D->atributes.Cull_Face))
+			if (ImGui::Checkbox("Cull face", &App->renderer3D->atributes.Cull_Face))
 			{
 
 			}
-			if (ImGui::Checkbox("GL_Lightning", &App->renderer3D->atributes.Lightning))
+			if (ImGui::Checkbox("Lightning", &App->renderer3D->atributes.Lightning))
 			{
 
 			}
-			if (ImGui::Checkbox("GL_Front", &App->renderer3D->atributes.Front))
+			if (ImGui::Checkbox("Front", &App->renderer3D->atributes.Front))
 			{
 
 			}
-			if (ImGui::Checkbox("GL_AmbientOclussion", &App->renderer3D->atributes.AmbientOclussion))
+			if (ImGui::Checkbox("AmbientOclussion", &App->renderer3D->atributes.AmbientOclussion))
 			{
 
 			}
-			if (ImGui::Checkbox("GL_Color_material", &App->renderer3D->atributes.Color_Materials))
+			if (ImGui::Checkbox("Color material", &App->renderer3D->atributes.Color_Materials))
 			{
 
 			}

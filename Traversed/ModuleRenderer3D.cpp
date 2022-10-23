@@ -213,12 +213,26 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 bool ModuleRenderer3D::LoadConfig(JsonParser& node)
 {
+	atributes.Depth_test = node.GetJsonBool("depth test");
+	atributes.Cull_Face = node.GetJsonBool("cull face");
+	atributes.Lightning = node.GetJsonBool("lightning");
+	atributes.Front = node.GetJsonBool("front");
+	atributes.AmbientOclussion = node.GetJsonBool("ambient oclussion");
+	atributes.Color_Materials = node.GetJsonBool("color materials");
+	atributes.Wireframe = node.GetJsonBool("wireframe");
 
 	return true;
 }
 
 bool ModuleRenderer3D::SaveConfig(JsonParser& node) const
 {
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "depth test", atributes.Depth_test);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "cull face", atributes.Cull_Face);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "lightning", atributes.Lightning);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "front", atributes.Front);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "ambient oclussion", atributes.AmbientOclussion);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "color materials", atributes.Color_Materials);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "wireframe", atributes.Wireframe);
 
 	return true;
 }
