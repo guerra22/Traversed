@@ -34,6 +34,9 @@
     <Filter Include="Sources\External\gpudetect">
       <UniqueIdentifier>{a457913d-a546-4de8-be86-58a07187e51e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Tools\Assimp">
+      <UniqueIdentifier>{441a8e69-f75e-4c5e-8f77-7f7ccbdec041}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -361,6 +364,9 @@
       <Filter>Sources\External\gpudetect</Filter>
     </ClInclude>
     <ClInclude Include="AssimpDefs.h">
+      <Filter>Sources\Tools\Assimp</Filter>
+    </ClInclude>
+    <ClInclude Include="Resourse.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
@@ -582,7 +588,7 @@
       <Filter>Sources\External\gpudetect</Filter>
     </ClCompile>
     <ClCompile Include="AssimpDefs.cpp">
-      <Filter>Sources\Tools</Filter>
+      <Filter>Sources\Tools\Assimp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
