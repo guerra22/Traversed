@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssimpDefs.h" />
+    <ClInclude Include="DevIL.h" />
     <ClInclude Include="External\gpudetect\DeviceId.h" />
     <ClInclude Include="External\gpudetect\dxgi1_4.h" />
     <ClInclude Include="ImGuiUtils.h" />

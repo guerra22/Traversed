@@ -15,6 +15,8 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 
 	Position = vec3(-1.0f, 13.0f, -10.0f);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
+
+	zoomSpeed = ZOOM_SPEED;
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -68,6 +70,9 @@ update_status ModuleCamera3D::Update(float dt)
 		Position += newPos;
 		Reference += newPos;
 
+		zoomSpeed = App->camera->GetZoomSpeed();
+		App->camera->SetZoomSpeed(zoomSpeed);
+
 		// Mouse motion ----------------
 
 		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
@@ -102,6 +107,11 @@ update_status ModuleCamera3D::Update(float dt)
 				}
 			}
 			Position = Reference + Z * length(Position);
+		}
+
+		if (App->input->GetMouseZ() != 0)
+		{
+			Zoom();
 		}
 	}
 	
@@ -150,6 +160,21 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 	Reference += Movement;
 
 	CalculateViewMatrix();
+}
+
+void ModuleCamera3D::Zoom()
+{
+	Position -= Z * App->input->GetMouseZ() * zoomSpeed;
+}
+
+void ModuleCamera3D::SetZoomSpeed(const float& zoom_speed)
+{
+	this->zoomSpeed = zoom_speed;
+}
+
+float ModuleCamera3D::GetZoomSpeed() const
+{
+	return zoomSpeed;
 }
 
 // -----------------------------------------------------------------
