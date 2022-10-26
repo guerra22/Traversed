@@ -2,6 +2,8 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleUi.h"
+#include "ModuleFBXLoader.h"
 
 #include <gl/GL.h>
 #include <gl/GLU.h>
@@ -101,6 +103,13 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	GLenum error = glewInit();
+	if (GLEW_OK != error)
+	{
+		LOGGING("Glew failed error %s\n", glewGetErrorString(error));
+	}
+	LOGGING("Glew version: %s\n", glewGetString(GLEW_VERSION));
+
 	return ret;
 }
 
@@ -182,7 +191,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-
+	if (App->ui->testMesh == true) DrawExampleMesh();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
@@ -210,6 +219,28 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+void ModuleRenderer3D::DrawExampleMesh()
+{
+	for (int i = 0; i < App->loader->meshes.size(); i++)
+	{
+		// Draw elements
+		VertexData* newMesh = &App->loader->meshes[i];
+		{
+			glEnableClientState(GL_VERTEX_ARRAY);
+
+			// Render things in Element mode
+			glBindBuffer(GL_ARRAY_BUFFER, newMesh->id_vertex);
+			glVertexPointer(3, GL_FLOAT, 0, NULL);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh->id_index);
+			glDrawElements(GL_TRIANGLES, newMesh->num_index, GL_UNSIGNED_INT, NULL);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+			glDisableClientState(GL_VERTEX_ARRAY);
+		}
+	}
+}
+
 
 bool ModuleRenderer3D::LoadConfig(JsonParser& node)
 {

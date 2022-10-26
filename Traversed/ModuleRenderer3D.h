@@ -29,6 +29,7 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
+	void DrawExampleMesh();
 
 	bool LoadConfig(JsonParser& node) override;
 	bool SaveConfig(JsonParser& node) const override;

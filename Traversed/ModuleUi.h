@@ -27,6 +27,7 @@ public:
 	void LogFPS(float fps, float ms);
 
 	bool testCube = false;
+	bool testMesh = false;
 
 	PanelAbout* about = nullptr;
 	PanelConfiguration* configuration = nullptr;

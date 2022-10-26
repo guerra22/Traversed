@@ -1,5 +1,5 @@
-﻿  ModuleWindow.cpp
-D:\Traversed\Traversed\ModuleWindow.cpp(147,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-D:\Traversed\Traversed\ModuleWindow.cpp(156,34): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-D:\Traversed\Traversed\ModuleWindow.cpp(158,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+﻿  Application.cpp
+  ModuleFBXLoader.cpp
+  Generating Code...
+D:\Traversed\Traversed\ModuleFBXLoader.cpp(100): warning C4715: 'ModuleFBXLoader::LoadMesh': not all control paths return a value
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleFBXLoader.h"
 #include "MathGeoLib.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 

@@ -8,6 +8,7 @@
 #include "ModuleUI.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleFileSystem.h"
+#include "ModuleFBXLoader.h"
 
 #include "Resource.h"
 
@@ -21,6 +22,7 @@ Application::Application()
 	ui = new ModuleUI(this);
 	sceneintro = new ModuleSceneIntro(this);
 	filesystem = new ModuleFileSystem(this, RESOURCES_FOLDER);
+	loader = new ModuleFBXLoader(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -31,10 +33,11 @@ Application::Application()
 	AddModule(hardware);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(sceneintro);
-	AddModule(ui);
 	
 	// Scenes
+	AddModule(sceneintro);
+	AddModule(loader);
+	AddModule(ui);
 
 	// Renderer last!
 	AddModule(renderer3D);

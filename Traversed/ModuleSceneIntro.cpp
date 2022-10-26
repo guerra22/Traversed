@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleCamera3D.h"
+#include "ModuleRenderer3D.h"
 #include "Primitive.h"
 #include "ModuleUI.h"
 
@@ -54,6 +55,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		primitives[n]->Update();
 	}
+
+	//App->renderer3D->DrawExampleMesh();
 
 	return UPDATE_CONTINUE;
 }

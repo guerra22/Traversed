@@ -83,6 +83,7 @@
     <ClInclude Include="External\gpudetect\DeviceId.h" />
     <ClInclude Include="External\gpudetect\dxgi1_4.h" />
     <ClInclude Include="ImGuiUtils.h" />
+    <ClInclude Include="ModuleFBXLoader.h" />
     <ClInclude Include="ModuleFileSystem.h" />
     <ClInclude Include="ModuleHardware.h" />
     <ClInclude Include="PanelAbout.h" />
@@ -195,6 +196,7 @@
     <ClCompile Include="AssimpDefs.cpp" />
     <ClCompile Include="External\gpudetect\DeviceId.cpp" />
     <ClCompile Include="ImGuiUtils.cpp" />
+    <ClCompile Include="ModuleFBXLoader.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
     <ClCompile Include="ModuleHardware.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
