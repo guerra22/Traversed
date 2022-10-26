@@ -30,6 +30,7 @@ public:
 	virtual ~ModuleFBXLoader();
 
 	bool Init();
+	bool Start();
 	bool CleanUp();
 
 	bool LoadMesh(const char* file_path);

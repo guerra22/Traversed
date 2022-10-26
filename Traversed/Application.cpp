@@ -116,7 +116,13 @@ bool Application::Init()
 	for (item = list_modules.begin(); item != list_modules.end() && ret; ++item)
 	{
 		ret = (*item)->Init();
-		ret = (*item)->Start();
+	}
+
+	std::list<Module*>::iterator item_;
+
+	for (item_ = list_modules.begin(); item_ != list_modules.end() && ret; ++item_)
+	{
+		ret = (*item_)->Start();
 	}
 
 	return ret;
