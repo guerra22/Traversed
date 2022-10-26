@@ -34,11 +34,19 @@ public:
 
 	void SetBrightness(float brightness);
 
+	void SetBorderless(bool borderless);
+
 	bool LoadConfig(JsonParser& node) override;
 	bool SaveConfig(JsonParser& node) const override;
 
 public:
+	bool fullscreen = false;
+	bool resizable = false;
+	bool screenBorderless = false;
+	int screenWidth;
+	int screenHeight;
 	bool vsync = false;
+	float screenBrightness;
 
 	//The window we'll be rendering to
 	SDL_Window* window;

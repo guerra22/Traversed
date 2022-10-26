@@ -2,7 +2,6 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
-#include "PanelConfiguration.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -100,9 +99,13 @@ void ModuleWindow::SetResizable(bool resizable)
 {
 
 }
-void ModuleWindow::SetFullDesktop(bool fullDesktop)
-{
 
+void ModuleWindow::SetBorderless(bool borderless)
+{
+	if (fullscreen == false)
+	{
+		SDL_SetWindowBordered(window, (SDL_bool)!borderless);
+	}
 }
 
 void ModuleWindow::SetFullscreen(bool fullscreen)
@@ -141,17 +144,32 @@ void ModuleWindow::SetBrightness(float brightness)
 
 bool ModuleWindow::LoadConfig(JsonParser& node)
 {
-	/*screenBrightness = node.GetJsonNumber("brightness");
-	
-	App->window->SetBrightness(screenBrightness);*/
+	screenBrightness = node.GetJsonNumber("brightness");
+	SetBrightness(screenBrightness);
+	vsync = node.GetJsonBool("vsync");
+	fullscreen = node.GetJsonBool("fullscreen");
+	SetFullscreen(fullscreen);
+	screenBorderless = node.GetJsonBool("borderless");
+	SetBorderless(screenBorderless);
+	resizable = node.GetJsonBool("resizable");
+	SetResizable(resizable);
+	screenWidth = node.GetJsonNumber("screenwidth");
+	SetWidth(screenWidth);
+	screenHeight = node.GetJsonNumber("screenheight");
+	SetHeight(screenHeight);
 
 	return true;
 }
 
 bool ModuleWindow::SaveConfig(JsonParser& node) const
 {
-	/*node.SetNewJsonNumber(node.ValueToObject(node.GetRootValue()), "brightness", screenBrightness);*/
-
+	node.SetNewJsonNumber(node.ValueToObject(node.GetRootValue()), "brightness", screenBrightness);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "fullscreen", fullscreen);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "borderless", screenBorderless);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "resizable", resizable);
+	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "vsync", vsync);
+	node.SetNewJsonNumber(node.ValueToObject(node.GetRootValue()), "screenwidth", screenWidth);
+	node.SetNewJsonNumber(node.ValueToObject(node.GetRootValue()), "screenheight", screenHeight);
 
 	return true;
 }

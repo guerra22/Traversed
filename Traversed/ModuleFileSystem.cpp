@@ -49,6 +49,8 @@ ModuleFileSystem::ModuleFileSystem(Application* app, const char* assetsPath)
 			PHYSFS_mkdir(dirs[i]);
 	}
 
+	CreateAssimp();
+
 	texExtension = { ".png", ".jpg", ".dds", ".tga" };
 	modelExtension = { ".obj", ".fbx", ".3DS", ".FBX" };
 }
@@ -196,4 +198,15 @@ std::string ModuleFileSystem::GetFileExtension(const char* path)
 	extension = full_path.substr(dot_position + 1);
 
 	return extension;
+}
+
+void ModuleFileSystem::CreateAssimp()
+{
+	assimpIO = new aiFileIO;
+	assimpIO->OpenProc = AssimpOpen;
+	assimpIO->CloseProc = AssimpClose;
+
+	aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
 }

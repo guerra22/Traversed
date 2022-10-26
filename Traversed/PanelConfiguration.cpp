@@ -10,9 +10,9 @@
 PanelConfiguration::PanelConfiguration(Application* app) : UiPanel(app), fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
 {
 	active = true;
-	screenHeight = app->window->screen_surface->h;
-	screenWidth = app->window->screen_surface->w;
-	screenBrightness = 1.0f;
+	app->window->screenHeight = app->window->screen_surface->h;
+	app->window->screenWidth = app->window->screen_surface->w;
+	app->window->screenBrightness = 1.0f;
 }
 
 PanelConfiguration::~PanelConfiguration()
@@ -53,35 +53,35 @@ void PanelConfiguration::Draw()
 
 		if (ImGui::CollapsingHeader("Window", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			if (ImGui::Checkbox("Vsync", &Vsync))
+			if (ImGui::Checkbox("Vsync", &App->window->vsync))
 			{
-				App->window->Vsync(Vsync);
+				App->window->Vsync(App->window->vsync);
 			}
 			ImGui::SameLine();
-			if (ImGui::Checkbox("Resizable", &resizable))
+			if (ImGui::Checkbox("Resizable", &App->window->resizable))
 			{
 				
 			}
-			if (ImGui::Checkbox("Fulldesktop", &fulldesktop))
+			if (ImGui::Checkbox("Borderless", &App->window->screenBorderless))
 			{
-				
+				App->window->SetBorderless(App->window->screenBorderless);
 			}
 			ImGui::SameLine();
-			if (ImGui::Checkbox("Fullscreen", &fullscreen))
+			if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
 			{
-				App->window->SetFullscreen(fullscreen);
+				App->window->SetFullscreen(App->window->fullscreen);
 			}
-			if (ImGui::SliderFloat("Brightness", &screenBrightness, 0.0001f, 1.0001f))
+			if (ImGui::SliderFloat("Brightness", &App->window->screenBrightness, 0.0001f, 1.0001f))
 			{
-				App->window->SetBrightness(screenBrightness);
+				App->window->SetBrightness(App->window->screenBrightness);
 			}
-			if (ImGui::SliderInt("Width", &screenWidth, 800, 1920))
+			if (ImGui::SliderInt("Width", &App->window->screenWidth, 800, 1920))
 			{
-				App->window->SetWidth(screenWidth);
+				App->window->SetWidth(App->window->screenWidth);
 			}
-			if (ImGui::SliderInt("Height", &screenHeight, 600, 1080))
+			if (ImGui::SliderInt("Height", &App->window->screenHeight, 600, 1080))
 			{
-				App->window->SetHeight(screenHeight);
+				App->window->SetHeight(App->window->screenHeight);
 			}
 		}
 

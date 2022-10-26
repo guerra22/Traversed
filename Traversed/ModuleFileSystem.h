@@ -44,5 +44,7 @@ private:
 	std::list<std::string> modelExtension;
 
 	aiFileIO* assimpIO;
+
+	void CreateAssimp();
 };
 

@@ -20,14 +20,6 @@ public:
 
 	void AddFPS(float fps, float ms);
 
-	bool fullscreen = false;
-	bool resizable = false;
-	bool fulldesktop = false;
-	int screenWidth;
-	int screenHeight;
-	bool Vsync = false;
-	float screenBrightness;
-
 private:
 	std::vector<float> fps_log;
 	std::vector<float> ms_log;
