@@ -1,9 +1,5 @@
-﻿  Application.cpp
-  ModuleCamera3D.cpp
-D:\Traversed\Traversed\ModuleCamera3D.cpp(167,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  ModuleRenderer3D.cpp
-D:\Traversed\Traversed\ModuleRenderer3D.cpp(225,20): warning C4018: '<': signed/unsigned mismatch
-  ModuleSceneIntro.cpp
-D:\Traversed\Traversed\ModuleSceneIntro.cpp(32,20): warning C4018: '<': signed/unsigned mismatch
+﻿  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(91,20): warning C4018: '<': signed/unsigned mismatch
+  PanelAbout.cpp
   Generating Code...
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

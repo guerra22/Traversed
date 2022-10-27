@@ -9,6 +9,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleFileSystem.h"
 #include "ModuleFBXLoader.h"
+#include "ModuleMaterials.h"
 
 #include "Resource.h"
 
@@ -23,6 +24,7 @@ Application::Application()
 	sceneintro = new ModuleSceneIntro(this);
 	filesystem = new ModuleFileSystem(this, RESOURCES_FOLDER);
 	loader = new ModuleFBXLoader(this);
+	materials = new ModuleMaterials(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -37,6 +39,7 @@ Application::Application()
 	// Scenes
 	AddModule(sceneintro);
 	AddModule(loader);
+	AddModule(materials);
 	AddModule(ui);
 
 	// Renderer last!
@@ -68,34 +71,6 @@ Application::~Application()
 
 bool Application::Init()
 {
-	//bool ret = true;
-
-	//filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
-
-	//std::list<Module*>::iterator item = list_modules.begin();
-
-	//// Call Init() in all modules
-
-	//while (item != list_modules.end() && ret == true)
-	//{
-	//	ret = item._Ptr->_Myval->Init();
-
-	//	item++;
-	//}
-
-	//// After all Init calls we call Start() in all modules
-	//LOGGING("Application Start --------------");
-	//item = list_modules.begin();
-
-	//while (item != list_modules.end() && ret == true)
-	//{
-	//	ret = item._Ptr->_Myval->Start();
-
-	//	item++;
-	//}
-	//
-	//return ret;
-
 	bool ret = true;
 
 	char* buffer = nullptr;

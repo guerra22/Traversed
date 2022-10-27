@@ -18,6 +18,7 @@ class ModuleUI;
 class ModuleSceneIntro;
 class ModuleFileSystem;
 class ModuleFBXLoader;
+class ModuleMaterials;
 class ModuleRenderer3D;
 
 class Application
@@ -32,6 +33,7 @@ public:
 	ModuleSceneIntro* sceneintro = nullptr;
 	ModuleFileSystem* filesystem = nullptr;
 	ModuleFBXLoader* loader = nullptr;
+	ModuleMaterials* materials = nullptr;
 
 	JsonParser jsonFile;
 private:

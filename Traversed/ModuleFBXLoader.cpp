@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleFBXLoader.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleMaterials.h"
 
 #include "External/Assimp/include/assimp/cimport.h"
 #include "External/Assimp/include/assimp/scene.h"
@@ -42,7 +43,7 @@ bool ModuleFBXLoader::Start()
 	LOGGING("Setting up the loader");
 	bool ret = true;
 
-	LoadMesh("Assets/BakerHouse.fbx");
+	//LoadMesh("Assets/BakerHouse.fbx");
 
 	return ret;
 }
