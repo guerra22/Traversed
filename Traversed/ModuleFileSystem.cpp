@@ -3,14 +3,11 @@
 #include "Globals.h"
 #include "ModuleUI.h"
 
+#include "AssimpDefs.h"
+#include "Resource.h"
 #include "External/SDL/include/SDL_filesystem.h"
 #include "External/Assimp/include/assimp/cimport.h"
-#include "AssimpDefs.h"
 #include "External/DevIL/include/il.h"
-#include "Resource.h"
-
-#include <vector>
-#include <stack>
 
 #pragma comment (lib, "External/Assimp/lib/assimp-vc142-mt.lib")
 

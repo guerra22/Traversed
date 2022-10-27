@@ -8,11 +8,6 @@
 #include "External/Assimp/include/assimp/scene.h"
 #include "External/Assimp/include/assimp/postprocess.h"
 #include "External/Assimp/include/assimp/ai_assert.h"
-#include "External/Glew/include/glew.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
-
-#include <vector>
 
 #pragma comment (lib, "External/Assimp/lib/assimp-vc142-mt.lib")
 
@@ -43,7 +38,7 @@ bool ModuleFBXLoader::Start()
 	LOGGING("Setting up the loader");
 	bool ret = true;
 
-	//LoadMesh("Assets/BakerHouse.fbx");
+	LoadMesh("Assets/BakerHouse.fbx", "Assets/Resources/Baker_House.png");
 
 	return ret;
 }
@@ -56,12 +51,13 @@ bool ModuleFBXLoader::CleanUp()
 	return true;
 }
 
-bool ModuleFBXLoader::LoadMesh(const char* file_path)
+bool ModuleFBXLoader::LoadMesh(const char* file_path, const char* texturePath)
 {
 	const aiScene* scene = aiImportFile(file_path, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		VertexData NewMesh;
+		
 		// Use scene->mNumMeshes to iterate on scene->mMeshes array
 		for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 		{
@@ -97,6 +93,27 @@ bool ModuleFBXLoader::LoadMesh(const char* file_path)
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, NewMesh.id_index);
 				glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * NewMesh.num_index, NewMesh.index, GL_STATIC_DRAW);
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+			}
+
+			if (scene->mMeshes[i]->HasTextureCoords(0))
+			{
+				NewMesh.num_uvs = scene->mMeshes[i]->mNumVertices;
+
+				NewMesh.textCords = new float[NewMesh.num_uvs * 3];
+
+				memcpy(NewMesh.textCords, scene->mMeshes[i]->mTextureCoords[0], NewMesh.num_uvs * sizeof(float3));
+				int x = scene->mMeshes[i]->mNumUVComponents[0];
+			}
+			NewMesh.texture_data.id = scene->mMeshes[i]->mMaterialIndex;
+
+			glGenBuffers(1, &(NewMesh.id_uvs));
+			glBindBuffer(GL_ARRAY_BUFFER, NewMesh.id_uvs);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * NewMesh.num_uvs * 3, NewMesh.textCords, GL_STATIC_DRAW);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+			if (texturePath != nullptr)
+			{
+				App->materials->Import(texturePath, &NewMesh);
 			}
 			meshes.push_back(NewMesh);
 		}

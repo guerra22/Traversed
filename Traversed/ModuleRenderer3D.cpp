@@ -1,7 +1,9 @@
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
+#include "ModuleMaterials.h"
 #include "ModuleUi.h"
 #include "ModuleFBXLoader.h"
 
@@ -110,6 +112,8 @@ bool ModuleRenderer3D::Init()
 	}
 	LOGGING("Glew version: %s\n", glewGetString(GLEW_VERSION));
 
+	App->materials->Init();
+
 	return ret;
 }
 
@@ -191,8 +195,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	//if (App->ui->testMesh == true) 
-	DrawExampleMesh();
 	SDL_GL_SwapWindow(App->window->window);
 	return UPDATE_CONTINUE;
 }
@@ -234,9 +236,19 @@ void ModuleRenderer3D::DrawExampleMesh()
 			glBindBuffer(GL_ARRAY_BUFFER, newMesh->id_vertex);
 			glVertexPointer(3, GL_FLOAT, 0, NULL);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh->id_index);
+
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glBindBuffer(GL_ARRAY_BUFFER, newMesh->id_uvs);
+			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+			glBindTexture(GL_TEXTURE_2D, newMesh->texture_data.id);
+
 			glDrawElements(GL_TRIANGLES, newMesh->num_index, GL_UNSIGNED_INT, NULL);
+			glBindTexture(GL_TEXTURE_2D, 0);
+
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 			glDisableClientState(GL_VERTEX_ARRAY);
 		}
 	}

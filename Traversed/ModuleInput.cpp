@@ -1,7 +1,10 @@
+#include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleFBXLoader.h"
+#include "ModuleFileSystem.h"
+#include "ModuleMaterials.h"
 #include "MathGeoLib.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 #include "External/Assimp/include/assimp/cimport.h"
@@ -113,8 +116,18 @@ update_status ModuleInput::PreUpdate(float dt)
 
 			case SDL_DROPFILE:
 			{
+				VertexData* NewMaterial = new VertexData();
+
 				const char* dropped_filedir = e.drop.file;
-				App->loader->LoadMesh(dropped_filedir);
+				if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
+				{
+					App->loader->LoadMesh(dropped_filedir, nullptr);
+				}
+				if (App->filesystem->GetFileExtension(dropped_filedir) == "png" || App->filesystem->GetFileExtension(dropped_filedir) == "PNG")
+				{
+					App->materials->Import(dropped_filedir, NewMaterial);
+				}
+
 				SDL_free(&dropped_filedir);
 			}
 			break;

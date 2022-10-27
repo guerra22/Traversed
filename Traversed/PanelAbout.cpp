@@ -15,6 +15,8 @@ PanelAbout::PanelAbout(Application* app) : UiPanel(app)
 	imGUIVersion = ImGui::GetVersion();
 	jsonVersion = "3.12.2";
 	mathGeoLibVersion = "1.5";
+	assimpLibVersion = "5.2.5";
+	devilLibVersion = "1.8.0";
 }
 
 PanelAbout::~PanelAbout()
@@ -39,6 +41,8 @@ void PanelAbout::Draw()
 		ImGui::BulletText("ImGUI %s", imGUIVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/ocornut/imgui", 1, 0);
 		ImGui::BulletText("JSON %s", jsonVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/nlohmann/json", 1, 0);
 		ImGui::BulletText("MathGeoLib %s", mathGeoLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/juj/MathGeoLib", 1, 0);
+		ImGui::BulletText("Assimp %s", assimpLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/assimp/assimp", 1, 0);
+		ImGui::BulletText("DevIL %s", devilLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/DentonW/DevIL", 1, 0);
 		
 		ImGui::NewLine();
 

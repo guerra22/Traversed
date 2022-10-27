@@ -1,20 +1,21 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleWindow.h"
 #include "ModuleFBXLoader.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMaterials.h"
 #include "DevIL.h"
 
+#include "External/SDL/include/SDL.h"
 #include "External/glew/include/glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
-#include "External/Assimp/include/assimp/cimport.h"
 #include "External/Assimp/include/assimp/scene.h"
 #include "External/Assimp/include/assimp/postprocess.h"
 #include "External/Assimp/include/assimp/ai_assert.h"
-
-#include <vector>
+#include "External/Assimp/include/assimp/material.h"
+#include "External/Assimp/include/assimp/cimport.h"
 
 #pragma comment (lib, "External/Assimp/lib/assimp-vc142-mt.lib")
 #pragma comment (lib, "External/DevIL/libx86/DevIL.lib")
@@ -51,7 +52,7 @@ bool ModuleMaterials::CleanUp()
 	return ret;
 }
 
-bool ModuleMaterials::Import(const char* file_path, MaterialData* newMaterial)
+bool ModuleMaterials::Import(const char* file_path, VertexData* newMaterial)
 {
 	bool ret = true;
 

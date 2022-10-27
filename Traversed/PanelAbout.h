@@ -17,6 +17,8 @@ private:
 	std::string imGUIVersion;
 	std::string jsonVersion;
 	std::string mathGeoLibVersion;
+	std::string assimpLibVersion;
+	std::string devilLibVersion;
 };
 
 #endif

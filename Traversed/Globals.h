@@ -6,6 +6,10 @@
 
 #include <windows.h>
 #include <stdio.h>
+#include <vector>
+#include <string>
+#include <stack>
+#include <list>
 
 #define LOGGING(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
 
