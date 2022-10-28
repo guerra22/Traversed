@@ -1,6 +1,3 @@
-﻿  ModuleUI.cpp
-D:\Traversed\Traversed\ModuleUI.cpp(91,20): warning C4018: '<': signed/unsigned mismatch
-  PanelAbout.cpp
-  PanelConfiguration.cpp
-  Generating Code...
+﻿  ModuleFBXLoader.cpp
+D:\Traversed\Traversed\ModuleFBXLoader.cpp(127): warning C4715: 'ModuleFBXLoader::LoadMesh': not all control paths return a value
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

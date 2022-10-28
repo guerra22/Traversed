@@ -17,6 +17,7 @@ public:
 	~ModuleUI();
 	
 	bool Init();
+
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
@@ -25,6 +26,7 @@ public:
 public:
 	void MainMenu();
 	void LogFPS(float fps, float ms);
+	void SetupImGuiStyle();
 
 	bool testCube = false;
 	bool testMesh = false;
