@@ -8,6 +8,9 @@
 class Application;
 class PanelAbout;
 class PanelConfiguration;
+class PanelHierarchy;
+class PanelInspector;
+class PanelConsole;
 class UiPanel;
 
 class ModuleUI : public Module
@@ -33,6 +36,9 @@ public:
 
 	PanelAbout* about = nullptr;
 	PanelConfiguration* configuration = nullptr;
+	PanelHierarchy* hierarchy = nullptr;
+	PanelInspector* inspector = nullptr;
+	PanelConsole* console = nullptr;
 
 private:
 	std::vector<UiPanel*> panels;

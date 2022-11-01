@@ -37,6 +37,12 @@
     <Filter Include="Sources\Tools\Assimp">
       <UniqueIdentifier>{441a8e69-f75e-4c5e-8f77-7f7ccbdec041}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\GameObject">
+      <UniqueIdentifier>{c3dca084-f6a5-46e3-956c-feb60b7fc4f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\GameObject\Component">
+      <UniqueIdentifier>{7475548b-dd04-435a-847e-1706069c79db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -381,6 +387,30 @@
     <ClInclude Include="ModuleMaterials.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Sources\Modules\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentTransform.h">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentMesh.h">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelInspector.h">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelConsole.h">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelHierarchy.h">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -610,6 +640,30 @@
     </ClCompile>
     <ClCompile Include="ModuleMaterials.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Sources\Modules\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMesh.cpp">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentTransform.cpp">
+      <Filter>Sources\Modules\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelConsole.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelHierarchy.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelInspector.cpp">
+      <Filter>Sources\Modules\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

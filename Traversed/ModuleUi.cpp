@@ -4,6 +4,10 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleUI.h"
 #include "panelConfiguration.h"
+#include "PanelAbout.h"
+#include "PanelConsole.h"
+#include "PanelHierarchy.h"
+#include "PanelInspector.h"
 
 #include "External/Glew/include/glew.h"
 #include "External/Imgui/imgui.h"
@@ -41,6 +45,9 @@ bool ModuleUI::Init()
 
 	panels.push_back(about = new PanelAbout(this->App));
 	panels.push_back(configuration = new PanelConfiguration(this->App));
+	panels.push_back(hierarchy = new PanelHierarchy(this->App));
+	panels.push_back(inspector = new PanelInspector(this->App));
+	panels.push_back(console = new PanelConsole(this->App));
 
 	SetupImGuiStyle();
     return true;

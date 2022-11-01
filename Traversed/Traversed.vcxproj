@@ -47,7 +47,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include\assimp;$(SolutionDir)Traversed\External\PhysFS\include;$(SolutionDir)Traversed\External\DevIL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include\assimp;$(SolutionDir)Traversed\External\PhysFS\include;$(SolutionDir)Traversed\External\DevIL\include;$(SolutionDir)Traversed\External\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -80,9 +80,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AssimpDefs.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentMaterial.h" />
+    <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="DevIL.h" />
     <ClInclude Include="External\gpudetect\DeviceId.h" />
     <ClInclude Include="External\gpudetect\dxgi1_4.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImGuiUtils.h" />
     <ClInclude Include="ModuleFBXLoader.h" />
     <ClInclude Include="ModuleFileSystem.h" />
@@ -189,6 +194,9 @@
     <ClInclude Include="ModuleInput.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="PanelConfiguration.h" />
+    <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="PanelHierarchy.h" />
+    <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Timer.h" />
@@ -196,7 +204,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssimpDefs.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentMaterial.cpp" />
+    <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="External\gpudetect\DeviceId.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="ImGuiUtils.cpp" />
     <ClCompile Include="ModuleFBXLoader.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
@@ -268,6 +281,9 @@
     <ClCompile Include="ModuleRenderer3D.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="PanelConfiguration.cpp" />
+    <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="PanelHierarchy.cpp" />
+    <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="UiPanel.cpp" />
