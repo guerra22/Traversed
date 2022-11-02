@@ -42,7 +42,7 @@ bool ModuleFBXLoader::Start()
 	LOGGING("Setting up the loader");
 	bool ret = true;
 
-	LoadMeshToGameObject(App->sceneintro->CreateGameObject("BakerHouse", nullptr), "Assets/BakerHouse.fbx", "Assets/Resources/Baker_House.png");
+	//LoadMeshToGameObject(App->sceneintro->CreateGameObject("BakerHouse", nullptr), "Assets/BakerHouse.fbx", "Assets/Resources/Baker_House.png");
 
 	return ret;
 }

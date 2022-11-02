@@ -5,6 +5,8 @@
 #include "ModuleFBXLoader.h"
 #include "ModuleFileSystem.h"
 #include "ModuleMaterials.h"
+#include "ModuleSceneIntro.h"
+#include "ComponentMaterial.h"
 #include "MathGeoLib.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 #include "External/Assimp/include/assimp/cimport.h"
@@ -119,14 +121,44 @@ update_status ModuleInput::PreUpdate(float dt)
 				VertexData* NewMaterial = new VertexData();
 
 				const char* dropped_filedir = e.drop.file;
-				/*if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
+				std::string path = App->filesystem->ChangePath(dropped_filedir);
+
+				uint directory_path_start = path.find_last_of("A");
+				uint directory_path_end = path.size();
+
+				path = path.substr(directory_path_start, directory_path_end);
+
+				if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
 				{
-					App->loader->LoadMesh(dropped_filedir, nullptr);
+					App->loader->LoadMeshToGameObject(App->sceneintro->CreateGameObject("Mesh"), path.c_str(), nullptr);
 				}
 				if (App->filesystem->GetFileExtension(dropped_filedir) == "png" || App->filesystem->GetFileExtension(dropped_filedir) == "PNG")
 				{
-					App->materials->Import(dropped_filedir, NewMaterial);
-				}*/
+					//Add here function to change texture for the object
+					for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
+					{
+						if (App->sceneintro->game_objects[i]->IsSelected())
+						{
+							ComponentMaterial* material = (ComponentMaterial*)App->sceneintro->game_objects[i]->GetComponent(COMPONENT_TYPES::MATERIAL);
+
+							if (App->sceneintro->game_objects[i]->childs.size() > 0)
+							{
+								for (int j = 0; j < App->sceneintro->game_objects[i]->childs.size(); j++)
+								{
+									ComponentMaterial* materialChild = (ComponentMaterial*)App->sceneintro->game_objects[i]->childs[j]->GetComponent(COMPONENT_TYPES::MATERIAL);
+									Texture* newTexture = new Texture();
+									App->materials->Import(path.c_str(), newTexture);
+									if (materialChild->materialUsed != nullptr) materialChild->materialUsed = nullptr;
+									materialChild->materialUsed = newTexture;
+								}
+							}
+							Texture* newTexture = new Texture();
+							App->materials->Import(path.c_str(), newTexture);
+							if (material->materialUsed != nullptr) material->materialUsed = nullptr;
+							material->materialUsed = newTexture;
+						}
+					}
+				}
 
 				SDL_free(&dropped_filedir);
 			}

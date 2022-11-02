@@ -74,6 +74,21 @@ bool ModuleFileSystem::CleanUp()
 	return true;
 }
 
+std::string ModuleFileSystem::ChangePath(const char* path) const
+{
+	std::string normalized_path(path);
+
+	for (uint i = 0; i < normalized_path.size(); ++i)
+	{
+		if (normalized_path[i] == '\\')
+		{
+			normalized_path[i] = '/';
+		}
+	}
+
+	return normalized_path;
+}
+
 bool ModuleFileSystem::AddPath(const char* path)
 {
 	bool ret = false;
