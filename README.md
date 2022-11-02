@@ -44,6 +44,7 @@ Inspector:
 - Texture: display texture size. 
 
 # Link to GitHub repository:
+https://github.com/guerra22/Traversed
 
 # Developers:
 
