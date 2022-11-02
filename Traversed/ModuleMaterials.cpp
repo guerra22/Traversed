@@ -52,7 +52,7 @@ bool ModuleMaterials::CleanUp()
 	return ret;
 }
 
-bool ModuleMaterials::Import(const char* file_path, VertexData* newMaterial)
+bool ModuleMaterials::Import(const char* file_path, Texture* newMaterial)
 {
 	bool ret = true;
 
@@ -99,11 +99,11 @@ bool ModuleMaterials::Import(const char* file_path, VertexData* newMaterial)
 
 					if (texture_id != 0)
 					{
-						newMaterial->texture_data.path = file_path;
-						newMaterial->texture_data.type = TEXTURE_TYPE::DIFFUSE;
-						newMaterial->texture_data.id = texture_id;
-						newMaterial->texture_data.width = ilGetInteger(IL_IMAGE_WIDTH);
-						newMaterial->texture_data.height = ilGetInteger(IL_IMAGE_HEIGHT);
+						newMaterial->path = file_path;
+						newMaterial->type = TEXTURE_TYPE::DIFFUSE;
+						newMaterial->id = texture_id;
+						newMaterial->width = ilGetInteger(IL_IMAGE_WIDTH);
+						newMaterial->height = ilGetInteger(IL_IMAGE_HEIGHT);
 					}
 					else
 					{

@@ -45,6 +45,7 @@ Application::Application()
 	// Renderer last!
 	AddModule(renderer3D);
 
+
 	frames = 0;
 	last_frame_ms = -1;
 	last_fps = -1;

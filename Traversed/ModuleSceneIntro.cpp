@@ -51,8 +51,6 @@ update_status ModuleSceneIntro::Update(float dt)
 		Cube c(0.5, 0.5, 0.5);
 	}
 
-	App->renderer3D->DrawExampleMesh();
-
 	//TODO 3: Nothing to do here. But it's good to know where all primitives are being updated
 	for (uint n = 0; n < primitives.size(); n++)
 	{
@@ -64,27 +62,29 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (game_objects[i]->IsActive())
 		{
 			game_objects[i]->Update(dt);
-
 		}
-	}
-
+	}	
 	//App->renderer3D->DrawExampleMesh();
 
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleSceneIntro::PostUpdate()
+update_status ModuleSceneIntro::PostUpdate(float dt)
 {
 	//TODO 3: Nothing to do here. But it's good to know where all primitives are being rendered
 	for (uint n = 0; n < primitives.size(); n++)
 	{
 		primitives[n]->Render();
 	}
+	for (uint j = 0; j < game_objects.size(); j++)
+	{
+		game_objects.at(j)->Render();
+	}
 
 	return UPDATE_CONTINUE;
 }
 
-GameObject* ModuleSceneIntro::CreateEmptyGameObject(const char* name, GameObject* parent)
+GameObject* ModuleSceneIntro::CreateGameObject(const char* name, GameObject* parent)
 {
 	if (parent == nullptr)
 	{

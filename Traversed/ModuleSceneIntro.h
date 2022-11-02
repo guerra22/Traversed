@@ -15,10 +15,10 @@ public:
 
 	bool Start();
 	update_status Update(float dt);
-	update_status PostUpdate();
+	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	GameObject* CreateEmptyGameObject(const char* name = nullptr, GameObject* parent = nullptr);
+	GameObject* CreateGameObject(const char* name = nullptr, GameObject* parent = nullptr);
 public:
 	std::vector<GameObject*> game_objects;
 	GameObject* rootObject;

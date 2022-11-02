@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Module.h"
+#include "GameObject.h"
 
 #include "External/Assimp/include/assimp/material.h"
 #include "External/SDL/include/SDL.h"
@@ -59,7 +60,7 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	bool LoadMesh(const char* file_path, const char* texturePath);
+	bool LoadMeshToGameObject(GameObject* owner, const char* file_path, const char* texture_path);
 
 	bool LoadConfig(JsonParser& node) override;
 	bool SaveConfig(JsonParser& node) const override;

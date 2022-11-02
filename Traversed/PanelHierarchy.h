@@ -11,6 +11,10 @@ public:
 
 	void Draw() override;
 
+	void GameObjectList();
+
+public:
+	bool showPopUp;
 private:
 };
 

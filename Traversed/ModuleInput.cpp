@@ -119,14 +119,14 @@ update_status ModuleInput::PreUpdate(float dt)
 				VertexData* NewMaterial = new VertexData();
 
 				const char* dropped_filedir = e.drop.file;
-				if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
+				/*if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
 				{
 					App->loader->LoadMesh(dropped_filedir, nullptr);
 				}
 				if (App->filesystem->GetFileExtension(dropped_filedir) == "png" || App->filesystem->GetFileExtension(dropped_filedir) == "PNG")
 				{
 					App->materials->Import(dropped_filedir, NewMaterial);
-				}
+				}*/
 
 				SDL_free(&dropped_filedir);
 			}
