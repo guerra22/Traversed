@@ -48,7 +48,8 @@ update_status ModuleCamera3D::Update(float dt)
 	// Now we can make this movememnt frame rate independant!
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
 	{
-		FocusObject = !FocusObject;
+		//FocusObject = !FocusObject;
+		LookAt(0);
 	}
 
 	if (FocusObject == false)
@@ -56,7 +57,7 @@ update_status ModuleCamera3D::Update(float dt)
 		vec3 newPos(0, 0, 0);
 		float speed = 30.0f * dt;
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-			speed = 100.0f * dt;
+			speed = speed * 2;
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) newPos.y += speed;
 		if (App->input->GetKey(SDL_SCANCODE_C) == KEY_REPEAT) newPos.y -= speed;
@@ -74,6 +75,40 @@ update_status ModuleCamera3D::Update(float dt)
 		App->camera->SetZoomSpeed(zoomSpeed);
 
 		// Mouse motion ----------------
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
+		{
+			int dx = -App->input->GetMouseXMotion();
+			int dy = -App->input->GetMouseYMotion();
+
+			float Sensitivity = 0.25f;
+
+			Position -= Reference;
+
+			if (dx != 0)
+			{
+				float DeltaX = (float)dx * Sensitivity;
+
+				X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+				Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+			}
+
+			if (dy != 0)
+			{
+				float DeltaY = (float)dy * Sensitivity;
+
+				Y = rotate(Y, DeltaY, X);
+				Z = rotate(Z, DeltaY, X);
+
+				if (Y.y < 0.0f)
+				{
+					Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+					Y = cross(Z, X);
+				}
+			}
+			Position = Reference + Z * length(Position);
+		}
+
 		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 		{
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT)

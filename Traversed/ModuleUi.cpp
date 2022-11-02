@@ -186,7 +186,6 @@ void ModuleUI::MainMenu()
 				LOGGING("Created a cylinder")
 			}
 
-
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
