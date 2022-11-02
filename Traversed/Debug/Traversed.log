@@ -1,3 +1,6 @@
-﻿  ModuleFBXLoader.cpp
+﻿  ModuleCamera3D.cpp
+D:\Traversed\Traversed\ModuleCamera3D.cpp(169,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  ModuleFBXLoader.cpp
+  Generating Code...
 D:\Traversed\Traversed\ModuleFBXLoader.cpp(149): warning C4715: 'ModuleFBXLoader::LoadMeshToGameObject': not all control paths return a value
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe
