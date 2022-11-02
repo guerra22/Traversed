@@ -28,9 +28,7 @@ void PanelAbout::Draw()
 {
 	ImGui::Begin("about", &active);
 	{
-		//ImGui::SetWindowPos({ 0,20 });
-		//ImGui::SetWindowSize({ 250,700 });
-		ImGui::TextWrapped("TraversedEngine %s", "v 0.1");
+		ImGui::TextWrapped("TraversedEngine %s", "v 1.0");
 		ImGui::TextWrapped("by Hang Xue & Oriol Via");
 
 		ImGui::NewLine();

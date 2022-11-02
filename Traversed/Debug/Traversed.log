@@ -1,3 +1,0 @@
-﻿  ModuleCamera3D.cpp
-D:\Traversed\Traversed\ModuleCamera3D.cpp(204,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

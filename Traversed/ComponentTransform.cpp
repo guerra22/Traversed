@@ -63,5 +63,4 @@ void ComponentTransform::SetRotation(const float3& rotation)
 void ComponentTransform::SetScale(const float3& scale)
 {
 	this->scale = scale;
-
 }

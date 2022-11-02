@@ -24,8 +24,6 @@ bool ComponentMaterial::CleanUp()
 {
 	bool ret = true;
 
-
-
 	textures.clear();
 
 	return ret;
