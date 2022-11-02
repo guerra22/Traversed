@@ -51,6 +51,13 @@ https://github.com/guerra22/Traversed
 - [Oriol Via](https://github.com/guerra22)
 
 # Libraries:
+- [SDL](https://github.com/libsdl-org/SDL)
+- [Glew](https://github.com/nigels-com/glew)
+- [ImGUI]https://github.com/ocornut/imgui)
+- [JSON](https://github.com/nlohmann/json)
+- [MathGeoLib](https://github.com/juj/MathGeoLib)
+- [Assimp](https://github.com/assimp/assimp)
+- [DevIL](https://github.com/DentonW/DevIL)
 
 # License 
 Permission is hereby granted, free of charge, to any person obtaining a copy
