@@ -47,6 +47,8 @@ Inspector:
 https://github.com/guerra22/Traversed
 
 # Developers:
+- [Hang Xue](https://github.com/Patronum129)
+- [Oriol Via](https://github.com/guerra22)
 
 # Libraries:
 
