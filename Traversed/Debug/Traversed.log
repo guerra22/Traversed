@@ -1,3 +1,4 @@
-﻿  ModuleFBXLoader.cpp
-D:\Traversed\Traversed\ModuleFBXLoader.cpp(149): warning C4715: 'ModuleFBXLoader::LoadMeshToGameObject': not all control paths return a value
+﻿  PanelInspector.cpp
+D:\Traversed\Traversed\PanelInspector.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\PanelInspector.cpp(56,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

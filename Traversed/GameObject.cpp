@@ -95,7 +95,6 @@ Component* GameObject::CreateComponent(COMPONENT_TYPES type)
 				}
 			}
 		}
-
 		components.push_back(component);
 	}
 
