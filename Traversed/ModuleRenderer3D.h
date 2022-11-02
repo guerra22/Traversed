@@ -4,6 +4,10 @@
 #include "Light.h"
 
 #define MAX_LIGHTS 8
+#define CWIDTH 64
+#define CHEIGHT 64
+
+#include "GameObject.h"
 
 struct Gl_Attributes
 {
@@ -29,6 +33,9 @@ public:
 
 	void OnResize(int width, int height);
 	void DrawExampleMesh();
+	void DrawGameObjects(GameObject gameObject);
+
+	void LoadCheckerTexture();
 
 	bool LoadConfig(JsonParser& node) override;
 	bool SaveConfig(JsonParser& node) const override;
@@ -39,4 +46,6 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	Gl_Attributes atributes;
+	uint ckeckerTextureid;
+	bool checkerTextureApplied = false;
 };

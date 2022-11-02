@@ -5,6 +5,7 @@
 
 class Application;
 class Primitive;
+class GameObject;
 
 class ModuleSceneIntro : public Module
 {
@@ -17,8 +18,11 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	//TODO 9: Create an "OnCollision" method specific for this module
-
+	GameObject* CreateEmptyGameObject(const char* name = nullptr, GameObject* parent = nullptr);
+public:
+	std::vector<GameObject*> game_objects;
+	GameObject* rootObject;
+	
 private:
 	std::vector<Primitive*> primitives;
 };

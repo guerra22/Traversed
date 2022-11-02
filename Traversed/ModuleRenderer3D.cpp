@@ -4,6 +4,9 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleMaterials.h"
+#include "ComponentMaterial.h"
+#include "ComponentTransform.h"
+#include "ComponentMesh.h"
 #include "ModuleUi.h"
 #include "ModuleFBXLoader.h"
 
@@ -254,6 +257,84 @@ void ModuleRenderer3D::DrawExampleMesh()
 	}
 }
 
+void ModuleRenderer3D::DrawGameObjects(GameObject GameObject)
+{
+	if (GameObject.IsActive())
+	{
+		ComponentMesh* NewMesh = (ComponentMesh*)GameObject.GetComponent(COMPONENT_TYPES::MESH);
+		ComponentMaterial* NewMaterial = (ComponentMaterial*)GameObject.GetComponent(COMPONENT_TYPES::MATERIAL);
+		if (NewMesh->IsActive())
+		{
+			if (NewMesh != nullptr)
+			{
+				glEnableClientState(GL_VERTEX_ARRAY);
+
+				// Render things in Element mode
+				glBindBuffer(GL_ARRAY_BUFFER, NewMesh->mesh.id_vertex);
+				glVertexPointer(3, GL_FLOAT, 0, NULL);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, NewMesh->mesh.id_index);
+
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+				glBindBuffer(GL_ARRAY_BUFFER, NewMesh->mesh.id_uvs);
+
+				if (NewMaterial->IsActive())
+				{
+					if (NewMaterial->materialUsed != nullptr)
+					{
+						glTexCoordPointer(3, GL_FLOAT, 0, NULL);
+						glBindTexture(GL_TEXTURE_2D, NewMaterial->materialUsed->id);
+					}
+				}
+
+				if (App->renderer3D->checkerTextureApplied)
+				{
+					glBindTexture(GL_TEXTURE_2D, ckeckerTextureid);
+				}
+
+				glDrawElements(GL_TRIANGLES, NewMesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+				glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+				glDisableClientState(GL_VERTEX_ARRAY);
+			}
+		}
+	}
+}
+
+void ModuleRenderer3D::LoadCheckerTexture()
+{
+	GLubyte checker[CHEIGHT][CWIDTH][4];
+
+	for (int i = 0; i < CHEIGHT; ++i)
+	{
+		for (int j = 0; j < CWIDTH; ++j)
+		{
+			int color = ((((i & 0x8) == 0) ^ ((j & 0x8) == 0))) * 255;
+
+			checker[i][j][0] = (GLubyte)color;
+			checker[i][j][1] = (GLubyte)color;
+			checker[i][j][2] = (GLubyte)color;
+			checker[i][j][3] = (GLubyte)255;
+
+		}
+	}
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &ckeckerTextureid);
+	glBindTexture(GL_TEXTURE_2D, ckeckerTextureid);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CWIDTH, CHEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checker);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
 
 bool ModuleRenderer3D::LoadConfig(JsonParser& node)
 {

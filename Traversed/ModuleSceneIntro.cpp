@@ -2,6 +2,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
+#include "GameObject.h"
 #include "Primitive.h"
 #include "ModuleUI.h"
 
@@ -58,6 +59,15 @@ update_status ModuleSceneIntro::Update(float dt)
 		primitives[n]->Update();
 	}
 
+	for (uint i = 0; i < game_objects.size(); i++)
+	{
+		if (game_objects[i]->IsActive())
+		{
+			game_objects[i]->Update(dt);
+
+		}
+	}
+
 	//App->renderer3D->DrawExampleMesh();
 
 	return UPDATE_CONTINUE;
@@ -74,4 +84,26 @@ update_status ModuleSceneIntro::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-//TODO 9: And change the color of the colliding bodies, so we can visualize it working!
+GameObject* ModuleSceneIntro::CreateEmptyGameObject(const char* name, GameObject* parent)
+{
+	if (parent == nullptr)
+	{
+		std::string gameObjName = name;
+
+		if (!game_objects.empty())
+		{
+			gameObjName += std::to_string(game_objects.size());
+		}
+		GameObject* gameObject = new GameObject(this->App, game_objects.size(), gameObjName, true, false);
+		game_objects.push_back(gameObject);
+		return gameObject;
+	}
+
+	if (parent != nullptr)
+	{
+		GameObject* gameObject = new GameObject(this->App, parent->childs.size(), name, true, false);
+		parent->childs.push_back(gameObject);
+		return gameObject;
+
+	}
+}
