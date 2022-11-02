@@ -21,7 +21,7 @@ void PanelInspector::Draw()
 {
 	selectedGameObject = GetSelectedGameObject();
 
-	ImGui::Begin("properties inspector");
+	ImGui::Begin("properties inspector", &active);
 	{
 		if (selectedGameObject != nullptr)
 		{

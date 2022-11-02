@@ -32,7 +32,8 @@ public:
 	void SetupImGuiStyle();
 
 	bool testCube = false;
-	bool testMesh = false;
+	bool testSphere = false;
+	bool testCylinder = false;
 
 	PanelAbout* about = nullptr;
 	PanelConfiguration* configuration = nullptr;

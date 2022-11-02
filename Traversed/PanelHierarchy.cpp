@@ -15,8 +15,7 @@ PanelHierarchy::~PanelHierarchy()
 
 void PanelHierarchy::Draw()
 {
-	ImGui::SetNextWindowBgAlpha(1.0f);
-	ImGui::Begin("Game Object");
+	ImGui::Begin("Game Object", &active);
 	{
 		GameObjectList();
 	}

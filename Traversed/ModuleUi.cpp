@@ -3,6 +3,8 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleUI.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleFBXLoader.h"
 #include "panelConfiguration.h"
 #include "PanelAbout.h"
 #include "PanelConsole.h"
@@ -149,23 +151,44 @@ void ModuleUI::MainMenu()
 				about->active = true;
 			}
 
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("test"))
-		{
-			if (ImGui::Checkbox("CreateTestCube", &testCube))
+			if (ImGui::MenuItem("Hierarchy"))
 			{
-
+				hierarchy->active = true;
 			}
-			/*if (ImGui::Checkbox("Testmesh", &testMesh))
-			{
-				
-			}*/
-			ImGui::EndMenu();
 
+			if (ImGui::MenuItem("Inspector"))
+			{
+				inspector->active = true;
+			}
+
+			if (ImGui::MenuItem("Console"))
+			{
+				console->active = true;
+			}
+			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("GameObjects"))
+		{
+			if (ImGui::MenuItem("Create a cube"))
+			{
+				App->loader->LoadMeshToGameObject(App->sceneintro->CreateGameObject("cube", nullptr), "Assets/cube.fbx", nullptr);
+				LOGGING("Created a cube")
+			}
+			if (ImGui::MenuItem("Create a sphere"))
+			{
+				App->loader->LoadMeshToGameObject(App->sceneintro->CreateGameObject("sphere", nullptr), "Assets/sphere.fbx", nullptr);
+				LOGGING("Created a sphere")
+			}
+			if (ImGui::MenuItem("Create a cylinder"))
+			{
+				App->loader->LoadMeshToGameObject(App->sceneintro->CreateGameObject("cylinder", nullptr), "Assets/cylinder.fbx", nullptr);
+				LOGGING("Created a cylinder")
+			}
+
+
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Help"))
 		{
 			if (ImGui::MenuItem("Documentation"))
