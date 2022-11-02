@@ -71,6 +71,7 @@ public:
 	uint GetFramerateLimit() const;
 	void SetFramerateLimit(uint max_framerate);
 	void RequestBrowser(const char* url) const;
+
 private:
 
 	void AddModule(Module* mod);

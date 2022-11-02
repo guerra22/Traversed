@@ -66,3 +66,4 @@ enum update_status
 
 #define RESOURCES_FOLDER "Assets/Resources/"
 #define SETTINGS_FOLDER ""
+

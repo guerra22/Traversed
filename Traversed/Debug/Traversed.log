@@ -1,4 +1,81 @@
-﻿  PanelInspector.cpp
+﻿  Application.cpp
+  AssimpDefs.cpp
+  Component.cpp
+D:\Traversed\Traversed\Component.cpp(52,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\Component.cpp(54,21): warning C4018: '<': signed/unsigned mismatch
+  ComponentMaterial.cpp
+  ComponentMesh.cpp
+  ComponentTransform.cpp
+  GameObject.cpp
+D:\Traversed\Traversed\GameObject.cpp(44,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\GameObject.cpp(48,21): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\GameObject.cpp(124,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\GameObject.cpp(156,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\GameObject.cpp(194,20): warning C4018: '<': signed/unsigned mismatch
+D:\Traversed\Traversed\GameObject.cpp(207,20): warning C4018: '<': signed/unsigned mismatch
+  JsonParser.cpp
+D:\Traversed\Traversed\JsonParser.cpp(174,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(175,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(176,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(185,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(186,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(187,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\JsonParser.cpp(188,10): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Light.cpp
+  Main.cpp
+  ModuleCamera3D.cpp
+D:\Traversed\Traversed\ModuleCamera3D.cpp(167,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  ModuleFBXLoader.cpp
+  ModuleFileSystem.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\ostream(411,1): warning C4530: C++ exception handler used, but unwind semantics are not enabled. Specify /EHsc
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\ostream(404): message : while compiling class template member function 'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)'
+D:\Traversed\Traversed\External\MathGeo\include\Math\assume.h(126): message : see reference to function template instantiation 'std::basic_ostream<char,std::char_traits<char>> &std::basic_ostream<char,std::char_traits<char>>::operator <<(double)' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\istream(711): message : see reference to class template instantiation 'std::basic_ostream<char,std::char_traits<char>>' being compiled
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.28.29910\include\sstream(515): message : see reference to class template instantiation 'std::basic_iostream<char,std::char_traits<char>>' being compiled
+D:\Traversed\Traversed\External\MathGeo\include\Math\assume.h(113): message : see reference to class template instantiation 'std::basic_stringstream<char,std::char_traits<char>,std::allocator<char>>' being compiled
+  ModuleHardware.cpp
+  ModuleInput.cpp
+D:\Traversed\Traversed\External\MathGeo\include\Geometry\AABB2D.h(191,3): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  ModuleMaterials.cpp
+  ModuleRenderer3D.cpp
+D:\Traversed\Traversed\ModuleRenderer3D.cpp(231,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleSceneIntro.cpp
+D:\Traversed\Traversed\ModuleSceneIntro.cpp(33,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleUI.cpp
+D:\Traversed\Traversed\ModuleUI.cpp(100,20): warning C4018: '<': signed/unsigned mismatch
+  ModuleWindow.cpp
+D:\Traversed\Traversed\ModuleWindow.cpp(147,39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\ModuleWindow.cpp(156,34): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+D:\Traversed\Traversed\ModuleWindow.cpp(158,35): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+  Generating Code...
+D:\Traversed\Traversed\ModuleSceneIntro.cpp(109): warning C4715: 'ModuleSceneIntro::CreateGameObject': not all control paths return a value
+D:\Traversed\Traversed\ModuleFBXLoader.cpp(149): warning C4715: 'ModuleFBXLoader::LoadMeshToGameObject': not all control paths return a value
+D:\Traversed\Traversed\GameObject.cpp(203): warning C4715: 'GameObject::GetMeshPath': not all control paths return a value
+D:\Traversed\Traversed\GameObject.cpp(216): warning C4715: 'GameObject::GetTexturePath': not all control paths return a value
+  Compiling...
+  PanelAbout.cpp
+  PanelConfiguration.cpp
+  PanelConsole.cpp
+D:\Traversed\Traversed\PanelConsole.cpp(28,14): warning C4996: 'strdup': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _strdup. See online help for details.
+D:\Traversed\Traversed\PanelConsole.cpp(68,20): warning C4018: '<': signed/unsigned mismatch
+  PanelHierarchy.cpp
+  PanelInspector.cpp
 D:\Traversed\Traversed\PanelInspector.cpp(41,20): warning C4018: '<': signed/unsigned mismatch
 D:\Traversed\Traversed\PanelInspector.cpp(56,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Primitive.cpp
+D:\Traversed\Traversed\Primitive.cpp(281,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(282,52): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(282,35): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(291,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(292,53): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(292,36): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(300,11): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(302,52): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(302,35): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(303,52): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+D:\Traversed\Traversed\Primitive.cpp(303,35): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  Timer.cpp
+  UiPanel.cpp
+  log.cpp
+  Generating Code...
   Traversed.vcxproj -> D:\Traversed\Debug\Traversed.exe

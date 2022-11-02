@@ -11,7 +11,19 @@ public:
 
 	void Draw() override;
 
+public:
+
+	void AddLog(const char* log);
+
 private:
+
+	void ClearLog();
+	void ConsoleMenu();
+
+private:
+
+	std::vector<char*> logsConsole;
+	bool scrollBottom;
 };
 
 #endif
