@@ -280,7 +280,6 @@
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
-    <ClCompile Include="UiPanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External\MathGeo\include\Math\Matrix.inl" />

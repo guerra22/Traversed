@@ -4,7 +4,7 @@
 #include "List.h"
 #include "Timer.hpp"
 
-#define CONFIG_FILENAME "config.xml"
+#define CONFIG_FILENAME "Settings/config.xml"
 
 class Module;
 class ModuleCamera3D;

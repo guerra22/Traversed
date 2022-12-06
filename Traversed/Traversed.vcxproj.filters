@@ -437,9 +437,6 @@
     <ClCompile Include="External\Imgui\imgui_impl_opengl2.cpp">
       <Filter>Sources\External\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="UiPanel.cpp">
-      <Filter>Sources\Ui</Filter>
-    </ClCompile>
     <ClCompile Include="PanelAbout.cpp">
       <Filter>Sources\Ui</Filter>
     </ClCompile>
