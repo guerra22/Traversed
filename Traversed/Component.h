@@ -1,45 +1,40 @@
 #ifndef _COMPONENT_H
 #define _COMPONENT_H
 
-#include "Module.h"
-#include "GameObject.h"
-#include <string>
+#pragma once
 
-class Application;
-class GameObject;
+#include <string> 
 
-enum class COMPONENT_TYPES
+enum CO_TYPE
 {
 	NONE,
 	TRANSFORM,
 	MESH,
-	MATERIAL,
-	UNKNOWN = -1
+	MATERIAL
 };
 
-class Component : public Module
+class GameObject;
+
+class Component
 {
 public:
-	Component(Application* app, GameObject* owner, COMPONENT_TYPES type, const char* name, bool is_active = true);
-	~Component();
+	Component(GameObject* owner);
+	virtual ~Component();
 
-	update_status Update(float dt) override;
-	bool CleanUp() override;
+	virtual void Init();
+	virtual void Update();
 
-public:
-	const char* GetName() const;
-	void			SetName(const char* new_name);
+	virtual void UpdateGUI();
 
-	bool			IsActive() const;
-	void			SetIsActive(const bool& is_active);
+	void Enable();
+	void Disable();
 
 public:
-	COMPONENT_TYPES	type;
+	CO_TYPE type;
+	bool active;
 
 	GameObject* owner = nullptr;
-private:
-	const char* name;
-	bool is_active;
 };
+
 
 #endif

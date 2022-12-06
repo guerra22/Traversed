@@ -1,22 +1,16 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
-#include "ModuleFBXLoader.h"
 #include "ModuleFileSystem.h"
-#include "ModuleMaterials.h"
-#include "ModuleSceneIntro.h"
-#include "ComponentMaterial.h"
-#include "MathGeoLib.h"
-#include "External/Imgui/imgui_impl_sdl.h"
-#include "External/Assimp/include/assimp/cimport.h"
+#include "MeshImporter.h"
+
+#include "External\Imgui\imgui_impl_sdl.h"
 
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	name = "Input";
-
 	keyboard = new KEY_STATE[MAX_KEYS];
 	memset(keyboard, KEY_IDLE, sizeof(KEY_STATE) * MAX_KEYS);
 	memset(mouse_buttons, KEY_IDLE, sizeof(KEY_STATE) * MAX_MOUSE_BUTTONS);
@@ -31,39 +25,40 @@ ModuleInput::~ModuleInput()
 // Called before render is available
 bool ModuleInput::Init()
 {
-	LOGGING("Init SDL input event system");
 	bool ret = true;
 	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
-		LOGGING("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
+		LOG(LOG_TYPE::ERRO, "SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+	{
+		LOG(LOG_TYPE::ENGINE, "INIT: SDL input event system.");
+	}
 
 	return ret;
 }
 
 // Called every draw update
-update_status ModuleInput::PreUpdate(float dt)
+UpdateStatus ModuleInput::PreUpdate()
 {
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	
-	for(int i = 0; i < MAX_KEYS; ++i)
+
+	for (int i = 0; i < MAX_KEYS; ++i)
 	{
-		if(keys[i] == 1)
+		if (keys[i] == 1)
 		{
-			if(keyboard[i] == KEY_IDLE)
+			if (keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
 				keyboard[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
@@ -72,22 +67,22 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	Uint32 buttons = SDL_GetMouseState(&mouse_x, &mouse_y);
 
-	mouse_x /= SCREEN_SIZE;
-	mouse_y /= SCREEN_SIZE;
+	mouse_x /= 1;
+	mouse_y /= 1;
 	mouse_z = 0;
 
-	for(int i = 0; i < 5; ++i)
+	for (int i = 0; i < 5; ++i)
 	{
-		if(buttons & SDL_BUTTON(i))
+		if (buttons & SDL_BUTTON(i))
 		{
-			if(mouse_buttons[i] == KEY_IDLE)
+			if (mouse_buttons[i] == KEY_IDLE)
 				mouse_buttons[i] = KEY_DOWN;
 			else
 				mouse_buttons[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if(mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
+			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
 				mouse_buttons[i] = KEY_UP;
 			else
 				mouse_buttons[i] = KEY_IDLE;
@@ -98,86 +93,42 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	bool quit = false;
 	SDL_Event e;
-	while(SDL_PollEvent(&e))
+	while (SDL_PollEvent(&e))
 	{
 		ImGui_ImplSDL2_ProcessEvent(&e);
 
-		switch(e.type)
+		switch (e.type)
 		{
-			case SDL_MOUSEWHEEL:
+		case SDL_MOUSEWHEEL:
 			mouse_z = e.wheel.y;
 			break;
 
-			case SDL_MOUSEMOTION:
-			mouse_x = e.motion.x / SCREEN_SIZE;
-			mouse_y = e.motion.y / SCREEN_SIZE;
+		case SDL_MOUSEMOTION:
+			mouse_x = e.motion.x / 1;
+			mouse_y = e.motion.y / 1;
 
-			mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
-			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
+			mouse_x_motion = e.motion.xrel / 1;
+			mouse_y_motion = e.motion.yrel / 1;
 			break;
 
-			case SDL_DROPFILE:
-			{
-				VertexData* NewMaterial = new VertexData();
-
-				const char* dropped_filedir = e.drop.file;
-				std::string path = App->filesystem->ChangePath(dropped_filedir);
-
-				uint directory_path_start = path.find_last_of("A");
-				uint directory_path_end = path.size();
-
-				path = path.substr(directory_path_start, directory_path_end);
-
-				if (App->filesystem->GetFileExtension(dropped_filedir) == "fbx" || App->filesystem->GetFileExtension(dropped_filedir) == "FBX")
-				{
-					App->loader->LoadMeshToGameObject(App->sceneintro->CreateGameObject("Mesh"), path.c_str(), nullptr);
-				}
-				if (App->filesystem->GetFileExtension(dropped_filedir) == "png" || App->filesystem->GetFileExtension(dropped_filedir) == "PNG")
-				{
-					//Add here function to change texture for the object
-					for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
-					{
-						if (App->sceneintro->game_objects[i]->IsSelected())
-						{
-							ComponentMaterial* material = (ComponentMaterial*)App->sceneintro->game_objects[i]->GetComponent(COMPONENT_TYPES::MATERIAL);
-
-							if (App->sceneintro->game_objects[i]->childs.size() > 0)
-							{
-								for (int j = 0; j < App->sceneintro->game_objects[i]->childs.size(); j++)
-								{
-									ComponentMaterial* materialChild = (ComponentMaterial*)App->sceneintro->game_objects[i]->childs[j]->GetComponent(COMPONENT_TYPES::MATERIAL);
-									Texture* newTexture = new Texture();
-									App->materials->Import(path.c_str(), newTexture);
-									if (materialChild->materialUsed != nullptr) materialChild->materialUsed = nullptr;
-									materialChild->materialUsed = newTexture;
-								}
-							}
-							Texture* newTexture = new Texture();
-							App->materials->Import(path.c_str(), newTexture);
-							if (material->materialUsed != nullptr) material->materialUsed = nullptr;
-							material->materialUsed = newTexture;
-						}
-					}
-				}
-
-				SDL_free(&dropped_filedir);
-			}
-			break;
-
-			case SDL_QUIT:
+		case SDL_QUIT:
 			quit = true;
 			break;
 
-			case SDL_WINDOWEVENT:
-			{
-				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
-					App->renderer3D->OnResize(e.window.data1, e.window.data2);
-			}
+		case SDL_WINDOWEVENT:
+		    if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+			App->renderer3D->OnResize(e.window.data1, e.window.data2);
+			break;
+		case SDL_DROPFILE:
+			App->filesystem->DragAndDrop(e.drop.file);
+			SDL_free(e.drop.file);    // Free dropped_filedir memory
+			break;
 		}
 	}
 
-	if(quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-		return UPDATE_STOP;
+	//Esc for exit
+	if (quit == true)
+		App->StopEngine();
 
 	return UPDATE_CONTINUE;
 }
@@ -185,7 +136,21 @@ update_status ModuleInput::PreUpdate(float dt)
 // Called before quitting
 bool ModuleInput::CleanUp()
 {
-	LOGGING("Quitting SDL input event subsystem");
+	LOG(LOG_TYPE::ENGINE, "Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
+
+#pragma region Save/Load Settings
+
+void ModuleInput::LoadSettingsData(pugi::xml_node& load)
+{
+
+}
+
+void ModuleInput::SaveSettingsData(pugi::xml_node& save)
+{
+
+}
+
+#pragma endregion Save & Load of Settings

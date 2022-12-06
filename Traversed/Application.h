@@ -1,76 +1,69 @@
-#pragma once
+#ifndef __APPLICATION_H__
+#define __APPLICATION_H__
 
-#define CONFIG_FILENAME	"config.json"
-#define APPLICATION_NAME "Traversed"
-#define ORGANIZATION_NAME "Singularity Studio"
+#include "List.h"
+#include "Timer.hpp"
 
-#include <list>
-#include "Globals.h"
-#include "Timer.h"
-#include "JsonParser.h"
+#define CONFIG_FILENAME "config.xml"
 
 class Module;
-class ModuleHardware;
 class ModuleCamera3D;
 class ModuleWindow;
 class ModuleInput;
 class ModuleUI;
 class ModuleSceneIntro;
 class ModuleFileSystem;
-class ModuleFBXLoader;
-class ModuleMaterials;
 class ModuleRenderer3D;
+
+struct Time
+{
+	int frameCap = 60;
+	float frameTime = 1.0f / frameCap;
+	float deltaTime = 0;
+
+	Time();
+
+	static Time* Instance();
+
+	static void Delete();
+
+private:
+	static Time* G_Time;
+};
 
 class Application
 {
 public:
 	ModuleWindow* window = nullptr;
-	ModuleHardware* hardware = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleRenderer3D* renderer3D = nullptr;
 	ModuleCamera3D* camera = nullptr;
 	ModuleUI* ui = nullptr;
 	ModuleSceneIntro* sceneintro = nullptr;
 	ModuleFileSystem* filesystem = nullptr;
-	ModuleFBXLoader* loader = nullptr;
-	ModuleMaterials* materials = nullptr;
 
-	JsonParser jsonFile;
+	float fps = 1.0f / 60.0f;
+	Timer timer;
 private:
 
-	Timer	ms_timer;
-	float	dt;
-	Timer	fps_timer;
-	Uint32	frames;
-	int		fps_counter;
-	int		last_frame_ms;
-	int		last_fps;
-	int		capped_ms;
+	float deltaTime = 0;
+	List<Module*> list_modules;
 
-	std::list<Module*> list_modules;
+	bool isStopping = false;
 
-	bool saveRequest;
-	bool loadRequest;
-
-	std::string app_name;
-	std::string organization_name;
-
+	Time* G_Time = nullptr;
 public:
 
 	Application();
 	~Application();
 
 	bool Init();
-	update_status Update();
+	UpdateStatus Update();
 	bool CleanUp();
 
-	inline const char* GetAppName() const { return APPLICATION_NAME; }
-	inline const char* GetOrganizationName() const { return ORGANIZATION_NAME; }
-	inline void SaveConfigRequest() { saveRequest = true; }
-	inline void LoadConfigRequest() { loadRequest = true; }
-	uint GetFramerateLimit() const;
-	void SetFramerateLimit(uint max_framerate);
-	void RequestBrowser(const char* url) const;
+	void StopEngine();
+
+	static Application* Instance();
 
 private:
 
@@ -78,6 +71,8 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 
-	void SaveConfig();
-	void LoadConfig();
+	void SaveEditorConfiguration();
+	void LoadEditorConfiguration();
+
 };
+#endif // !__APPLICATION_H__

@@ -1,217 +1,188 @@
-#include "Globals.h"
-#include "Application.h"
 #include "GameObject.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ComponentMaterial.h"
-#include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
+#include "ComponentMaterial.h"
 
-GameObject::GameObject(Application* app, uint id, std::string name, bool isActive, bool isStatic) : id(id), name(name), is_active(isActive), is_static(isStatic)
+GameObject::GameObject(std::string name, bool spatial)
 {
-	this->App = app;
-	name = "GameObject";
-	CreateComponent(COMPONENT_TYPES::MESH);
-	CreateComponent(COMPONENT_TYPES::MATERIAL);
-	CreateComponent(COMPONENT_TYPES::TRANSFORM);
+	this->name = name;
+	selected = false;
+
+	if (spatial) CreateComponent(CO_TYPE::TRANSFORM);
 }
 
-// Destructor
 GameObject::~GameObject()
 {
-
-}
-bool GameObject::Update(float dt)
-{
-	for (uint i = 0; i < components.size(); ++i)
+	//Delete Children
+	for (int i = 0; i < children.size(); ++i)
 	{
-		if (components[i]->IsActive())
+		if (children[i] != nullptr)
 		{
-			components[i]->Update(dt);
+			RELEASE(children[i]);
 		}
 	}
-	return true;
-}
+	children.clear();
 
-// Called before quitting
-bool GameObject::CleanUp()
-{
-	return true;
-}
-
-void GameObject::Render()
-{
-	for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
+	//Delete Component
+	for (auto const& comp : components)
 	{
-		App->renderer3D->DrawGameObjects(*App->sceneintro->game_objects.at(i));
-		GameObject* owner = App->sceneintro->game_objects.at(i);
-		for (int j = 0; j < owner->childs.size(); j++)
+		if (comp.second != nullptr)
 		{
-			App->renderer3D->DrawGameObjects(*owner->childs.at(j));
+			RELEASE(components[comp.first]);
 		}
 	}
-
+	components.clear();
 }
 
-Component* GameObject::CreateComponent(COMPONENT_TYPES type)
+void GameObject::Init()
 {
-	Component* component = nullptr;
+	if (components.empty()) return;
 
-	bool findDuplicates = false;
+	for (auto const& comp : components)
+	{
+		if (comp.second->active)
+		{
+			comp.second->Init();
+		}
+	}
+}
+
+void GameObject::Update()
+{
+	if (components.empty()) return;
+
+	for (auto const& comp : components)
+	{
+		if (comp.second->active)
+		{
+			comp.second->Update();
+		}
+	}
+}
+
+Component* GameObject::CreateComponent(CO_TYPE type)
+{
+	if (GetComponent(type) != nullptr)
+	{
+		LOG(LOG_TYPE::ATTENTION, "A component of type %s already exists in %s !", std::to_string(type).c_str(), name.c_str());
+		return nullptr;
+	}
+
+	Component* toReturn = nullptr;
 
 	switch (type)
 	{
-	case COMPONENT_TYPES::TRANSFORM:
-		component = new ComponentTransform(this->App, this);
-		findDuplicates = true;
+	case TRANSFORM:
+		toReturn = new ComponentTransform(this);
 		break;
-
-	case COMPONENT_TYPES::MESH:
-		component = new ComponentMesh(this->App, this);
-		findDuplicates = true;
+	case MESH:
+		toReturn = new ComponentMesh(this);
 		break;
-
-	case COMPONENT_TYPES::MATERIAL:
-		component = new ComponentMaterial(this->App, this);
-		findDuplicates = true;
+	case MATERIAL:
+		toReturn = new ComponentMaterial(this);
 		break;
-
 	}
 
-	if (component != nullptr)
-	{
-		if (findDuplicates)
-		{
-			for (uint i = 0; i < components.size(); ++i)
-			{
-				if (type == components[i]->type)
-				{
-					LOGGING("[ERROR] %s Component could not be added to %s: No duplicates allowed!", component->GetName(), name.c_str());
+	if (toReturn != nullptr) components[type] = toReturn;
 
-					delete component;
-					component = nullptr;
-
-					return nullptr;
-				}
-			}
-		}
-		components.push_back(component);
-	}
-
-	return component;
+	return toReturn;
 }
 
-Component* GameObject::GetComponent(COMPONENT_TYPES type)
+void GameObject::DeleteComponent(CO_TYPE type)
 {
-	for (uint i = 0; i < components.size(); ++i)
+	if (components.empty()) return;
+
+	Component* comp = components[type];
+	if (comp != nullptr)
 	{
-		if (components[i]->type == type)
-		{
-			return components[i];
-		}
+		RELEASE(comp);
+	}
+	components.erase(type);
+}
+
+Component* GameObject::GetComponent(CO_TYPE type)
+{
+	if (components.empty()) return nullptr;
+
+	if (components.count(type)) return components[type];
+	else return nullptr;
+}
+
+/*RETURNS ONLY THE FIRST COMPONENT OF THE FIRST CHILDREN THAT HAS IT*/
+Component* GameObject::GetComponentInChildren(CO_TYPE type)
+{
+	if (children.empty()) return nullptr;
+
+	Component* toReturn = nullptr;
+
+	for (int i = 0; i < children.size(); ++i)
+	{
+		toReturn = children[i]->GetComponent(type);
+
+		if (toReturn != nullptr) return toReturn;
 	}
 
 	return nullptr;
 }
-bool GameObject::IsActive()
-{
-	return is_active;
-}
-void GameObject::SetActive(bool state)
-{
-	is_active = state;
 
-	for (int j = 0; j < childs.size(); j++)
+std::vector<GameObject*> GameObject::GetChildrens()
+{
+	return children;
+}
+
+void GameObject::AddChildren(GameObject* go)
+{
+	children.emplace_back(go);
+	if (go->parent == nullptr) go->parent = this;
+}
+
+void GameObject::RemoveChildren(GameObject* go)
+{
+	if (children.empty()) return;
+	for (int i = 0; i < children.size(); ++i)
 	{
-		childs[j]->SetActive(state);
-	}
-}
-bool GameObject::IsStatic()
-{
-	return is_static;
-}
-
-void GameObject::SetStatic(bool state)
-{
-	is_static = state;
-}
-
-std::string GameObject::GetName()
-{
-	return name;
-}
-
-void GameObject::SetName(const char* newName)
-{
-	name = newName;
-}
-
-bool GameObject::IsSelected()
-{
-	return selectedForInspector;
-}
-
-void GameObject::SelectItem()
-{
-	for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
-	{
-		if (App->sceneintro->game_objects.at(i)->IsActive() && this != App->sceneintro->game_objects.at(i))
+		GameObject* aux = children[i];
+		if (*children[i] == *go)
 		{
-			App->sceneintro->game_objects.at(i)->selectedForInspector = false;
-		}
-	}
-	selectedForInspector = !selectedForInspector;
-}
-
-bool GameObject::AddChild(GameObject* child)
-{
-	child->parent = this;
-
-	childs.push_back(child);
-
-	return true;
-}
-
-bool GameObject::DeleteChild(GameObject* child)
-{
-	bool ret = false;
-
-	for (uint i = 0; i < childs.size(); ++i)
-	{
-		if (childs[i] == child)
-		{
-			childs.erase(childs.begin() + i);
-			ret = true;
-			break;
-		}
-	}
-
-	return ret;
-}
-
-std::string GameObject::GetMeshPath()
-{
-	for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
-	{
-		if (App->sceneintro->game_objects[i]->IsSelected())
-		{
-			ComponentMesh* meshUsed = (ComponentMesh*)App->sceneintro->game_objects[i]->GetComponent(COMPONENT_TYPES::MESH);
-
-			return meshUsed->meshPath;
+			children.erase(children.begin() + i);
 		}
 	}
 }
 
-std::string GameObject::GetTexturePath()
+void GameObject::SetParent(GameObject* go)
 {
-	for (int i = 0; i < App->sceneintro->game_objects.size(); i++)
+	if (parent != nullptr)
 	{
-		if (App->sceneintro->game_objects[i]->IsSelected())
-		{
-			ComponentMaterial* materialUsed = (ComponentMaterial*)App->sceneintro->game_objects[i]->GetComponent(COMPONENT_TYPES::MATERIAL);
+		//if (go->parent == this) return;
+		if (CheckParentsOfParent(go, this)) return;
+		parent->RemoveChildren(this);
+	}
+	parent = go;
+	parent->children.emplace_back(this);
+}
 
-			return materialUsed->materialUsed->path;
-		}
+bool GameObject::CheckParentsOfParent(GameObject* go, GameObject* checkGO)
+{
+	if (go->parent == nullptr) return false;
+	else
+	{
+		if (go->parent == checkGO) return true;
+		else return CheckParentsOfParent(go->parent, checkGO);
 	}
 }
 
+void GameObject::DeleteGameObject()
+{
+	parent->RemoveChildren(this);
+	for (int i = 0; i < children.size(); ++i)
+	{
+		if (children[i] != nullptr)
+		{
+			children[i]->DeleteGameObject();
+			RELEASE(children[i]);
+		}
+	}
+
+	this->~GameObject();
+	children.clear();
+}

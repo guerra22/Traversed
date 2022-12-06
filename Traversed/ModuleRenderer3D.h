@@ -1,24 +1,51 @@
-#pragma once
+#ifndef __MODULERENDERER3D_H__
+#define __MODULERENDERER3D_H__
+
 #include "Module.h"
-#include "glmath.h"
 #include "Light.h"
 
 #define MAX_LIGHTS 8
-#define CWIDTH 64
-#define CHEIGHT 64
 
-#include "GameObject.h"
+#include "External/SDL/include/SDL.h"
 
-struct Gl_Attributes
+class Renderer;
+
+struct RenderProperties
 {
-	bool Depth_test = true;
-	bool Cull_Face = true;
-	bool Lightning = true;
-	bool Color_Materials = true;
-	bool Front = true;
-	bool AmbientOclussion = true;
-	bool Wireframe = false;
+public:
+	bool vsync = false;
+	bool wireframe = false;
+	bool depthTest = false;
+	bool cullFace = false;
+	bool lighting = false;
+	bool fog = false;
+	bool colorMaterial = false;
+	bool texture2D = false;
+
+	Light* worldLight;
+
+	RenderProperties();
+
+	static RenderProperties* Instance();
+
+	static void Delete();
+
+	void ToggleVsync();
+	void ToggleWireframe();
+	void ToggleDepthTest();
+	void ToggleCullFace();
+	void ToggleLighting();
+	void ToggleFog();
+	void ToggleColorMaterial();
+	void ToggleTexture2D();
+
+private:
+	static RenderProperties* rProps;
+
 };
+
+class WindowProperties;
+struct CameraProperties;
 
 class ModuleRenderer3D : public Module
 {
@@ -27,25 +54,32 @@ public:
 	~ModuleRenderer3D();
 
 	bool Init();
-	update_status PreUpdate(float dt);
-	update_status PostUpdate(float dt);
+	UpdateStatus PreUpdate();
+	UpdateStatus PostUpdate();
 	bool CleanUp();
 
+	void SaveSettingsData(pugi::xml_node& save) override;
+
+	void LoadSettingsData(pugi::xml_node& load) override;
+
 	void OnResize(int width, int height);
-	void DrawExampleMesh();
-	void DrawGameObjects(GameObject gameObject);
-
-	void LoadCheckerTexture();
-
-	bool LoadConfig(JsonParser& node) override;
-	bool SaveConfig(JsonParser& node) const override;
 
 public:
-	Light lights[MAX_LIGHTS];
+	SDL_GLContext GetGLContext() { return context; }
+
+public:
+
+	//Light lights[MAX_LIGHTS];
+	float3x3 NormalMatrix;
+	float4x4 ModelMatrix, ViewMatrix;
+	//ProjectionMatrix;
+
+private:
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	Gl_Attributes atributes;
-	uint ckeckerTextureid;
-	bool checkerTextureApplied = false;
+
+	RenderProperties* rProps = nullptr;
+	WindowProperties* wProps = nullptr;
+	CameraProperties* cProps = nullptr;
 };
+
+#endif // !__MODULERENDERER3D_H__

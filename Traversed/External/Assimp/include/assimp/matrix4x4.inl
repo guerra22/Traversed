@@ -57,6 +57,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <limits>
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 // ----------------------------------------------------------------------------------------
 template <typename TReal>
 aiMatrix4x4t<TReal>::aiMatrix4x4t() AI_NO_EXCEPT :

@@ -1,183 +1,245 @@
-#include "Application.h"
 #include "PanelConfiguration.h"
-#include "ImGuiUtils.h"
+#include "Application.h"
 #include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleHardware.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleUI.h"
 
+#include "External/Glew/include/glew.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include "External/SDL/include/SDL.h"
+#include "External/GPUDetect/DeviceId.h"
 
-PanelConfiguration::PanelConfiguration(Application* app) : UiPanel(app), fps_log(FPS_LOG_SIZE), ms_log(FPS_LOG_SIZE)
+PanelConfiguration::PanelConfiguration(bool enabled) : UiPanel(enabled)
 {
-	active = true;
-	app->window->screenHeight = app->window->screen_surface->h;
-	app->window->screenWidth = app->window->screen_surface->w;
-	app->window->screenBrightness = 1.0f;
+	wProps = WindowProperties::Instance();
+	rProps = RenderProperties::Instance();
+	eProps = EditorProperties::Instance();
+	time = Time::Instance();
+
+	//GetCaps();
+	vsync = rProps->vsync;
+
+	//framerate queue
+	for (int i = 0; i < 99; i++)
+	{
+		framerateQueue.emplace_back(0);
+	}
+	//miliseconds queue
+	for (int i = 0; i < 99; i++)
+	{
+		milisecondsQueue.emplace_back(0);
+	}
+
+	GetCaps();
+
+	VRamBudget = 0;
+	VRamCurrentUsage = 0;
+	VRamAvailable = 0;
+	VRamReserve = 0;
+
+	ram = SDL_GetSystemRAM();
+
+	cpuCount = SDL_GetCPUCount();
+
+	cache = SDL_GetCPUCacheLineSize();
+
+	getGraphicsDeviceInfo(0, 0, 0, &VRamBudget, &VRamCurrentUsage, &VRamAvailable, &VRamReserve);
 }
 
 PanelConfiguration::~PanelConfiguration()
 {
-	
+
 }
 
-void PanelConfiguration::Draw()
+void PanelConfiguration::Update()
 {
-	ImGui::Begin("Configuration", &active);
+	io = ImGui::GetIO(); (void)io;
+	if (ImGui::Begin("Configuration"))
 	{
-		if (ImGui::CollapsingHeader("Application", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			/*static char app_name[120];
-			strcpy_s(app_name, 120, App->GetAppName());
-			if (ImGui::InputText("App Name", app_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-				App->SetAppName(app_name);
-
-			static char org_name[120];
-			strcpy_s(org_name, 120, App->GetOrganizationName());
-			if (ImGui::InputText("Organization", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-				App->SetOrganizationName(org_name);*/
-
-			int max_fps = App->GetFramerateLimit();
-			if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
-				App->SetFramerateLimit(max_fps);
-
-			ImGui::Text("Limit Framerate:");
-			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "%i", App->GetFramerateLimit());
-
-			char title[25];
-			sprintf_s(title, 25, "Framerate %.1f", fps_log[fps_log.size() - 1]);
-			ImGui::PlotHistogram("##framerate", &fps_log[0], fps_log.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
-			sprintf_s(title, 25, "Milliseconds %0.1f", ms_log[ms_log.size() - 1]);
-			ImGui::PlotHistogram("##milliseconds", &ms_log[0], ms_log.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
-		}
-
-		if (ImGui::CollapsingHeader("Window", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			if (ImGui::Checkbox("Vsync", &App->window->vsync))
-			{
-				App->window->Vsync(App->window->vsync);
-			}
-			ImGui::SameLine();
-			if (ImGui::Checkbox("Resizable", &App->window->resizable))
-			{
-				
-			}
-			if (ImGui::Checkbox("Borderless", &App->window->screenBorderless))
-			{
-				App->window->SetBorderless(App->window->screenBorderless);
-			}
-			ImGui::SameLine();
-			if (ImGui::Checkbox("Fullscreen", &App->window->fullscreen))
-			{
-				App->window->SetFullscreen(App->window->fullscreen);
-			}
-			if (ImGui::SliderFloat("Brightness", &App->window->screenBrightness, 0.0001f, 1.0001f))
-			{
-				App->window->SetBrightness(App->window->screenBrightness);
-			}
-			if (ImGui::SliderInt("Width", &App->window->screenWidth, 800, 1920))
-			{
-				App->window->SetWidth(App->window->screenWidth);
-			}
-			if (ImGui::SliderInt("Height", &App->window->screenHeight, 600, 1080))
-			{
-				App->window->SetHeight(App->window->screenHeight);
-			}
-		}
-
-		if (ImGui::CollapsingHeader("Render", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			if (ImGui::Checkbox("Depth test", &App->renderer3D->atributes.Depth_test))
-			{
-
-			}
-			if (ImGui::Checkbox("Cull face", &App->renderer3D->atributes.Cull_Face))
-			{
-
-			}
-			if (ImGui::Checkbox("Lightning", &App->renderer3D->atributes.Lightning))
-			{
-
-			}
-			if (ImGui::Checkbox("Front", &App->renderer3D->atributes.Front))
-			{
-
-			}
-			if (ImGui::Checkbox("AmbientOclussion", &App->renderer3D->atributes.AmbientOclussion))
-			{
-
-			}
-			if (ImGui::Checkbox("Color material", &App->renderer3D->atributes.Color_Materials))
-			{
-
-			}
-			if (ImGui::Checkbox("Wireframe Mode", &App->renderer3D->atributes.Wireframe))
-			{
-
-			}
-		}
-
-		if (ImGui::CollapsingHeader("Input", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			ImGui::TextWrapped("\tMouse Input\t");
-
-			ImGui::TextWrapped("Mouse Position: x = "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(255, 255, 0, 255), "%d", App->input->GetMouseX()); ImGui::SameLine();
-			ImGui::TextWrapped(" y = "); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(255, 255, 0, 255), "%d", App->input->GetMouseY());
-		}
-
-		if (ImGui::CollapsingHeader("Hardware", ImGuiTreeNodeFlags_DefaultOpen))
-		{
-			ModuleHardware::hw_info info = App->hardware->GetInfo(); 
-			IMGUI_PRINT("SDL Version:", info.sdl_version);
-
-			ImGui::Separator();
-			IMGUI_PRINT("CPUs:", "%u (Cache: %ukb)", info.cpu_count, info.l1_cachekb);
-			IMGUI_PRINT("System RAM:", "%.1fGb", info.ram_gb);
-			IMGUI_PRINT("Caps:", "%s%s%s%s%s%s",
-				info.rdtsc ? "RDTSC," : "",
-				info.altivec ? "AltiVec," : "",
-				info.mmx ? "MMX," : "",
-				info.now3d ? "3DNow," : "",
-				info.sse ? "SSE," : "",
-				info.sse2 ? "SSE2," : "");
-			IMGUI_PRINT("", "%s%s%s%s%s",
-				info.sse3 ? "SSE3," : "",
-				info.sse41 ? "SSE41," : "",
-				info.sse42 ? "SSE42," : "",
-				info.avx ? "AVX," : "",
-				info.avx2 ? "AVX2" : "");
-
-
-			ImGui::Separator();
-			IMGUI_PRINT("GPU:", "vendor %u device %u", info.gpu_vendor, info.gpu_device);
-			IMGUI_PRINT("Brand:", info.gpu_brand);
-			IMGUI_PRINT("VRAM Budget:", "%.1f Mb", info.vram_mb_budget);
-			IMGUI_PRINT("VRAM Usage:", "%.1f Mb", info.vram_mb_usage);
-			IMGUI_PRINT("VRAM Available:", "%.1f Mb", info.vram_mb_available);
-			IMGUI_PRINT("VRAM Reserved:", "%.1f Mb", info.vram_mb_reserved);
-		}
+		if (ImGui::CollapsingHeader("Application")) ApplicationHeader();
+		if (ImGui::CollapsingHeader("Window")) WindowHeader();
+		if (ImGui::CollapsingHeader("Input")) InputHeader();
+		if (ImGui::CollapsingHeader("Rendering")) RenderingHeader();
+		if (ImGui::CollapsingHeader("Editor")) EditorHeader();
 	}
 	ImGui::End();
+}
+
+#pragma region Configurations
+void PanelConfiguration::ApplicationHeader()
+{
+	//Framerate
+	framerateQueue.erase(framerateQueue.begin());
+	framerateQueue.emplace_back(io.Framerate);
+	std::string auxTxt = "Framerate: " + std::to_string((int)framerateQueue.back());
+	ImGui::PlotHistogram("", &framerateQueue[0], framerateQueue.size(), 0, auxTxt.c_str(), 0, 180, ImVec2(0, 160.0f));
+
+	//Miliseconds
+	milisecondsQueue.erase(milisecondsQueue.begin());
+	milisecondsQueue.emplace_back(io.DeltaTime * 1000);
+	auxTxt = "Miliseconds: " + std::to_string((int)milisecondsQueue.back());
+	ImGui::PlotHistogram("", &milisecondsQueue[0], milisecondsQueue.size(), 0, auxTxt.c_str(), 0, 100, ImVec2(0, 160.0f));
+
+	//Cap Fps
+	ImGui::SliderInt("Cap FPS", &time->frameCap, 1, 180);
+	if (ImGui::IsItemDeactivatedAfterEdit()) LOG(LOG_TYPE::ENGINE, "Fps capped to '%i'", time->frameCap);
 
 }
 
-void PanelConfiguration::AddFPS(float fps, float ms)
+void PanelConfiguration::WindowHeader()
 {
-	static uint count = 0;
+	ImGui::SliderFloat("Brightness", &wProps->brightness, 0.f, 1.0f);
+	if (ImGui::IsItemDeactivatedAfterEdit()) LOG(LOG_TYPE::ENGINE, "Brightness set to '%.2f'", wProps->brightness);
 
-	if (count == FPS_LOG_SIZE)
+	ImGui::Text("Window Size -> ( %i, %i )", wProps->w, wProps->h);
+
+	if (ImGui::Checkbox("Fullscreen", &wProps->fullscreen))
 	{
-		for (uint i = 0; i < FPS_LOG_SIZE - 1; ++i)
+		wProps->ToggleFullscreen();
+		LOG(LOG_TYPE::ENGINE, "Fullscreen '%s'", wProps->fullscreen ? "ON" : "OFF");
+	}
+	if (ImGui::Checkbox("Fullscreen Desktop", &wProps->fullScreenDesktop))
+	{
+		wProps->ToggleFullscreenDesktop();
+		LOG(LOG_TYPE::ENGINE, "Fullscreen Desktop '%s'", wProps->fullScreenDesktop ? "ON" : "OFF");
+	}
+	if (ImGui::Checkbox("Borderless", &wProps->borderless))
+	{
+		wProps->ToggleBorderless();
+		LOG(LOG_TYPE::ENGINE, "Borderless '%s'", wProps->borderless ? "ON" : "OFF");
+	}
+	if (ImGui::Checkbox("Resizable", &wProps->resizable))
+	{
+		wProps->ToggleResizable();
+		LOG(LOG_TYPE::ENGINE, "Resizable '%s'", wProps->resizable ? "ON" : "OFF");
+	}
+	//ImGui::togg
+}
+
+void PanelConfiguration::InputHeader()
+{
+	if (ImGui::IsMousePosValid())
+	{
+		ImGui::Text("Mouse position: (%g, %g)", io.MousePos.x, io.MousePos.y);
+		ImGui::Spacing();
+		ImGui::Text("Mouse motion: (%g,  %g)", io.MouseDelta.x, io.MouseDelta.y);
+		ImGui::Spacing();
+		ImGui::Text("Mouse Wheel: %g", io.MouseWheel);
+		ImGui::Spacing();
+		ImGui::Text("Key: "); //ImGui::Text("Chars queue:");
+		for (int i = 0; i < io.InputQueueCharacters.Size; i++)
 		{
-			fps_log[i] = fps_log[i + 1];
-			ms_log[i] = ms_log[i + 1];
+			ImWchar c = io.InputQueueCharacters[i];
+			ImGui::SameLine();
+			ImGui::Text("\'%c\' (0x%04X)", (c > ' ' && c <= 255) ? (char)c : '?', c);
 		}
 	}
-	else
-		++count;
+}
 
-	fps_log[count - 1] = fps;
-	ms_log[count - 1] = ms;
+void PanelConfiguration::RenderingHeader()
+{
+	if (ImGui::Checkbox("Vsync ", &rProps->vsync))
+	{
+		rProps->ToggleVsync();
+		LOG(LOG_TYPE::ENGINE, "Vsync '%s'", rProps->vsync ? "ON" : "OFF");
+	}
+
+	if (ImGui::Checkbox("Wireframe", &rProps->wireframe))
+	{
+		rProps->ToggleWireframe();
+		LOG(LOG_TYPE::ENGINE, "Wireframe '%s'", rProps->wireframe ? "ON" : "OFF");
+	}
+
+	if (ImGui::Checkbox("DepthTest", &rProps->depthTest))
+	{
+		rProps->ToggleDepthTest();
+		LOG(LOG_TYPE::ENGINE, "Depth Test '%s'", rProps->depthTest ? "ON" : "OFF");
+	}
+
+	/*if (ImGui::Checkbox("Fog", &rProps->fog))
+	{
+		rProps->ToggleFog();
+		LOG(LOG_TYPE::ENGINE, "Fog '%s'", rProps->fog ? "ON" : "OFF");
+	}*/
+
+	if (ImGui::Checkbox("Cull Face", &rProps->cullFace))
+	{
+		rProps->ToggleCullFace();
+		LOG(LOG_TYPE::ENGINE, "Cull Face '%s'", rProps->cullFace ? "ON" : "OFF");
+	}
+
+	/*if (ImGui::Checkbox("Lighting", &rProps->lighting))
+	{
+		rProps->ToggleLighting();
+		LOG(LOG_TYPE::ENGINE, "Lighting '%s'", rProps->lighting ? "ON" : "OFF");
+	}*/
+
+	/*if (ImGui::Checkbox("Color Material", &rProps->colorMaterial))
+	{
+		rProps->ToggleColorMaterial();
+		LOG(LOG_TYPE::ENGINE, "Color Material '%s'", rProps->colorMaterial ? "ON" : "OFF");
+	}*/
+
+	/*if (ImGui::Checkbox("Texture 2D", &rProps->texture2D))
+	{
+		rProps->ToggleTexture2D();
+		LOG(LOG_TYPE::ENGINE, "Texture 2D '%s'", rProps->texture2D ? "ON" : "OFF");
+	}*/
+
+	ImGui::Separator();
+	ImGui::Text("CPU cores: %i ", cpuCount);
+	ImGui::Text("System RAM: %.1f Gb", (ram / 1000.0f));
+	ImGui::Text("Cache: %i Bytes", (int)cache);
+	ImGui::Text("%s", strCaps.c_str());
+	/*ImGui::Text("Caps: %s", strCaps);*/
+	ImGui::Separator();
+
+	ImGui::Text("GPU Vendor: %s", glGetString(GL_VENDOR));
+	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
+
+	ImGui::Text("VRam Budget: %i Mb", (int)(VRamBudget / (1024.f * 1024.f)));
+	ImGui::Text("VRam Usage: %i Mb", (int)(VRamCurrentUsage / (1024.f * 1024.f)));
+	ImGui::Text("VRam Available: %i Mb", (int)(VRamAvailable / (1024.f * 1024.f)));
+	ImGui::Text("VRAM Reserved: %i Mb", (int)(VRamReserve / (1024.f * 1024.f)));
+}
+
+void PanelConfiguration::EditorHeader()
+{
+	int aux = (int)&eProps->colorMode;
+	if (ImGui::RadioButton("Light mode", (eProps->colorMode == COLORMODE::LightMode ? true : false)))
+	{
+		eProps->colorMode = COLORMODE::LightMode;
+		eProps->SwitchColorMode();
+		LOG(LOG_TYPE::ENGINE, "Light mode 'ON'");
+	}
+	if (ImGui::RadioButton("Dark mode", (eProps->colorMode == COLORMODE::DarkMode ? true : false)))
+	{
+		eProps->colorMode = COLORMODE::DarkMode;
+		eProps->SwitchColorMode();
+		LOG(LOG_TYPE::ENGINE, "Dark mode 'ON'");
+	}
+	if (ImGui::RadioButton("Classic mode", (eProps->colorMode == COLORMODE::ClassicMode ? true : false)))
+	{
+		eProps->colorMode = COLORMODE::ClassicMode;
+		eProps->SwitchColorMode();
+		LOG(LOG_TYPE::ENGINE, "Classic mode 'ON'");
+	}
+}
+#pragma endregion Configuration methods
+
+void PanelConfiguration::GetCaps()
+{
+	strCaps = "Caps: ";
+	strCaps += SDL_HasRDTSC() ? "RDTSC " : "";
+	strCaps += SDL_HasMMX() ? "MMX " : "";
+	strCaps += SDL_HasSSE() ? "SSE " : "";
+	strCaps += SDL_HasSSE2() ? "SSE2 " : "";
+	strCaps += SDL_HasSSE3() ? "SSE3 " : "";
+	strCaps += SDL_HasSSE41() ? "SSE41 " : "";
+	strCaps += SDL_HasSSE42() ? "SSE42 " : "";
+	strCaps += SDL_HasAVX() ? "AVX " : "";
+	strCaps += SDL_HasAVX2() ? "AVX2 " : "";
+	strCaps += SDL_Has3DNow() ? "3DNow " : "";
+	strCaps += SDL_HasAltiVec() ? "AltiVec " : "";
 }

@@ -1,49 +1,33 @@
-#ifndef _ComponentTransform_H
-#define _ComponentTransform_H
+#ifndef _COMPONENTTRANSFORM_H
+#define _COMPONENTTRANSFORM_H
 
-#include "Module.h"
-#include "GameObject.h"
+#include "Component.h"
+
 #include "External/MathGeo/include/Math/float4x4.h"
 #include "External/MathGeo/include/Math/float3.h"
-#include <string>
-
-class GameObject;
+#include "External/MathGeo/include/Math/Quat.h"
 
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(Application* app, GameObject* owner);
-	virtual ~ComponentTransform();
+	ComponentTransform(GameObject* owner);
+	~ComponentTransform() override;
 
-	update_status Update(float dt) override;
-	bool CleanUp() override;
+	void Init() override;
+	void Update() override;
 
-	void Transform();
+	void UpdateGUI() override;
 
-	float3 GetPosition() const;
-	float3 GetRotation() const;
-	float3 GetScale() const;
-
-	void SetPosition(const float3& position);
-	void SetRotation(const float3& rotation);
-	void SetScale(const float3& scale);
-
+	float4x4 GetWorldMatrix();
 public:
 
-	float4x4	matrix;
+	float4x4 localTransform;
+	float4x4 globalTransform;
 
-	float3		position = { 0,0,0 };
-	float4x4	rotation;
-	float3		scale = { 0,0,0 };
-
-	float3		euler_rotation = { 0,0,0 };
-
-
-
-private:
-	const char* name;
-	bool		is_active;
+	float3 position;
+	//Quat rotation;
+	float3 rotation;
+	float3 localScale;
 };
-
 
 #endif

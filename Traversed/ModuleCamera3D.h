@@ -1,9 +1,28 @@
-#pragma once
+#ifndef __MODULECAMERA3D_H__
+#define __MODULECAMERA3D_H__
+
 #include "Module.h"
 #include "Globals.h"
-#include "glmath.h"
+#include "Camera.h"
 
-#define ZOOM_SPEED 2.0f
+struct CameraProperties
+{
+public:
+
+	Camera editorCamera;
+	bool isMouseOnScene = false;
+
+	CameraProperties();
+
+	static CameraProperties* Instance();
+
+	static void Delete();
+
+private:
+	static CameraProperties* cProps;
+};
+
+struct SceneProperties;
 
 class ModuleCamera3D : public Module
 {
@@ -11,32 +30,24 @@ public:
 	ModuleCamera3D(Application* app, bool start_enabled = true);
 	~ModuleCamera3D();
 
+	bool Init() override;
 	bool Start();
-	update_status Update(float dt);
+	UpdateStatus Update();
 	bool CleanUp();
 
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
-	void LookAt(const vec3 &Spot);
-	void Move(const vec3 &Movement);
+	void SaveSettingsData(pugi::xml_node& save) override;
 
-	void Zoom();
-	void SetZoomSpeed(const float& zoom_speed);
-	float GetZoomSpeed() const;
-
-	float* GetViewMatrix();
+	void LoadSettingsData(pugi::xml_node& load) override;
 
 private:
 
-	void CalculateViewMatrix();
+	void SceneCameraInput();
 
-public:
-	
-	vec3 X, Y, Z, Position, Reference;
-
-	bool FocusObject;
-
-	float zoomSpeed;
 private:
 
-	mat4x4 ViewMatrix, ViewMatrixInverse;
+	CameraProperties* cProps = nullptr;
+
+	SceneProperties* sProps = nullptr;
 };
+
+#endif // !__MODULECAMERA3D_H__

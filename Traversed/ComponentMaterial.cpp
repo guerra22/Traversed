@@ -1,12 +1,15 @@
-#include "Globals.h"
 #include "ComponentMaterial.h"
-#include "ModuleFBXLoader.h"
+#include "TextureImporter.h"
 
-ComponentMaterial::ComponentMaterial(Application* app, GameObject* owner) : Component(app, owner, COMPONENT_TYPES::MATERIAL, "Material"),
-materialUsed(nullptr),
-defaultTexture(false)
+#include "External/ImGui/imgui.h"
+#include "External/ImGui/imgui_impl_sdl.h"
+#include "External/ImGui/imgui_impl_opengl3.h"
+
+ComponentMaterial::ComponentMaterial(GameObject* owner) : Component(owner)
 {
+	this->type = MATERIAL;
 
+	isCheckers = false;
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -14,27 +17,71 @@ ComponentMaterial::~ComponentMaterial()
 
 }
 
-update_status ComponentMaterial::Update(float dt)
+void ComponentMaterial::Init()
 {
-
-	return UPDATE_CONTINUE;
+	checkersTexture = TextureImporter::checkers;
+	//checkersTexture.path = "DEBUG TEXTURE(CHECKERS)";
 }
 
-bool ComponentMaterial::CleanUp()
+void ComponentMaterial::Update()
 {
-	bool ret = true;
-
-	textures.clear();
-
-	return ret;
+	if (!active) return;
 }
 
-Texture* ComponentMaterial::GetTexture()
+void ComponentMaterial::UpdateGUI()
 {
-	return materialUsed;
+	if (ImGui::CollapsingHeader("Textures", ImGuiTreeNodeFlags_Leaf))
+	{
+		ImGui::Checkbox("Active##Material", &this->active);
+		ImGui::SameLine();
+		ImGui::Checkbox("Checkers Texture", &isCheckers);
+
+		//Texture Path
+		ImGui::NewLine();
+		std::string txt = "Texture Path: ";
+		if (this->texture.w == 0 && this->texture.h == 0 && !isCheckers) txt += "No texture loaded, using debug texture";
+		else if (!isCheckers) txt += texture.path;
+		else txt += checkersTexture.path;
+		ImGui::Text(txt.c_str());
+
+		//Texture Width and Height
+		txt = "Size: ";
+		if (isCheckers || (this->texture.w == 0 && this->texture.h))
+		{
+			txt += std::to_string(checkersTexture.w);
+			txt += " x ";
+			txt += std::to_string(checkersTexture.h);
+		}
+		else
+		{
+			txt += std::to_string(texture.w);
+			txt += " x ";
+			txt += std::to_string(texture.h);
+		}
+		ImGui::Text(txt.c_str());
+
+		//Texture ID
+		txt = "Texture ID: ";
+		if (isCheckers || (this->texture.w == 0 && this->texture.h)) txt += std::to_string(checkersTexture.id);
+		else txt += std::to_string(texture.id);
+		ImGui::Text(txt.c_str());
+	}
 }
 
-void ComponentMaterial::SetTexture(Texture* texture)
+void ComponentMaterial::SetTexture(Texture texture)
 {
-	materialUsed = texture;
+	this->texture = texture;
+}
+
+void ComponentMaterial::SetTexture(unsigned int id, std::string path)
+{
+	this->texture.id = id;
+	this->texture.path = path;
+}
+
+Texture ComponentMaterial::GetTexture()
+{
+	if (isCheckers) return this->checkersTexture;
+	else if (this->texture.w == 0 && this->texture.h == 0) return this->checkersTexture;
+	else return this->texture;
 }

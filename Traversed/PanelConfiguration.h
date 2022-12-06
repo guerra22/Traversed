@@ -1,28 +1,56 @@
 #ifndef __PANEL_CONFIGURATION_H_
 #define __PANEL_CONFIGURATION_H_
 
-#define FPS_LOG_SIZE 100
-#define IMGUI_YELLOW ImVec4(1.f,1.f,0.f,1.f)
-#define IMGUI_PRINT(field, format, ...) \
-	ImGui::Text(field); \
-	ImGui::SameLine(); \
-	ImGui::TextColored(IMGUI_YELLOW, format, __VA_ARGS__)
+#include "UiPanel.h"
+#include "Globals.h"
 
-#include "PanelAbout.h"
+#include <iostream>
+#include <queue>
+
+class Time;
+class RenderProperties;
+class WindowProperties;
+class EditorProperties;
 
 class PanelConfiguration : public UiPanel
 {
 public:
-	PanelConfiguration(Application* app);
-	virtual ~PanelConfiguration();
+	PanelConfiguration(bool enabled = false);
+	~PanelConfiguration();
 
-	void Draw() override;
-
-	void AddFPS(float fps, float ms);
+	void Update() override;
 
 private:
-	std::vector<float> fps_log;
-	std::vector<float> ms_log;
+	void ApplicationHeader();
+	void WindowHeader();
+	void InputHeader();
+	void RenderingHeader();
+	void EditorHeader();
+
+	void GetCaps();
+
+private:
+	ImGuiIO io;
+	RenderProperties* rProps = nullptr;
+	WindowProperties* wProps = nullptr;
+	EditorProperties* eProps = nullptr;
+	Time* time = nullptr;
+
+	bool vsync = false;
+
+	/*std::string strCaps;*/
+	std::vector<float> framerateQueue;
+	std::vector<float> milisecondsQueue;
+
+	std::string strCaps;
+
+	uint64 ram;
+	uint64 cpuCount;
+	uint64 cache;
+	uint64 VRamBudget;
+	uint64 VRamCurrentUsage;
+	uint64 VRamAvailable;
+	uint64 VRamReserve;
 };
 
 #endif

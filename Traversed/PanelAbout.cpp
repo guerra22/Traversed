@@ -1,65 +1,128 @@
 #include "PanelAbout.h"
-#include "ImGuiUtils.h"
-#include "ModuleWindow.h"
+
+#include "Globals.h"
+
+#include "External/SDL/include/SDL.h"
+#include "MathGeoLib.h"
 
 #include "External/Glew/include/glew.h"
+#include "External/Assimp/include/assimp/version.h"
+#include "External/PhysFS/include/physfs.h"
+#include "External/PugiXml/src/pugixml.hpp"
+//#include "Simdjson/simdjson.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
 
-PanelAbout::PanelAbout(Application* app) : UiPanel(app)
+PanelAbout::PanelAbout(bool enabled) : UiPanel(enabled)
 {
-	active = true;
+	name = "About";
 
-	SDL_version v;
-	SDL_GetVersion(&v);
-	sdlVersion = std::to_string(v.major) + "." + std::to_string(v.minor) + "." + std::to_string(v.patch);
-	glewVersion = (const char*)glewGetString(GLEW_VERSION);
-	imGUIVersion = ImGui::GetVersion();
-	jsonVersion = "3.12.2";
-	mathGeoLibVersion = "1.5";
-	assimpLibVersion = "5.2.5";
-	devilLibVersion = "1.8.0";
+	vEngine = "v.";
+	vEngine += std::to_string(ENGINE_VERSION_MAJOR);
+	vEngine += ".";
+	vEngine += std::to_string(ENGINE_VERSION_MINOR);
+
+	//Versions
+	SDL_version version;
+	SDL_GetVersion(&version);
+
+	PHYSFS_Version versionPhys;
+	PHYSFS_getLinkedVersion(&versionPhys);
+
+	vSdl = "SDL " + std::to_string(version.major) + "." + std::to_string(version.minor) + "." + std::to_string(version.patch);
+	vImGui = "DearImGui " + std::string(ImGui::GetVersion());
+	vMathGeoLib = "MathGeoLib 1.5";
+	vGlew = "Glew ";
+	vGlew += (const char*)glewGetString(GLEW_VERSION);
+	vOpenGl = "OpenGl ";
+	vOpenGl += (const char*)glGetString(GL_VERSION);
+	vSimdjson = "Simdjson ";
+	//vSimdjson += std::to_string(simdjson::SIMDJSON_VERSION_MAJOR) + "." + std::to_string(simdjson::SIMDJSON_VERSION_MINOR) + "." + std::to_string(simdjson::SIMDJSON_VERSION_REVISION);
+	vAssimp = "Assimp " + std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision());
+	vPhysfs = "PhysFS " + std::to_string(versionPhys.major) + "." + std::to_string(versionPhys.minor) + "." + std::to_string(versionPhys.patch);
+
+	vPugiXml = "PugiXML ";
+	std::string auxV = std::to_string(PUGIXML_VERSION);
+	for (int i = 0; i < auxV.size(); ++i)
+	{
+		vPugiXml += auxV[i];
+
+		if (i != auxV.size() - 1)
+			vPugiXml += ".";
+	}
 }
 
 PanelAbout::~PanelAbout()
 {
-	
+
 }
 
-void PanelAbout::Draw()
+void PanelAbout::Update()
 {
-	ImGui::Begin("about", &active);
+	if (ImGui::Begin("About"))
 	{
-		ImGui::TextWrapped("TraversedEngine %s", "v 1.0");
-		ImGui::TextWrapped("by Hang Xue & Oriol Via");
+		ImGui::Text("Traversed Engine \n");
+		ImGui::SameLine();
+		ImGui::Text(vEngine.c_str());
+		ImGui::Spacing();
+		ImGui::Text("A simple 3D engine.");
+		ImGui::Spacing();
+		ImGui::TextURL("Made by HangXue & Oriol Via", "https://github.com/guerra22/Traversed");
 
 		ImGui::NewLine();
+		ThirdPartyLibs();
 
-		ImGui::TextWrapped("Libraries used: ");
-		ImGui::BulletText("SDL %s", sdlVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/libsdl-org/SDL", 1, 0);
-		ImGui::BulletText("Glew %s", glewVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/nigels-com/glew", 1, 0);
-		ImGui::BulletText("ImGUI %s", imGUIVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/ocornut/imgui", 1, 0);
-		ImGui::BulletText("JSON %s", jsonVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/nlohmann/json", 1, 0);
-		ImGui::BulletText("MathGeoLib %s", mathGeoLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/juj/MathGeoLib", 1, 0);
-		ImGui::BulletText("Assimp %s", assimpLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/assimp/assimp", 1, 0);
-		ImGui::BulletText("DevIL %s", devilLibVersion.c_str()); ImGui::TextURL("(latest)", "https://github.com/DentonW/DevIL", 1, 0);
-		
 		ImGui::NewLine();
-
-		ImGui::TextWrapped("License information: ");
-		ImGui::NewLine();
-
-		ImGui::TextWrapped("MIT License");
-		ImGui::NewLine();
-
-		ImGui::TextWrapped("Copyright (c) 2022 CITMCompany");
-		ImGui::NewLine();
-
-		ImGui::TextWrapped("Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files(the \"Software\") to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and /or sell to use, copy, modify, merge, publish, distribute, sublicense, and /or sellcopies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : ");
-		ImGui::NewLine();
-		ImGui::TextWrapped("The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.");
-		ImGui::NewLine();
-		ImGui::TextWrapped("THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
-
+		MyLicense();
 	}
-	ImGui::End();
 
+	ImGui::End();
 }
+
+#pragma region Text
+void PanelAbout::ThirdPartyLibs()
+{
+	ImGui::Text("3rd Party Libraries used: ");
+	ImGui::BulletText("");
+	ImGui::TextURL(vSdl.c_str(), "https://libsdl.org/index.php", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vImGui.c_str(), "https://github.com/ocornut/imgui", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vGlew.c_str(), "http://glew.sourceforge.net", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vOpenGl.c_str(), "https://www.opengl.org", 1, 0);
+
+	/*ImGui::BulletText("");
+	ImGui::TextURL(vSimdjson.c_str(), "https://github.com/Tencent/rapidjson", 1, 0);*/
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vMathGeoLib.c_str(), "https://github.com/juj/MathGeoLib", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vAssimp.c_str(), "https://github.com/assimp/assimp", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vPhysfs.c_str(), "https://github.com/icculus/physfs", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vPugiXml.c_str(), "https://pugixml.org", 1, 0);
+}
+
+void PanelAbout::MyLicense()
+{
+	ImGui::Text("License: ");
+	ImGui::NewLine();
+	ImGui::TextWrapped("MIT License");
+	ImGui::NewLine();
+	ImGui::TextWrapped("Copyright (c) 2022 CITM");
+	ImGui::NewLine();
+	ImGui::TextWrapped("Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files(the \Software\), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions : ");
+	ImGui::NewLine();
+	ImGui::TextWrapped("The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.");
+	ImGui::NewLine();
+	ImGui::TextWrapped("THE SOFTWARE IS PROVIDED \AS IS\, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.");
+}
+#pragma endregion About Text

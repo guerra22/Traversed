@@ -1,50 +1,34 @@
 #pragma once
 
-#include "JsonParser.h"
+#include "Module.h"
 
-#include "External/PhysFS/include/physfs.h"
-#include "External/Assimp/include/assimp/cfileio.h"
+class MeshImporter;
+class TextureImporter;
 
-#include <list>
-#include <string>
+struct SceneProperties;
 
-typedef unsigned int uint;
-enum class ResourceType;
-
-class Application;
-
-class ModuleFileSystem
+class ModuleFileSystem : public Module
 {
 public:
-	ModuleFileSystem() {}
-	ModuleFileSystem(Application* app, const char* assetsPath);
-
+	ModuleFileSystem(Application* app, bool start_enabled = true);
 	~ModuleFileSystem();
 
-	bool Init(JsonParser& node);
+	bool Init() override;
+	bool Start() override;
 
-	bool CleanUp();
+	bool CleanUp() override;
 
-	bool AddPath(const char* path);
+	UpdateStatus PreUpdate();
+	UpdateStatus Update();
+	UpdateStatus PostUpdate();
 
-	std::string ChangePath(const char* path) const;
+	void SaveSettingsData(pugi::xml_node& save) override;
+	void LoadSettingsData(pugi::xml_node& load) override;
 
-	uint Load(const char* file, char** buffer);
-	uint Save(const char* file, const void* buffer, unsigned int size, bool append = false);
+	void DragAndDrop(std::string path);
 
-	inline aiFileIO* GetAssimpIO() const { return assimpIO; }
-
-	inline const char* GetBasePath() const { return PHYSFS_getBaseDir(); }
-	inline const char* GetWritePath() const { return PHYSFS_getWriteDir(); }
-	const char* GetReadPaths() const;
-	std::string GetFileExtension(const char* path);
-
-	Application* App = nullptr;
-private:
-	const char* name;
-	std::list<std::string> texExtension;
-	std::list<std::string> modelExtension;
-
-	aiFileIO* assimpIO;
+public:
+	MeshImporter* meshImp = nullptr;
+	TextureImporter* textImp = nullptr;
+	SceneProperties* sProps = nullptr;
 };
-

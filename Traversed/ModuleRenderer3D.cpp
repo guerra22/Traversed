@@ -1,24 +1,52 @@
-#include "Globals.h"
 #include "Application.h"
-#include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
-#include "ModuleMaterials.h"
-#include "ComponentMaterial.h"
-#include "ComponentTransform.h"
-#include "ComponentMesh.h"
-#include "ModuleUi.h"
-#include "ModuleFBXLoader.h"
+#include "Renderer.h"
 
+#include "External/Glew/include/glew.h"
+#include "External/SDL/include/SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
-#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
-#pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
+#pragma region RenderProperties
+
+RenderProperties::RenderProperties()
+{
+	worldLight = new Light();
+}
+
+RenderProperties* RenderProperties::Instance()
+{
+	if (rProps == nullptr) rProps = new RenderProperties();
+
+	return rProps;
+}
+
+void RenderProperties::Delete()
+{
+	if (rProps != nullptr)
+	{
+		RELEASE(rProps);
+	}
+}
+
+void RenderProperties::ToggleVsync() { SDL_GL_SetSwapInterval(vsync); }
+void RenderProperties::ToggleWireframe() { wireframe ? glPolygonMode(GL_FRONT_AND_BACK, GL_LINE) : glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); }
+void RenderProperties::ToggleDepthTest() { depthTest ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST); }
+void RenderProperties::ToggleCullFace() { cullFace ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE); }
+void RenderProperties::ToggleLighting() { lighting ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING); }
+void RenderProperties::ToggleFog() { fog ? glEnable(GL_FOG) : glDisable(GL_FOG); }
+void RenderProperties::ToggleColorMaterial() { colorMaterial ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL); }
+void RenderProperties::ToggleTexture2D() { texture2D ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D); }
+
+RenderProperties* RenderProperties::rProps = nullptr;
+
+#pragma endregion Render Properties Singleton Struct
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "Renderer";
+	name = "Renderer3D";
 }
 
 // Destructor
@@ -28,32 +56,59 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init()
 {
-	LOGGING("Creating 3D Renderer context");
+	LOG(LOG_TYPE::ENGINE, "INIT: 3D Renderer context");
 	bool ret = true;
-	
+
+	//Set context attributes
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+
 	//Create context
-	context = SDL_GL_CreateContext(App->window->window);
-	if(context == NULL)
+	context = SDL_GL_CreateContext(WindowProperties::Instance()->window);
+	if (context == NULL)
 	{
-		LOGGING("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
+		LOG(LOG_TYPE::ERRO, "OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	
-	if(ret == true)
+
+	//Initialize glew
+	GLenum error = glewInit();
+	if (error != GLEW_OK)
 	{
-		//Use Vsync
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			LOGGING("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
+		printf("Glew could not be initialized! Glew_error: %s \n", glewGetErrorString(error));
+	}
+	else
+	{
+		LOG(LOG_TYPE::ENGINE, "INIT: Glew %s, using OpenGL %s", glewGetString(GLEW_VERSION), glGetString(GL_VERSION));
+	}
+
+	if (ret == true)
+	{
+		//Get instance of WindowProperties
+		wProps = WindowProperties::Instance();
+
+		//Render properties singleton
+		rProps = RenderProperties::Instance();
+
+		//Camera properties singleton
+		cProps = CameraProperties::Instance();
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
 		//Check for error
-		GLenum error = glGetError();
-		if(error != GL_NO_ERROR)
+		error = glGetError();
+		if (error != GL_NO_ERROR)
 		{
-			LOGGING("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG(LOG_TYPE::ERRO, "ERROR: Initializing OpenGL! %s\n", glewGetErrorString(error));
 			ret = false;
 		}
 
@@ -63,151 +118,101 @@ bool ModuleRenderer3D::Init()
 
 		//Check for error
 		error = glGetError();
-		if(error != GL_NO_ERROR)
+		if (error != GL_NO_ERROR)
 		{
-			LOGGING("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG(LOG_TYPE::ERRO, "ERROR: Initializing OpenGL! %s\n", glewGetErrorString(error));
 			ret = false;
 		}
-		
+
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-		
+
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 
 		//Check for error
 		error = glGetError();
-		if(error != GL_NO_ERROR)
+		if (error != GL_NO_ERROR)
 		{
-			LOGGING("Error initializing OpenGL! %s\n", gluErrorString(error));
+			//LOG(LOG_TYPE::ERRO, "ERROR: Initializing OpenGL! %s\n", glewGetErrorString(error));
 			ret = false;
 		}
-		
-		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-		
-		lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
+
+		/*lights[0].ref = GL_LIGHT0;
+		lights[0].ambient.Set(0.60f, 0.25f, 0.25f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
-		lights[0].Init();
-		
-		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
-		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+		lights[0].Init();*/
 
-		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
+		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
-		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
-		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+
+		//lights[0].Active(true);
+
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		//Fog
+		glFogi(GL_FOG_MODE, GL_LINEAR);
+		glFogf(GL_FOG_START, 1.0f);
+		glFogf(GL_FOG_END, 30.0f);
+		float fogC[] = { 0.5, 0.5, 0.5, 1.0 };
+		glFogfv(GL_FOG_COLOR, fogC);
 	}
 
 	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
-
-	GLenum error = glewInit();
-	if (GLEW_OK != error)
-	{
-		LOGGING("Glew failed error %s\n", glewGetErrorString(error));
-	}
-	LOGGING("Glew version: %s\n", glewGetString(GLEW_VERSION));
-
-	App->materials->Init();
+	OnResize(wProps->w, wProps->h);
 
 	return ret;
 }
 
 // PreUpdate: clear buffer
-update_status ModuleRenderer3D::PreUpdate(float dt)
+UpdateStatus ModuleRenderer3D::PreUpdate()
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+	//Cleaning
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	/*glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf(cProps->editorCamera.GetViewMatrix());
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	lights[0].SetPos(cProps->editorCamera.Position.x, cProps->editorCamera.Position.y, cProps->editorCamera.Position.z);
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
-
-	if (atributes.Depth_test == true)
-	{
-		glEnable(GL_DEPTH_TEST);
-	}
-	if (atributes.Depth_test == false)
-	{
-		glDisable(GL_DEPTH_TEST);
-	}
-	if (atributes.Cull_Face == true)
-	{
-		glEnable(GL_CULL_FACE);
-	}
-	if (atributes.Cull_Face == false)
-	{
-		glDisable(GL_CULL_FACE);
-	}
-	if (atributes.Lightning == true)
-	{
-		glEnable(GL_LIGHTING);
-	}
-	if (atributes.Lightning == false)
-	{
-		glDisable(GL_LIGHTING);
-	}
-	if (atributes.Front == true)
-	{
-		glEnable(GL_FRONT);
-	}
-	if (atributes.Front == false)
-	{
-		glDisable(GL_FRONT);
-	}
-	if (atributes.AmbientOclussion == true)
-	{
-		glEnable(GL_AMBIENT);
-	}
-	if (atributes.AmbientOclussion == false)
-	{
-		glDisable(GL_AMBIENT);
-	}
-	if (atributes.Color_Materials == true)
-	{
-		glEnable(GL_COLOR_MATERIAL);
-	}
-	if (atributes.Color_Materials == false)
-	{
-		glDisable(GL_COLOR_MATERIAL);
-	}
-	if (atributes.Wireframe == true)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	}
-	if (atributes.Wireframe == false)
-	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	}
+		lights[i].Render();*/
 
 	return UPDATE_CONTINUE;
 }
 
 // PostUpdate present buffer to screen
-update_status ModuleRenderer3D::PostUpdate(float dt)
+UpdateStatus ModuleRenderer3D::PostUpdate()
 {
-	SDL_GL_SwapWindow(App->window->window);
+	//Meshes
+	cProps->editorCamera.renderer->Render();
+
+	//Swap Buffer
+	SDL_GL_SwapWindow(wProps->window);
 	return UPDATE_CONTINUE;
 }
 
 // Called before quitting
 bool ModuleRenderer3D::CleanUp()
 {
-	LOGGING("Destroying 3D Renderer");
+	//Render Properties Struct singleton
+	RELEASE(rProps->worldLight);
+	RenderProperties::Delete();
 
-	SDL_GL_DeleteContext(context);
+	LOG(LOG_TYPE::ENGINE, "Destroying 3D Renderer");
+	if (context != NULL)
+	{
+		SDL_GL_DeleteContext(context);
+	}
 
 	return true;
 }
@@ -217,147 +222,50 @@ void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
-	glLoadMatrixf(&ProjectionMatrix);
+	/*glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();*/
+	//rProps->ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
+	//rProps->ProjectionMatrix = rProps->ProjectionMatrix.OpenGLPerspProjRH(0.125f, 2048.0f, 60.f, (float)width / (float)height);
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	//glLoadMatrixf(&rProps->ProjectionMatrix); //Without shaders
+
+	/*glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();*/
 }
 
-void ModuleRenderer3D::DrawExampleMesh()
+#pragma region Save/Load Settings
+
+void ModuleRenderer3D::LoadSettingsData(pugi::xml_node& load)
 {
-	for (int i = 0; i < App->loader->meshes.size(); i++)
-	{
-		// Draw elements
-		VertexData* newMesh = &App->loader->meshes[i];
-		{
-			glEnableClientState(GL_VERTEX_ARRAY);
+	rProps->vsync = load.child("Vsync").attribute("value").as_bool();
+	rProps->wireframe = load.child("Wireframe").attribute("value").as_bool();
+	rProps->depthTest = load.child("DepthTest").attribute("value").as_bool();
+	rProps->cullFace = load.child("CullFace").attribute("value").as_bool();
+	rProps->lighting = load.child("Lighting").attribute("value").as_bool();
+	rProps->fog = load.child("Fog").attribute("value").as_bool();
+	rProps->colorMaterial = load.child("ColorMaterial").attribute("value").as_bool();
+	rProps->texture2D = load.child("Texture2D").attribute("value").as_bool();
 
-			// Render things in Element mode
-			glBindBuffer(GL_ARRAY_BUFFER, newMesh->id_vertex);
-			glVertexPointer(3, GL_FLOAT, 0, NULL);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, newMesh->id_index);
-
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindBuffer(GL_ARRAY_BUFFER, newMesh->id_uvs);
-			glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-			glBindTexture(GL_TEXTURE_2D, newMesh->texture_data.id);
-
-			glDrawElements(GL_TRIANGLES, newMesh->num_index, GL_UNSIGNED_INT, NULL);
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glDisableClientState(GL_VERTEX_ARRAY);
-		}
-	}
+	rProps->ToggleVsync();
+	rProps->ToggleWireframe();
+	rProps->ToggleDepthTest();
+	rProps->ToggleCullFace();
+	rProps->ToggleLighting();
+	rProps->ToggleFog();
+	rProps->ToggleColorMaterial();
+	rProps->ToggleTexture2D();
 }
 
-void ModuleRenderer3D::DrawGameObjects(GameObject GameObject)
+void ModuleRenderer3D::SaveSettingsData(pugi::xml_node& save)
 {
-	if (GameObject.IsActive())
-	{
-		ComponentMesh* NewMesh = (ComponentMesh*)GameObject.GetComponent(COMPONENT_TYPES::MESH);
-		ComponentMaterial* NewMaterial = (ComponentMaterial*)GameObject.GetComponent(COMPONENT_TYPES::MATERIAL);
-		if (NewMesh->IsActive())
-		{
-			if (NewMesh != nullptr)
-			{
-				glEnableClientState(GL_VERTEX_ARRAY);
-
-				// Render things in Element mode
-				glBindBuffer(GL_ARRAY_BUFFER, NewMesh->mesh.id_vertex);
-				glVertexPointer(3, GL_FLOAT, 0, NULL);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, NewMesh->mesh.id_index);
-
-				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-				glBindBuffer(GL_ARRAY_BUFFER, NewMesh->mesh.id_uvs);
-
-				if (NewMaterial->IsActive())
-				{
-					if (NewMaterial->materialUsed != nullptr)
-					{
-						glTexCoordPointer(3, GL_FLOAT, 0, NULL);
-						glBindTexture(GL_TEXTURE_2D, NewMaterial->materialUsed->id);
-					}
-				}
-
-				if (App->renderer3D->checkerTextureApplied)
-				{
-					glBindTexture(GL_TEXTURE_2D, ckeckerTextureid);
-				}
-
-				glDrawElements(GL_TRIANGLES, NewMesh->mesh.num_index, GL_UNSIGNED_INT, NULL);
-
-				glBindTexture(GL_TEXTURE_2D, 0);
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-				glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-				glDisableClientState(GL_VERTEX_ARRAY);
-			}
-		}
-	}
+	save.child("Vsync").attribute("value") = rProps->vsync;
+	save.child("Wireframe").attribute("value") = rProps->wireframe;
+	save.child("Fog").attribute("value") = rProps->fog;
+	save.child("DepthTest").attribute("value") = rProps->depthTest;
+	save.child("CullFace").attribute("value") = rProps->cullFace;
+	save.child("Lighting").attribute("value") = rProps->lighting;
+	save.child("ColorMaterial").attribute("value") = rProps->colorMaterial;
+	save.child("Texture2D").attribute("value") = rProps->texture2D;
 }
 
-void ModuleRenderer3D::LoadCheckerTexture()
-{
-	GLubyte checker[CHEIGHT][CWIDTH][4];
-
-	for (int i = 0; i < CHEIGHT; ++i)
-	{
-		for (int j = 0; j < CWIDTH; ++j)
-		{
-			int color = ((((i & 0x8) == 0) ^ ((j & 0x8) == 0))) * 255;
-
-			checker[i][j][0] = (GLubyte)color;
-			checker[i][j][1] = (GLubyte)color;
-			checker[i][j][2] = (GLubyte)color;
-			checker[i][j][3] = (GLubyte)255;
-
-		}
-	}
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &ckeckerTextureid);
-	glBindTexture(GL_TEXTURE_2D, ckeckerTextureid);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CWIDTH, CHEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, checker);
-
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-bool ModuleRenderer3D::LoadConfig(JsonParser& node)
-{
-	atributes.Depth_test = node.GetJsonBool("depth test");
-	atributes.Cull_Face = node.GetJsonBool("cull face");
-	atributes.Lightning = node.GetJsonBool("lightning");
-	atributes.Front = node.GetJsonBool("front");
-	atributes.AmbientOclussion = node.GetJsonBool("ambient oclussion");
-	atributes.Color_Materials = node.GetJsonBool("color materials");
-	atributes.Wireframe = node.GetJsonBool("wireframe");
-
-	return true;
-}
-
-bool ModuleRenderer3D::SaveConfig(JsonParser& node) const
-{
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "depth test", atributes.Depth_test);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "cull face", atributes.Cull_Face);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "lightning", atributes.Lightning);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "front", atributes.Front);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "ambient oclussion", atributes.AmbientOclussion);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "color materials", atributes.Color_Materials);
-	node.SetNewJsonBool(node.ValueToObject(node.GetRootValue()), "wireframe", atributes.Wireframe);
-
-	return true;
-}
+#pragma endregion Save & Load of Settings

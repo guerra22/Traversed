@@ -1,23 +1,31 @@
 #ifndef __UI_PANEL_H_
 #define __UI_PANEL_H_
 
-#include "Application.h"
+#include "ImGuiUtils.h"
+
 #include <string>
 
 class UiPanel
 {
 public:
-	UiPanel(Application* app);
-	virtual ~UiPanel();
+	UiPanel(bool enabled = false)
+	{
+		name = "NONE";
+		this->enabled = enabled;
+	};
 
-	virtual void Draw() {};
-	bool IsActive() const;
-	void switchActive();
-	virtual bool CleanUp() { return true; }
+	virtual ~UiPanel() {};
 
-	bool active = false;
-	
-	Application* App = nullptr;
+	virtual void Start() {};
+
+	virtual void Update() {};
+
+public:
+
+	bool enabled = false;
+
+	std::string name = "EmptyPanel";
+
 };
 
 #endif

@@ -1,10 +1,17 @@
-#include "Application.h"
-#include "Module.h"
 #include "ComponentTransform.h"
+#include "External/MathGeo/include/MathGeoLib.h"
 
-ComponentTransform::ComponentTransform(Application* app, GameObject* owner) : Component(app, owner, COMPONENT_TYPES::TRANSFORM, "Transform")
+#include "External/ImGui/imgui.h"
+#include "External/ImGui/imgui_impl_sdl.h"
+#include "External/ImGui/imgui_impl_opengl3.h"
+
+ComponentTransform::ComponentTransform(GameObject* owner) : Component(owner)
 {
-
+	this->type = CO_TYPE::TRANSFORM;
+	position = float3(.0f, .0f, .0f);
+	//rotation = Quat::identity;
+	rotation = float3(.0f, .0f, .0f);
+	localScale = float3(1.0f, 1.0f, 1.0f);
 }
 
 ComponentTransform::~ComponentTransform()
@@ -12,55 +19,34 @@ ComponentTransform::~ComponentTransform()
 
 }
 
-update_status ComponentTransform::Update(float dt)
+void ComponentTransform::Init()
 {
-
-	return UPDATE_CONTINUE;
+	
 }
 
-bool ComponentTransform::CleanUp()
+void ComponentTransform::Update()
 {
-	bool ret = true;
-
-	return ret;
-}
-
-void ComponentTransform::Transform()
-{
-	//Aqui poner todo lo que tenga que ver con rotación y posicion y todo
-}
-float3 ComponentTransform::GetPosition() const
-{
-	return position;
-}
-
-float3 ComponentTransform::GetRotation() const
-{
-	return euler_rotation;
-}
-
-float3 ComponentTransform::GetScale() const
-{
-	return scale;
-}
-
-void ComponentTransform::SetPosition(const float3& position)
-{
-	this->position = position;
 
 }
 
-void ComponentTransform::SetRotation(const float3& rotation)
+void ComponentTransform::UpdateGUI()
 {
-	euler_rotation = rotation;
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_Leaf))
+	{
+		ImGui::Checkbox("Active##Transform", &active);
 
-	this->rotation.RotateX(euler_rotation.x);
-	this->rotation.RotateY(euler_rotation.y);
-	this->rotation.RotateZ(euler_rotation.z);
-
+		ImGui::DragFloat3("Position", &position[0], 0.25f, 0.0f, 0.0f, "%.2f", ImGuiSliderFlags_NoInput);
+		ImGui::DragFloat3("Rotation", &rotation[0]);
+		ImGui::DragFloat3("Scale", &localScale[0], 0.25f, 0.0f, 0.0f, "%.2f");
+	}
 }
 
-void ComponentTransform::SetScale(const float3& scale)
+float4x4 ComponentTransform::GetWorldMatrix()
 {
-	this->scale = scale;
+	math::Quat q = Quat::FromEulerXYZ(math::DegToRad(rotation.x), math::DegToRad(rotation.y), math::DegToRad(rotation.z));
+	float4x4 toReturn = float4x4::FromTRS(position, q.ToFloat4x4(), localScale);
+
+	toReturn.Transpose();
+
+	return toReturn;
 }

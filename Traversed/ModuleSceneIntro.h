@@ -1,11 +1,28 @@
 #pragma once
+
 #include "Module.h"
-#include "Globals.h"
-#include <vector>
+
+//#include "GameObject.h"
 
 class Application;
-class Primitive;
 class GameObject;
+
+struct SceneProperties
+{
+public:
+	GameObject* root = nullptr;
+
+	SceneProperties();
+
+	static SceneProperties* Instance();
+
+	static void Delete();
+
+	GameObject* GetSelectedGO(GameObject* go = nullptr);
+
+private:
+	static SceneProperties* instance;
+};
 
 class ModuleSceneIntro : public Module
 {
@@ -13,16 +30,23 @@ public:
 	ModuleSceneIntro(Application* app, bool start_enabled = true);
 	~ModuleSceneIntro();
 
-	bool Start();
-	update_status Update(float dt);
-	update_status PostUpdate(float dt);
-	bool CleanUp();
+	bool Init() override;
+	bool Start() override;
 
-	GameObject* CreateGameObject(const char* name = nullptr, GameObject* parent = nullptr);
-public:
-	std::vector<GameObject*> game_objects;
-	GameObject* rootObject;
-	
+	bool CleanUp() override;
+
+	UpdateStatus PreUpdate();
+	UpdateStatus Update();
+	UpdateStatus PostUpdate();
+
+	void SaveSettingsData(pugi::xml_node& save) override;
+	void LoadSettingsData(pugi::xml_node& load) override;
+
+
 private:
-	std::vector<Primitive*> primitives;
+	SceneProperties* sProps = nullptr;
+
+private:
+	void InitGameObjects(GameObject* go);
+	void UpdateGameObjects(GameObject* go);
 };

@@ -1,359 +1,261 @@
-
-#include "Globals.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
-#include <vector>
 #include "Primitive.h"
+#include "glmath.h"
 
-
-// ------------------------------------------------------------
-Primitive::Primitive() : transform(IdentityMatrix), color(White), wire(false), axis(false), type(PrimitiveTypes::Primitive_Point)
-{}
-
-// ------------------------------------------------------------
-PrimitiveTypes Primitive::GetType() const
+Primitive::Primitive()
 {
-	return type;
-}
-
-void Primitive::Update()
-{
-	//TODO 5: Set the primitive position and rotation to the PhysBody position and rotation
 	
 }
 
-// ------------------------------------------------------------
-void Primitive::Render() const
+Primitive::~Primitive()
 {
-	glPushMatrix();
-	glMultMatrixf(transform.M);
 
-	if(axis == true)
+}
+
+void Primitive::Init(PrimitiveTypes primitiveType, float3 position, float3 size)
+{
+	this->position = position;
+	this->size = size;
+
+	switch (primitiveType)
 	{
-		// Draw Axis Grid
-		
-		glLineWidth(2.0f);
-
-		glBegin(GL_LINES);
-
-		glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
-		glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
-		glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
-
-		glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-		glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-		glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
-
-		glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-
-		glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
-		glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
-		glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
-		glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
-
-		glEnd();
-
-		glLineWidth(1.0f);
-
-		
+	    case CUBE:
+		    Cube();
+		    break;
+	    case SPHERE:
+		    Sphere();
+	        break;
+	    case PYRAMID:
+		    Pyramid();
+		    break;
+	    case CYLINDER:
+		    Cylinder();
+		    break;
 	}
-
-	
-
-	glColor3f(color.r, color.g, color.b);
-
-
-	InnerRender();
-
-	glPopMatrix();
 }
 
-// ------------------------------------------------------------
-void Primitive::InnerRender() const
+void Primitive::Cube()
 {
-	glPointSize(5.0f);
+	float x, y, z;
+	x = size.x * 1.0f;
+	y = size.y * 1.0f;
+	z = size.z * 1.0f;
 
-	glBegin(GL_POINTS);
+	vertex = std::vector<float3>
+	{
+		{x, y, z},
+		{-x, y, z},
+		{-x, -y, z},
+		{x, -y, z},
+		{x, -y, -z},
+		{x, y, -z},
+		{-x, y, -z},
+		{-x, -y, -z}
+	};
 
-	glVertex3f(0.0f, 0.0f, 0.0f);
-
-	glEnd();
-
-	glPointSize(1.0f);
+	//Fix index Cullaface
+	index = std::vector<uint>
+	{
+		0,1,2,2,3,0,
+		0,3,4,4,5,0,
+		0,5,6,6,1,0,
+		6,5,7,7,4,5,
+		1,6,7,7,2,1,
+		7,2,3,3,4,7
+	};
 }
 
-// ------------------------------------------------------------
-void Primitive::SetPos(float x, float y, float z)
+void Primitive::Sphere()
 {
-	transform.translate(x, y, z);
-	//TODO 6: Set the body position to the new position too!
-}
-
-// ------------------------------------------------------------
-void Primitive::SetRotation(float angle, const vec3 &u)
-{
-	transform.rotate(angle, u);
-	//TODO 6: Set the body rotation to the new rotation too!
-}
-
-// ------------------------------------------------------------
-void Primitive::Scale(float x, float y, float z)
-{
-	transform.scale(x, y, z);
-	//TODO 6: Set the body scale to the new scale too!
-}
-
-// CUBE ============================================
-Cube::Cube() : Primitive(), size(1.0f, 1.0f, 1.0f)
-{
-	type = PrimitiveTypes::Primitive_Cube;
-}
-
-Cube::Cube(float sizeX, float sizeY, float sizeZ) : Primitive(), size(sizeX, sizeY, sizeZ)
-{
-	type = PrimitiveTypes::Primitive_Cube;
-	GLfloat vertices[] = { sizeX, sizeY, sizeZ,  -sizeX, sizeY, sizeZ,  -sizeX,-sizeY, sizeZ,   sizeX,-sizeY, sizeZ,   // v0,v1,v2,v3 (front)
-							sizeX, sizeY, sizeZ,   sizeX,-sizeY, sizeZ,   sizeX,-sizeY,-sizeZ,   sizeX, sizeY,-sizeZ,   // v0,v3,v4,v5 (right)
-							sizeX, sizeY, sizeZ,   sizeX, sizeY,-sizeZ,  -sizeX, sizeY,-sizeZ,  -sizeX, sizeY, sizeZ,   // v0,v5,v6,v1 (top)
-						  -sizeX, sizeY, sizeZ,  -sizeX, sizeY,-sizeZ,  -sizeX,-sizeY,-sizeZ,  -sizeX,-sizeY, sizeZ,   // v1,v6,v7,v2 (left)
-						  -sizeX,-sizeY,-sizeZ,   sizeX,-sizeY,-sizeZ,   sizeX,-sizeY, sizeZ,  -sizeX,-sizeY, sizeZ,   // v7,v4,v3,v2 (bottom)
-							sizeX,-sizeY,-sizeZ,  -sizeX,-sizeY,-sizeZ,  -sizeX, sizeY,-sizeZ,   sizeX, sizeY,-sizeZ }; // v4,v7,v6,v5 (back)
-
-	GLubyte indices[] = { 0, 1, 2,   2, 3, 0,      // front
-					   4, 5, 6,   6, 7, 4,      // right
-					   8, 9,10,  10,11, 8,      // top
-					  12,13,14,  14,15,12,      // left
-					  16,17,18,  18,19,16,      // bottom
-					  20,21,22,  22,23,20 };    // back
-	
-		// activate and specify pointer to vertex array
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glVertexPointer(3, GL_FLOAT, 0, vertices);
-
-	// draw a cube
-	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_BYTE, indices);
-
-	// deactivate vertex arrays after drawing
-	glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void Cube::InnerRender() const
-{	
-	float sx = size.x * 0.5f;
-	float sy = size.y * 0.5f;
-	float sz = size.z * 0.5f;
-
-	glBegin(GL_QUADS);
-
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-sx, -sy, sz);
-	glVertex3f( sx, -sy, sz);
-	glVertex3f( sx,  sy, sz);
-	glVertex3f(-sx,  sy, sz);
-
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx,  sy, -sz);
-	glVertex3f( sx,  sy, -sz);
-
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(sx, -sy,  sz);
-	glVertex3f(sx, -sy, -sz);
-	glVertex3f(sx,  sy, -sz);
-	glVertex3f(sx,  sy,  sz);
-
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f(-sx, -sy,  sz);
-	glVertex3f(-sx,  sy,  sz);
-	glVertex3f(-sx,  sy, -sz);
-
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-sx, sy,  sz);
-	glVertex3f( sx, sy,  sz);
-	glVertex3f( sx, sy, -sz);
-	glVertex3f(-sx, sy, -sz);
-
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(-sx, -sy, -sz);
-	glVertex3f( sx, -sy, -sz);
-	glVertex3f( sx, -sy,  sz);
-	glVertex3f(-sx, -sy,  sz);
-
-	glEnd();
-}
-
-// SPHERE ============================================
-
-SpherePrimitive::SpherePrimitive(float radius, float rings, float sectors)
-{
-	type = PrimitiveTypes::Primitive_Sphere;
-	std::vector<GLfloat> vertices;
-	std::vector<GLfloat> normals;
-	std::vector<GLfloat> texcoords;
-	std::vector<GLushort> indices;
+	float radius = 1.0f;
+	int rings = 15;
+	int sectors = 15;
 
 	float const R = 1. / (float)(rings - 1);
 	float const S = 1. / (float)(sectors - 1);
-	int r, s;
 
-	vertices.resize(rings * sectors * 3);
-	normals.resize(rings * sectors * 3);
-	texcoords.resize(rings * sectors * 2);
-	std::vector<GLfloat>::iterator v = vertices.begin();
-	std::vector<GLfloat>::iterator n = normals.begin();
-	std::vector<GLfloat>::iterator t = texcoords.begin();
-	for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
-		float const y = sin(-M_PI_2 + M_PI * r * R);
-		float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
-		float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
-
-		*t++ = s * S;
-		*t++ = r * R;
-
-		*v++ = x * radius;
-		*v++ = y * radius;
-		*v++ = z * radius;
-
-		*n++ = x;
-		*n++ = y;
-		*n++ = z;
-	}
-
-	indices.resize(rings * sectors * 4);
-	std::vector<GLushort>::iterator i = indices.begin();
-	for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) {
-		*i++ = (r + 1) * sectors + s;
-		*i++ = (r + 1) * sectors + (s + 1);
-		*i++ = r * sectors + (s + 1);
-		*i++ = r * sectors + s;
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	//glTranslatef(x, y, z);
-
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glVertexPointer(3, GL_FLOAT, 0, &vertices[0]);
-	glNormalPointer(GL_FLOAT, 0, &normals[0]);
-	glTexCoordPointer(2, GL_FLOAT, 0, &texcoords[0]);
-	glDrawElements(GL_QUADS, indices.size(), GL_UNSIGNED_SHORT, &indices[0]);
-	glPopMatrix();
-}
-
-void SpherePrimitive::InnerRender() const
-{
-
-}
-
-
-// CYLINDER ============================================
-CylinderPrimitive::CylinderPrimitive() : Primitive(), radius(1.0f), height(1.0f)
-{
-	type = PrimitiveTypes::Primitive_Cylinder;
-}
-
-CylinderPrimitive::CylinderPrimitive(float radius, float height) : Primitive(), radius(radius), height(height)
-{
-	type = PrimitiveTypes::Primitive_Cylinder;
-}
-
-void CylinderPrimitive::InnerRender() const
-{
-	int n = 30;
-
-	// Cylinder Bottom
-	glBegin(GL_POLYGON);
-
-	for (int i = 360; i >= 0; i -= (360 / n))
+	for (int r = 0; r < rings; ++r)
 	{
-		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(-height * 0.5f, radius * cos(a), radius * sin(a));
-	}
-	glEnd();
+		for (int s = 0; s < sectors; ++s)
+		{
+			float const y = sin(-M_PI_2 + M_PI * r * R);
+			float const x = cos(2 * M_PI * s * S) * sin(M_PI * r * R);
+			float const z = sin(2 * M_PI * s * S) * sin(M_PI * r * R);
 
-	// Cylinder Top
-	glBegin(GL_POLYGON);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	for (int i = 0; i <= 360; i += (360 / n))
+			//texcoords.push_back(float2(s * S, r * R));
+			//Vertex
+			vertex.push_back(float3(x, y, z) * radius);
+
+			if (r < rings - 1)
+			{
+				int curRow = r * sectors;
+				int nextRow = (r + 1) * sectors;
+				int nextS = (s + 1) % sectors;
+
+				//Index
+				index.push_back(curRow + s);
+				index.push_back(nextRow + s);
+				index.push_back(nextRow + nextS);
+
+				index.push_back(curRow + s);
+				index.push_back(nextRow + nextS);
+				index.push_back(curRow + nextS);
+			}
+		}
+	}
+}
+
+void Primitive::Pyramid()
+{
+	float x, y, z;
+	x = size.x * 1.0f;
+	y = size.y * 1.0f;
+	z = size.z * 1.0f;
+
+	vertex = std::vector<float3>
 	{
-		float a = i * M_PI / 180; // degrees to radians
-		glVertex3f(height * 0.5f, radius * cos(a), radius * sin(a));
-	}
-	glEnd();
+		{0, y, 0},
+		{-x, -y, z},
+		{x, -y, z},
+		{x, -y, -z},
+		{-x , -y, -z}
+	};
 
-	// Cylinder "Cover"
-	glBegin(GL_QUAD_STRIP);
-	for (int i = 0; i < 480; i += (360 / n))
+	index = std::vector<uint>
 	{
-		float a = i * M_PI / 180; // degrees to radians
-
-		glVertex3f(height * 0.5f, radius * cos(a), radius * sin(a));
-		glVertex3f(-height * 0.5f, radius * cos(a), radius * sin(a));
-	}
-	glEnd();
+		0,1,2,
+		0,2,3,
+		0,3,4,
+		0,4,1,
+		2,1,4,2,4,3
+	};
 }
 
-// LINE ==================================================
-Line::Line() : Primitive(), origin(0, 0, 0), destination(1, 1, 1)
+void Primitive::Cylinder()
 {
-	type = PrimitiveTypes::Primitive_Line;
-}
+	int sector = 3;
+	float height = 1.0f;
+	float radius = 0.5f;
 
-Line::Line(float x, float y, float z) : Primitive(), origin(0, 0, 0), destination(x, y, z)
-{
-	type = PrimitiveTypes::Primitive_Line;
-}
+	float sectorStep = 2 * M_PI / sector;
+	float sectorAngle;  // radian
 
-void Line::InnerRender() const
-{
-	glLineWidth(2.0f);
-
-	glBegin(GL_LINES);
-
-	glVertex3f(origin.x, origin.y, origin.z);
-	glVertex3f(destination.x, destination.y, destination.z);
-
-	glEnd();
-
-	glLineWidth(1.0f);
-}
-
-// PLANE ==================================================
-NormalPlane::NormalPlane() : Primitive(), normal(0, 1, 0), constant(1)
-{
-	type = PrimitiveTypes::Primitive_Plane;
-}
-
-NormalPlane::NormalPlane(float x, float y, float z, float d) : Primitive(), normal(x, y, z), constant(d)
-{
-	type = PrimitiveTypes::Primitive_Plane;
-}
-
-void NormalPlane::InnerRender() const
-{
-	glLineWidth(1.0f);
-
-	glBegin(GL_LINES);
-
-	float d = 200.0f;
-
-	for(float i = -d; i <= d; i += 1.0f)
+	std::vector<float> unitVertices;
+	for (int i = 0; i <= sector; ++i)
 	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
+		sectorAngle = i * sectorStep;
+		unitVertices.push_back(cos(sectorAngle)); // x
+		unitVertices.push_back(sin(sectorAngle)); // y
+		unitVertices.push_back(0);                // z
 	}
 
-	glEnd();
+	// put side vertices to arrays
+	for (int i = 0; i < 2; ++i)
+	{
+		float h = -height / 2.0f + i * height;           // z value; -h/2 to h/2
+		float t = 1.0f - i;                              // vertical tex coord; 1 to 0
+
+		for (int j = 0, k = 0; j <= sector; ++j, k += 3)
+		{
+			float ux = unitVertices[k];
+			float uy = unitVertices[k + 1];
+			float uz = unitVertices[k + 2];
+			// position vector
+			vertex.push_back(float3(ux * radius, uy * radius, h));
+			// normal vector
+			//normals.push_back(ux);                       // nx
+			//normals.push_back(uy);                       // ny
+			//normals.push_back(uz);                       // nz
+			//// texture coordinate
+			//texCoords.push_back((float)j / sectorCount); // s
+			//texCoords.push_back(t);                      // t
+		}
+	}
+
+	// the starting index for the base/top surface
+	//NOTE: it is used for generating indices later
+	int baseCenterIndex = (int)vertex.size() / 3;
+	int topCenterIndex = baseCenterIndex + sector + 1; // include center vertex
+
+	// put base and top vertices to arrays
+	for (int i = 0; i < 2; ++i)
+	{
+		float h = -height / 2.0f + i * height;           // z value; -h/2 to h/2
+		float nz = -1 + i * 2;                           // z value of normal; -1 to 1
+
+		// center point
+		vertex.push_back(float3(0, 0, h));
+		/*normals.push_back(0);      normals.push_back(0);      normals.push_back(nz);
+		texCoords.push_back(0.5f); texCoords.push_back(0.5f);*/
+
+		for (int j = 0, k = 0; j < sector; ++j, k += 3)
+		{
+			float ux = unitVertices[k];
+			float uy = unitVertices[k + 1];
+			// position vector
+			vertex.push_back(float3(ux * radius, uy * radius, h));
+			// normal vector
+			//normals.push_back(0);                        // nx
+			//normals.push_back(0);                        // ny
+			//normals.push_back(nz);                       // nz
+			//// texture coordinate
+			//texCoords.push_back(-ux * 0.5f + 0.5f);      // s
+			//texCoords.push_back(-uy * 0.5f + 0.5f);      // t
+		}
+	}
+
+	//index
+
+	// generate CCW index list of cylinder triangles
+	int k1 = 0;                         // 1st vertex index at base
+	int k2 = sector + 1;           // 1st vertex index at top
+
+	// indices for the side surface
+	for (int i = 0; i < sector; ++i, ++k1, ++k2)
+	{
+		// 2 triangles per sector
+		// k1 => k1+1 => k2
+		index.push_back(k1);
+		index.push_back(k1 + 1);
+		index.push_back(k2);
+
+		// k2 => k1+1 => k2+1
+		index.push_back(k2);
+		index.push_back(k1 + 1);
+		index.push_back(k2 + 1);
+	}
+
+	// indices for the base surface
+	for (int i = 0, k = baseCenterIndex + 1; i < sector; ++i, ++k)
+	{
+		if (i < sector - 1)
+		{
+			index.push_back(baseCenterIndex);
+			index.push_back(k + 1);
+			index.push_back(k);
+		}
+		else // last triangle
+		{
+			index.push_back(baseCenterIndex);
+			index.push_back(baseCenterIndex + 1);
+			index.push_back(k);
+		}
+	}
+
+
+	// indices for the top surface
+	for (int i = 0, k = topCenterIndex + 1; i < sector; ++i, ++k)
+	{
+		if (i < sector - 1)
+		{
+			index.push_back(topCenterIndex);
+			index.push_back(k);
+			index.push_back(k + 1);
+		}
+		else // last triangle
+		{
+			index.push_back(topCenterIndex);
+			index.push_back(k);
+			index.push_back(topCenterIndex + 1);
+		}
+	}
 }

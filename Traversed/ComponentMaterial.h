@@ -1,37 +1,30 @@
-#ifndef _ComponentMaterial_H
-#define _ComponentMaterial_H
+#ifndef _COMPONENTMATERIAL_H
+#define _COMPONENTMATERIAL_H
 
-#include "Module.h"
-#include "GameObject.h"
-#include <string>
-
-class GameObject;
-class Material;
-class FBXLoader;
-
-struct Texture;
+#include "Component.h"
+#include "MeshRenderer.h"
 
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(Application* app, GameObject* owner);
-	~ComponentMaterial();
+	ComponentMaterial(GameObject* owner);
+	~ComponentMaterial() override;
 
-	update_status Update(float dt) override;
-	bool CleanUp() override;
+	void Init() override;
+	void Update() override;
 
-	Texture* GetTexture();
+	void UpdateGUI() override;
 
-	void SetTexture(Texture* texture);
+	Texture GetTexture();
 
+	void SetTexture(Texture texture);
+	void SetTexture(unsigned int id, std::string path);
 
-public:
-	std::vector<Texture*> textures;
+private:
+	Texture texture;
+	Texture checkersTexture;
 
-	bool defaultTexture;
-
-	Texture* materialUsed;
-
+	bool isCheckers;
 };
 
 

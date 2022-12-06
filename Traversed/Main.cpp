@@ -1,10 +1,10 @@
 #include <stdlib.h>
-#include "Application.h"
 #include "Globals.h"
+#include "Application.h"
+#include "MemLeaks.h"
 
 #include "External/SDL/include/SDL.h"
-#pragma comment( lib, "External/SDL/libx86/SDL2.lib" )
-#pragma comment( lib, "External/SDL/libx86/SDL2main.lib" )
+
 
 enum main_states
 {
@@ -15,13 +15,13 @@ enum main_states
 	MAIN_EXIT
 };
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
-	LOGGING("Starting game '%s'...", TITLE);
+	srand((unsigned)time(0));
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
-	Application* App = NULL;
+	Application* App = nullptr;
 
 	while (state != MAIN_EXIT)
 	{
@@ -29,23 +29,23 @@ int main(int argc, char ** argv)
 		{
 		case MAIN_CREATION:
 
-			LOGGING("-------------- Application Creation --------------");
+			LOG(LOG_TYPE::ENGINE, "-------------- Application Creation --------------");
 			App = new Application();
 			state = MAIN_START;
 			break;
 
 		case MAIN_START:
 
-			LOGGING("-------------- Application Init --------------");
+			LOG(LOG_TYPE::ENGINE, "-------------- Application Init --------------");
 			if (App->Init() == false)
 			{
-				LOGGING("Application Init exits with ERROR");
+				LOG(LOG_TYPE::ERRO, "Application Init exits with ERROR");
 				state = MAIN_EXIT;
 			}
 			else
 			{
 				state = MAIN_UPDATE;
-				LOGGING("-------------- Application Update --------------");
+				LOG(LOG_TYPE::ENGINE, "-------------- Engine Ready --------------");
 			}
 
 			break;
@@ -56,21 +56,21 @@ int main(int argc, char ** argv)
 
 			if (update_return == UPDATE_ERROR)
 			{
-				LOGGING("Application Update exits with ERROR");
+				LOG(LOG_TYPE::ENGINE, "Application Update exits with ERROR");
 				state = MAIN_EXIT;
 			}
 
 			if (update_return == UPDATE_STOP)
 				state = MAIN_FINISH;
 		}
-			break;
+		break;
 
 		case MAIN_FINISH:
 
-			LOGGING("-------------- Application CleanUp --------------");
+			LOG(LOG_TYPE::ENGINE, "-------------- Application CleanUp --------------");
 			if (App->CleanUp() == false)
 			{
-				LOGGING("Application CleanUp exits with ERROR");
+				LOG(LOG_TYPE::ERRO, "Application CleanUp exits with ERROR");
 			}
 			else
 				main_return = EXIT_SUCCESS;
@@ -83,6 +83,11 @@ int main(int argc, char ** argv)
 	}
 
 	delete App;
-	LOGGING("Exiting game '%s'...\n", TITLE);
+	App = nullptr;
+
+	ReportMemoryLeaks();
+
+	LOG(LOG_TYPE::ENGINE, "\nBye :)\n");
+
 	return main_return;
 }

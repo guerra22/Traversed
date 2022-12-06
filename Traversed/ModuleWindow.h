@@ -4,55 +4,71 @@
 #include "Module.h"
 #include "External/SDL/include/SDL.h"
 
+#include <string>
+
 class Application;
+
+struct WindowProperties
+{
+public:
+	std::string title;
+	int x, y, w, h;
+	int wMin, hMin;
+	int wMax, hMax;
+	int flags;
+	float ccR, ccG, ccB;
+	float brightness;
+
+	WindowProperties();
+
+	static WindowProperties* Instance();
+
+	static void Delete();
+
+	void ToggleBorderless();
+	void ToggleFullscreen();
+	void ToggleResizable();
+	void ToggleFullscreenDesktop();
+
+	//The window we'll be rendering to
+	SDL_Window* window = nullptr;
+
+	bool fullScreenDesktop = false;
+	bool fullscreen = false;
+	bool resizable = false;
+	bool borderless = false;
+
+private:
+	static WindowProperties* wProps;
+};
 
 class ModuleWindow : public Module
 {
 public:
-
 	ModuleWindow(Application* app, bool start_enabled = true);
 
-	// Destructor
 	virtual ~ModuleWindow();
 
 	bool Init();
 	bool CleanUp();
 
+	UpdateStatus PreUpdate();
+
 	void SetTitle(const char* title);
 
-	void SetResizable(bool resizable);
+	void SaveSettingsData(pugi::xml_node& save) override;
 
-	void SetFullDesktop(bool fullDesktop);
-
-	void SetFullscreen(bool fullscreen);
-
-	void SetWidth(int x);
-
-	void SetHeight(int y);
-
-	void Vsync(bool vsync);
-
-	void SetBrightness(float brightness);
-
-	void SetBorderless(bool borderless);
-
-	bool LoadConfig(JsonParser& node) override;
-	bool SaveConfig(JsonParser& node) const override;
+	void LoadSettingsData(pugi::xml_node& load) override;
 
 public:
-	bool fullscreen = false;
-	bool resizable = false;
-	bool screenBorderless = false;
-	int screenWidth;
-	int screenHeight;
-	bool vsync = false;
-	float screenBrightness;
+	//SDL_Window* GetSDLWindow() { return window; }
+	SDL_Surface* GetSDLSurface() { return screen_surface; }
 
-	//The window we'll be rendering to
-	SDL_Window* window;
-
+private:
 	//The surface contained by the window
-	SDL_Surface* screen_surface;
+	SDL_Surface* screen_surface = nullptr;
+
+	WindowProperties* wProps = nullptr;
 };
 
 #endif // __ModuleWindow_H__

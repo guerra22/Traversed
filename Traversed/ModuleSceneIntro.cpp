@@ -1,10 +1,56 @@
-#include "Application.h"
 #include "ModuleSceneIntro.h"
-#include "ModuleCamera3D.h"
-#include "ModuleRenderer3D.h"
+#include "Application.h"
+
 #include "GameObject.h"
-#include "Primitive.h"
-#include "ModuleUI.h"
+#include "MeshImporter.h"
+#include "TextureImporter.h"
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
+
+#pragma region SceneProperties
+SceneProperties::SceneProperties()
+{
+	root = new GameObject("Scene");
+	root->DeleteComponent(TRANSFORM);
+}
+
+SceneProperties* SceneProperties::Instance()
+{
+	if (instance == nullptr) instance = new SceneProperties();
+
+	return instance;
+}
+
+GameObject* SceneProperties::GetSelectedGO(GameObject* go)
+{
+	GameObject* toReturn = go;
+	if (go == nullptr) toReturn = root;
+
+	if (toReturn->selected) return toReturn;
+	else
+	{
+		GameObject* aux = nullptr;
+		for (int i = 0; i < toReturn->children.size(); ++i)
+		{
+			aux = GetSelectedGO(toReturn->children[i]);
+			if (aux != nullptr && aux->selected) return aux;
+		}
+	}
+
+	return nullptr;
+}
+
+void SceneProperties::Delete()
+{
+	if (instance != nullptr)
+	{
+		RELEASE(instance);
+	}
+}
+
+SceneProperties* SceneProperties::instance = nullptr;
+
+#pragma endregion Scene Properties Singleton Struct
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -12,106 +58,97 @@ ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Modul
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()
-{}
-
-// Load assets
-bool ModuleSceneIntro::Start()
 {
-	LOGGING("Loading Intro assets");
-	bool ret = true;
 
-	//App->camera->LookAt(vec3(0, 0, 0));
-
-	return ret;
 }
 
-// Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleSceneIntro::Init()
 {
-	LOGGING("Unloading Intro scene");
-
-	for (int n = 0; n < primitives.size(); n++)
-	{
-		delete primitives[n];
-	}
-	primitives.clear();
+	sProps = sProps->Instance();
 
 	return true;
 }
 
-// Update
-update_status ModuleSceneIntro::Update(float dt)
+bool ModuleSceneIntro::Start()
 {
-	NormalPlane p(0, 1, 0, 0);
-	p.axis = true;
-	p.Render();
-	
-	if (App->ui->testCube)
+	//Import Example mesh & texture
+	GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
+
+	std::vector<GameObject*> vGO = aux->GetChildrens();
+
+	for (int i = 0; i < vGO.size(); ++i)
 	{
-		Cube c(2, 2, 2);
-	}
-	if (App->ui->testSphere)
-	{
-		SpherePrimitive s(6.0, 6.0, 12);
-	}
-	if (App->ui->testCylinder)
-	{
-		CylinderPrimitive k(6.0, 12.0);
+		vGO[i]->GetComponent<ComponentMaterial>(MATERIAL)->SetTexture
+		(TextureImporter::ImportTexture("Assets/Baker_house.png"));
 	}
 
-	//TODO 3: Nothing to do here. But it's good to know where all primitives are being updated
-	for (uint n = 0; n < primitives.size(); n++)
-	{
-		primitives[n]->Update();
-	}
+	return true;
+}
 
-	for (uint i = 0; i < game_objects.size(); i++)
-	{
-		if (game_objects[i]->IsActive())
-		{
-			game_objects[i]->Update(dt);
-		}
-	}	
-	//App->renderer3D->DrawExampleMesh();
+bool ModuleSceneIntro::CleanUp()
+{
+	RELEASE(sProps->root);
+	sProps->Delete();
+
+	return true;
+}
+
+UpdateStatus ModuleSceneIntro::PreUpdate()
+{
+	InitGameObjects(sProps->root);
 
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleSceneIntro::PostUpdate(float dt)
+UpdateStatus ModuleSceneIntro::Update()
 {
-	//TODO 3: Nothing to do here. But it's good to know where all primitives are being rendered
-	for (uint n = 0; n < primitives.size(); n++)
-	{
-		primitives[n]->Render();
-	}
-	for (uint j = 0; j < game_objects.size(); j++)
-	{
-		game_objects.at(j)->Render();
-	}
+
+	//Update Game Objects
+	UpdateGameObjects(sProps->root);
 
 	return UPDATE_CONTINUE;
 }
 
-GameObject* ModuleSceneIntro::CreateGameObject(const char* name, GameObject* parent)
+UpdateStatus ModuleSceneIntro::PostUpdate()
 {
-	if (parent == nullptr)
-	{
-		std::string gameObjName = name;
 
-		if (!game_objects.empty())
+	return UPDATE_CONTINUE;
+}
+
+void ModuleSceneIntro::InitGameObjects(GameObject* go)
+{
+	go->Init();
+
+	if (go->HasChildren())
+	{
+		for (int i = 0; i < go->children.size(); ++i)
 		{
-			gameObjName += std::to_string(game_objects.size());
+			InitGameObjects(go->children[i]);
 		}
-		GameObject* gameObject = new GameObject(this->App, game_objects.size(), gameObjName, true, false);
-		game_objects.push_back(gameObject);
-		return gameObject;
-	}
-
-	if (parent != nullptr)
-	{
-		GameObject* gameObject = new GameObject(this->App, parent->childs.size(), name, true, false);
-		parent->childs.push_back(gameObject);
-		return gameObject;
-
 	}
 }
+
+void ModuleSceneIntro::UpdateGameObjects(GameObject* go)
+{
+	go->Update();
+
+	if (go->HasChildren())
+	{
+		for (int i = 0; i < go->children.size(); ++i)
+		{
+			UpdateGameObjects(go->children[i]);
+		}
+	}
+}
+
+#pragma region Save/Load Settings
+void ModuleSceneIntro::LoadSettingsData(pugi::xml_node& load)
+{
+
+}
+
+void ModuleSceneIntro::SaveSettingsData(pugi::xml_node& save)
+{
+
+}
+#pragma endregion Save & Load of Settings

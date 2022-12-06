@@ -1,62 +1,85 @@
 #ifndef _GAMEOBJECT_H
 #define _GAMEOBJECT_H
 
-#include "Module.h"
+#include "Globals.h"
+
 #include "Component.h"
+
 #include <vector>
 #include <map>
-#include <string>
+#include <typeinfo>
 
-typedef unsigned int uint;
-class Aplication;
-class Component;
-enum class COMPONENT_TYPES;
+class ComponentMesh;
 
 class GameObject
 {
 public:
+	GameObject(std::string name = "Spatial Node", bool spatial = true);
+	~GameObject();
 
-	GameObject(Application* app, uint id, std::string name, bool isActive, bool isStatic);
+	void Init();
 
-	// Destructor
-	virtual ~GameObject();
+	void Update();
 
-	bool Update(float dt);
-	void Render();
-	bool CleanUp();
-	bool IsActive();
-	void SetActive(bool state);
-	bool IsStatic();
-	void SetStatic(bool state);
-	bool IsSelected();
+	Component* CreateComponent(CO_TYPE type);
+	void DeleteComponent(CO_TYPE type);
 
-	void SelectItem();
+	std::vector<GameObject*> GetChildrens();
 
-	bool AddChild(GameObject* child);
-	bool DeleteChild(GameObject* child);
+	Component* GetComponent(CO_TYPE type);
+	Component* GetComponentInChildren(CO_TYPE type);
 
-	std::string GetName();
-	std::string GetMeshPath();
-	std::string GetTexturePath();
-	void SetName(const char* newName);
-	Component* GetComponent(COMPONENT_TYPES type);
-	Component* CreateComponent(COMPONENT_TYPES type);
+	template <class T>
+	std::vector<T*> GetComponentsInChildrens(CO_TYPE type)
+	{
+		std::vector<T*> toReturn;
+
+		for (int i = 0; i < children.size(); ++i)
+		{
+			T* aux = children[i]->GetComponent<T>(type);
+
+			if (aux != nullptr) toReturn.emplace_back(aux);
+		}
+
+		return toReturn;
+	}
+
+	template <class T>
+	T* GetComponent(CO_TYPE type)
+	{
+		if (components.count(type)) return (T*)components[type];
+		else return nullptr;
+	}
+
+	void AddChildren(GameObject* go);
+	void RemoveChildren(GameObject* go);
+	void SetParent(GameObject* go);
+
+	bool HasChildren() { return (children.size() != 0) ? true : false; }
+
+	void DeleteGameObject();
 
 public:
+	std::string name;
 
-	std::vector<Component*>	components;
-	std::vector<GameObject*>	childs;
+	bool selected;
 
-	GameObject* parent;
+	std::map<CO_TYPE, Component*> components;
 
-	Application* App = nullptr;
+	std::vector<GameObject*> children;
+
+	GameObject* parent = nullptr;
+
 private:
 
-	uint id;
-	std::string name;
-	bool is_active;
-	bool is_static;
-	bool selectedForInspector = false;
+	bool CheckParentsOfParent(GameObject* go, GameObject* checkGO);
+
+	//Operator
+	bool operator==(GameObject& other) const
+	{
+		if (this == &other) return true; //This is the pointer for 
+		else return false;
+	}
 };
 
 #endif

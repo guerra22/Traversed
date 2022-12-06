@@ -53,6 +53,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <cmath>
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 // ---------------------------------------------------------------------------
 template<typename TReal>
 bool aiQuaterniont<TReal>::operator== (const aiQuaterniont& o) const

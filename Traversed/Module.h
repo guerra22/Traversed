@@ -1,18 +1,25 @@
-#pragma once
+#ifndef __MODULE_H__
+#define __MODULE_H__
+
+#include "Globals.h"
+
+#include "External/PugiXml/src/pugixml.hpp"
 
 class Application;
-class JsonParser;
 
 class Module
 {
-public:
-	const char* name;
-
 private :
-	bool enabled;
+	bool enabled = false;;
 
 public:
+	std::string name = "";
+
 	Application* App = nullptr;
+
+	pugi::xml_node config;
+
+	Module();
 
 	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled)
 	{}
@@ -30,17 +37,17 @@ public:
 		return true;
 	}
 	
-	virtual update_status PreUpdate(float dt)
+	virtual UpdateStatus PreUpdate()
 	{
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status Update(float dt)
+	virtual UpdateStatus Update()
 	{
 		return UPDATE_CONTINUE;
 	}
 
-	virtual update_status PostUpdate(float dt)
+	virtual UpdateStatus PostUpdate()
 	{
 		return UPDATE_CONTINUE;
 	}
@@ -50,13 +57,15 @@ public:
 		return true; 
 	}
 
-	virtual bool LoadConfig(JsonParser& node)
+	virtual void SaveSettingsData(pugi::xml_node& save)
 	{
-		return true;
+
 	}
 
-	virtual bool SaveConfig(JsonParser& node) const
+	virtual void LoadSettingsData(pugi::xml_node& load)
 	{
-		return true;
+
 	}
 };
+
+#endif // !__MODULE_H__

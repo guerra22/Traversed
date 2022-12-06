@@ -1,32 +1,39 @@
-#ifndef _ComponentMesh_H
-#define _ComponentMesh_H
+#ifndef _COMPONENTMESH_H
+#define _COMPONENTMESH_H
 
-#include "Module.h"
-#include "GameObject.h"
-#include "ModuleFBXLoader.h"
-#include <string>
+#pragma once
+#include "Component.h"
 
-class GameObject;
-class FBXLoader;
+#include "MeshRenderer.h"
+
+struct CameraProperties;
+
+class Shader;
 
 class ComponentMesh : public Component
 {
 public:
-	ComponentMesh(Application* app, GameObject* owner);
-	~ComponentMesh();
+	ComponentMesh(GameObject* owner);
+	~ComponentMesh() override;
 
-	update_status Update(float dt) override;
-	bool CleanUp() override;
+	void Update() override;
 
-public:
-	ModuleFBXLoader* GetMesh() const;
-	void SetMesh(VertexData mesh);
+	void UpdateGUI() override;
 
-	VertexData GetMesh();
+	void Render(Shader* shader, Shader* debugShader);
 
-	VertexData mesh;
+	MeshRenderer* GetMesh();
+	void SetMesh(MeshRenderer* mesh);
 
-	const char* meshPath;
+private:
+	MeshRenderer* mesh = nullptr;
+
+	CameraProperties* camInstance = nullptr;
+
+	bool displayNormals;
+	bool faceNormals;
+
+	float normalsMagnitude;
 };
 
 

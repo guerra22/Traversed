@@ -1,6 +1,6 @@
 #include "Application.h"
-#include "Module.h"
-#include "ModuleHardware.h"
+
+#include "Loggs.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
@@ -8,23 +8,38 @@
 #include "ModuleUI.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleFileSystem.h"
-#include "ModuleFBXLoader.h"
-#include "ModuleMaterials.h"
 
-#include "Resource.h"
+#pragma region Time
+Time::Time()
+{
+}
+
+Time* Time::Instance()
+{
+	if (G_Time == nullptr) G_Time = new Time();
+	return G_Time;
+}
+
+void Time::Delete()
+{
+	if (G_Time != nullptr)
+	{
+		RELEASE(G_Time);
+	}
+}
+
+Time* Time::G_Time = nullptr;
+#pragma endregion Time Singleton struct
 
 Application::Application()
 {
-	window = new ModuleWindow(this);
-	hardware = new ModuleHardware(this);
-	input = new ModuleInput(this);
-	renderer3D = new ModuleRenderer3D(this);
-	camera = new ModuleCamera3D(this);
-	ui = new ModuleUI(this);
-	sceneintro = new ModuleSceneIntro(this);
-	filesystem = new ModuleFileSystem(this, RESOURCES_FOLDER);
-	loader = new ModuleFBXLoader(this);
-	materials = new ModuleMaterials(this);
+	window = new ModuleWindow(this, true);
+	input = new ModuleInput(this, true);
+	renderer3D = new ModuleRenderer3D(this, true);
+	camera = new ModuleCamera3D(this, true);
+	ui = new ModuleUI(this, true);
+	sceneintro = new ModuleSceneIntro(this, true);
+	filesystem = new ModuleFileSystem(this, true);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -32,144 +47,93 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
-	AddModule(hardware);
 	AddModule(camera);
 	AddModule(input);
-	
+	AddModule(filesystem);
 	// Scenes
-	AddModule(sceneintro);
-	AddModule(loader);
-	AddModule(materials);
 	AddModule(ui);
+	AddModule(sceneintro);
 
 	// Renderer last!
 	AddModule(renderer3D);
 
-
-	frames = 0;
-	last_frame_ms = -1;
-	last_fps = -1;
-	capped_ms = 1000 / 60;
-	fps_counter = 0;
-
-	loadRequest = false;
-	saveRequest = false;
 }
 
 Application::~Application()
 {
-	std::list<Module*>::iterator item = list_modules.begin();
-
-	while (item != list_modules.end())
-	{
-		delete item._Ptr->_Myval;
-		item++;
-	}
-
-	RELEASE(filesystem);
-	list_modules.clear();
+	
 }
 
 bool Application::Init()
 {
 	bool ret = true;
+	G_Time = Time::Instance();
+	Loggs::Instance();
 
-	char* buffer = nullptr;
-	filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
-
-	if (buffer != nullptr)
+	LOG(LOG_TYPE::ENGINE, "-------------- Initializing Modules --------------");
+	// Call Init() in all modules
+	for (int i = 0, count = list_modules.count(); i < count; i++)
 	{
-		JsonParser jsonFile((const char*)buffer);
-		jsonFile.ValueToObject(jsonFile.GetRootValue());
-
-		std::list<Module*>::iterator item;
-
-		RELEASE_ARRAY(buffer);
+		list_modules[i]->Init();
 	}
 
-	std::list<Module*>::iterator item;
-	
-	for (item = list_modules.begin(); item != list_modules.end() && ret; ++item)
+	// After all Init calls we call Start() in all modules
+	LOG(LOG_TYPE::ENGINE, "-------------- Starting Modules --------------");
+
+	for (int i = 0, count = list_modules.count(); i < count; i++)
 	{
-		ret = (*item)->Init();
+		list_modules[i]->Start();
 	}
 
-	std::list<Module*>::iterator item_;
-
-	for (item_ = list_modules.begin(); item_ != list_modules.end() && ret; ++item_)
-	{
-		ret = (*item_)->Start();
-	}
-
+	//Load Editor Configuration
+	LoadEditorConfiguration();
 	return ret;
 }
 
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
+	
 }
 
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	if (loadRequest) LoadConfig();
-	if (saveRequest) SaveConfig();
-
-	// Recap on framecount and fps
-	++frames;
-	++fps_counter;
-
-	if (fps_timer.Read() >= 1000)
-	{
-		last_fps = fps_counter;
-		fps_counter = 0;
-		fps_timer.Start();
-	}
-
-	last_frame_ms = ms_timer.Read();
-
-	// cap fps
-	if (capped_ms > 0 && (last_frame_ms < capped_ms))
-		SDL_Delay(capped_ms - last_frame_ms);
-
-	// notify the editor
-	ui->LogFPS((float)last_fps, (float)last_frame_ms);
+	
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
-update_status Application::Update()
+UpdateStatus Application::Update()
 {
-	update_status ret = UPDATE_CONTINUE;
+	UpdateStatus ret = UPDATE_CONTINUE;
+	if (isStopping) ret = UPDATE_STOP;
 	PrepareUpdate();
-	
-	std::list<Module*>::iterator item = list_modules.begin();
-	
-	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
-	{
-		ret = item._Ptr->_Myval->PreUpdate(dt);
 
-		item++;
+	for (int i = 0, count = list_modules.count(); i < count && ret == UPDATE_CONTINUE; i++)
+	{
+		ret = list_modules[i]->PreUpdate();
 	}
 
-	item = list_modules.begin();
-
-	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	for (int i = 0, count = list_modules.count(); i < count && ret == UPDATE_CONTINUE; i++)
 	{
-		ret = item._Ptr->_Myval->Update(dt);
-
-		item++;
+		ret = list_modules[i]->Update();
 	}
 
-	item = list_modules.begin();
-
-	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	for (int i = 0, count = list_modules.count(); i < count && ret == UPDATE_CONTINUE; i++)
 	{
-		ret = item._Ptr->_Myval->PostUpdate(dt);
-
-		item++;
+		ret = list_modules[i]->PostUpdate();
 	}
+
+	G_Time->deltaTime = timer.getDeltaTime();
+	float frameTime = 1.0f / G_Time->frameCap;
+
+	if (G_Time->deltaTime < frameTime)
+	{
+		float sleepTime = (frameTime - G_Time->deltaTime) * 1000;
+		Sleep(sleepTime);
+	}
+
+	timer.Reset();
 
 	FinishUpdate();
 	return ret;
@@ -178,92 +142,65 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
-	std::list<Module*>::iterator item = list_modules.end();
-	item--;
 
-	while (item != list_modules.begin() && ret == true)
+	for (int i = list_modules.count() - 1; i >= 0 && ret; i--)
 	{
-		ret = item._Ptr->_Myval->CleanUp();
-		item--;
+		ret = list_modules[i]->CleanUp();
 	}
+
+	for (int i = list_modules.count() - 1; i >= 0; i--)
+	{
+		RELEASE(list_modules[i]);
+	}
+
+	//Cleans the global Timer
+	G_Time->Delete();
+
 	return ret;
 }
 
 void Application::AddModule(Module* mod)
 {
-	list_modules.push_back(mod);
+	list_modules.add(mod);
 }
 
-void Application::SaveConfig()
+void Application::LoadEditorConfiguration()
 {
-	LOGGING("Saving configuration");
-	JsonParser jsonFile;
+	pugi::xml_document config;
 
-	// Call Init() in all modules
-	std::list<Module*>::iterator item;
+	pugi::xml_parse_result result = config.load_file(CONFIG_FILENAME);
 
-	for (item = list_modules.begin(); item != list_modules.end(); ++item)
+	//LOG("%s", result.description());
+
+	for (int i = 0, count = list_modules.count(); i < count; i++)
 	{
-		(*item)->SaveConfig(jsonFile.SetChild(jsonFile.GetRootValue(), (*item)->name));
+		pugi::xml_node data = config.child("config").child(list_modules[i]->name.c_str());
+		list_modules[i]->LoadSettingsData(data);
+
 	}
+	//Load fps cap
+	G_Time->frameCap = config.first_child().child("Application").child("FpsCap").attribute("value").as_int();
 
-	char* buf;
-	uint size = jsonFile.Save(&buf);
+}
+void Application::SaveEditorConfiguration()
+{
+	pugi::xml_document config;
 
-	if (filesystem->Save(SETTINGS_FOLDER CONFIG_FILENAME, buf, size) > 0)
+	pugi::xml_parse_result result = config.load_file(CONFIG_FILENAME);
+
+	for (int i = 0, count = list_modules.count(); i < count; i++)
 	{
-		LOGGING("Saved Engine Preferences");
+		pugi::xml_node data = config.first_child().child(list_modules[i]->name.c_str());
+		list_modules[i]->SaveSettingsData(data);
 	}
-
-	RELEASE_ARRAY(buf);
-
-	//jsonFile.SerializeFile(root, CONFIG_FILENAME);
-	saveRequest = false;
+	//Save fps cap
+	config.first_child().child("Application").child("FpsCap").attribute("value") = G_Time->frameCap;
+	config.save_file(CONFIG_FILENAME);
 }
 
-void Application::LoadConfig()
+void Application::StopEngine()
 {
-	LOGGING("Loading configuration");
+	isStopping = true;
 
-	char* buffer = nullptr;
-
-	filesystem->Load(SETTINGS_FOLDER "config.json", &buffer);
-
-	if (buffer != nullptr)
-	{
-		JsonParser jsonFile((const char*)buffer);
-		jsonFile.ValueToObject(jsonFile.GetRootValue());
-
-		std::list<Module*>::iterator item;
-
-		for (item = list_modules.begin(); item != list_modules.end(); ++item)
-		{
-			(*item)->LoadConfig(jsonFile.GetChild(jsonFile.GetRootValue(), (*item)->name));
-		}
-
-		RELEASE_ARRAY(buffer);
-	}
-
-	loadRequest = false;
-}
-
-uint Application::GetFramerateLimit() const
-{
-	if (capped_ms > 0)
-		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
-	else
-		return 0;
-}
-
-void Application::SetFramerateLimit(uint max_framerate)
-{
-	if (max_framerate > 0)
-		capped_ms = 1000 / max_framerate;
-	else
-		capped_ms = 0;
-}
-
-void Application::RequestBrowser(const char* url) const
-{
-	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+	SaveEditorConfiguration();
 }

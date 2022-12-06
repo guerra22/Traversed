@@ -6,19 +6,30 @@
 class PanelAbout : public UiPanel
 {
 public:
-	PanelAbout(Application* app);
+	PanelAbout(bool enabled = false);
 	virtual ~PanelAbout();
 
-	void Draw() override;
+	void Update() override;
+
+public:
+	//About Text
+	void ThirdPartyLibs();
+	void MyLicense();
 
 private:
-	std::string sdlVersion;
-	std::string glewVersion;
-	std::string imGUIVersion;
-	std::string jsonVersion;
-	std::string mathGeoLibVersion;
-	std::string assimpLibVersion;
-	std::string devilLibVersion;
+	//Engine version
+	std::string vEngine;
+
+	//Lib versions
+	std::string vSdl;
+	std::string vImGui;
+	std::string vMathGeoLib;
+	std::string vOpenGl;
+	std::string vGlew;
+	std::string vSimdjson;
+	std::string vAssimp;
+	std::string vPhysfs;
+	std::string vPugiXml;
 };
 
 #endif
