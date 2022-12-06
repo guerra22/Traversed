@@ -13,7 +13,6 @@ struct Texture {
 	uint w, h;
 };
 
-
 struct TextureData
 {
 	TextureData()

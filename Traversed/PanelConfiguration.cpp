@@ -2,7 +2,11 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
 #include "ModuleUI.h"
+
+#include "ComponentCamera.h"
+#include "GameObject.h"
 
 #include "External/Glew/include/glew.h"
 #include <gl/GL.h>
@@ -12,9 +16,12 @@
 
 PanelConfiguration::PanelConfiguration(bool enabled) : UiPanel(enabled)
 {
+	name = "Configuration";
+
 	wProps = WindowProperties::Instance();
 	rProps = RenderProperties::Instance();
 	eProps = EditorProperties::Instance();
+	cProps = CameraProperties::Instance();
 	time = Time::Instance();
 
 	//GetCaps();
@@ -61,6 +68,7 @@ void PanelConfiguration::Update()
 		if (ImGui::CollapsingHeader("Window")) WindowHeader();
 		if (ImGui::CollapsingHeader("Input")) InputHeader();
 		if (ImGui::CollapsingHeader("Rendering")) RenderingHeader();
+		if (ImGui::CollapsingHeader("Game")) GameHeader();
 		if (ImGui::CollapsingHeader("Editor")) EditorHeader();
 	}
 	ImGui::End();
@@ -226,6 +234,44 @@ void PanelConfiguration::EditorHeader()
 		LOG(LOG_TYPE::ENGINE, "Classic mode 'ON'");
 	}
 }
+
+void PanelConfiguration::GameHeader()
+{
+	if (cProps->gameCameras.size() == 0)
+	{
+		ImGui::Text("There are no game objects with a Camera component.");
+	}
+	else
+	{
+		std::string aux = cProps->gameCameras.at(cProps->mainCameraId)->owner->name;
+		aux += "##";
+		aux += cProps->mainCameraId;
+
+		std::string auxLabel = "Cameras: ";
+		auxLabel += std::to_string(cProps->gameCameras.size());
+
+		if (ImGui::BeginCombo(auxLabel.c_str(), aux.c_str()))
+		{
+			for (int i = 0; i < cProps->gameCameras.size(); ++i)
+			{
+				aux = cProps->gameCameras.at(i)->owner->name;
+				aux += "##";
+				aux += cProps->mainCameraId;
+
+				if (ImGui::Selectable(aux.c_str()))
+				{	//Sets new game camera
+					cProps->gameCameras.at(cProps->mainCameraId)->isMainCamera = false;
+
+					cProps->mainCameraId = i;
+					cProps->gameCameras.at(i)->isMainCamera = true;
+				}
+			}
+
+			ImGui::EndCombo();
+		}
+	}
+}
+
 #pragma endregion Configuration methods
 
 void PanelConfiguration::GetCaps()

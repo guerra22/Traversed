@@ -12,12 +12,13 @@
 class FrameBuffer;
 class ComponentMesh;
 class Shader;
+class Camera;
 
 class Renderer
 {
 public:
 	Renderer() {};
-	Renderer(float2 size);
+	Renderer(float2 size, Camera* camera);
 	~Renderer();
 
 	void Init();
@@ -40,6 +41,7 @@ private:
 	//std::vector<MeshRenderer*> meshes;
 	std::queue<ComponentMesh*> meshes;
 private:
+	Camera* owner;
 	FrameBuffer* frameBuffer = nullptr;
 
 	Shader* baseShader = nullptr;

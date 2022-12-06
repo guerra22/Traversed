@@ -3,7 +3,9 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include "Camera.h"
+#include "ComponentCamera.h"
+
+#include <vector>
 
 struct CameraProperties
 {
@@ -11,6 +13,9 @@ public:
 
 	Camera editorCamera;
 	bool isMouseOnScene = false;
+
+	std::vector<ComponentCamera*> gameCameras;
+	int mainCameraId;
 
 	CameraProperties();
 

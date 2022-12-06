@@ -31,14 +31,11 @@ void ComponentTransform::Update()
 
 void ComponentTransform::UpdateGUI()
 {
-	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_Leaf))
-	{
-		ImGui::Checkbox("Active##Transform", &active);
+	ImGui::NewLine();
 
-		ImGui::DragFloat3("Position", &position[0], 0.25f, 0.0f, 0.0f, "%.2f", ImGuiSliderFlags_NoInput);
-		ImGui::DragFloat3("Rotation", &rotation[0]);
-		ImGui::DragFloat3("Scale", &localScale[0], 0.25f, 0.0f, 0.0f, "%.2f");
-	}
+	ImGui::DragFloat3("Position", &position[0], 0.25f, 0.0f, 0.0f, "%.2f", ImGuiSliderFlags_NoInput);
+	ImGui::DragFloat3("Rotation", &rotation[0]);
+	ImGui::DragFloat3("Scale", &localScale[0], 0.25f, 0.0f, 0.0f, "%.2f");
 }
 
 float4x4 ComponentTransform::GetWorldMatrix()

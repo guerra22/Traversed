@@ -5,6 +5,8 @@
 
 #include "Camera.h"
 
+class CameraProperties;
+
 class ComponentCamera : public Component
 {
 public:
@@ -14,8 +16,15 @@ public:
 	void Init() override;
 	void Update() override;
 
-private:
+	void UpdateGUI() override;
+
+public:
 	Camera camera;
+
+	bool isMainCamera;
+
+private:
+	CameraProperties* camInstance = nullptr;
 };
 
 #endif

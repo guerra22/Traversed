@@ -8,6 +8,7 @@
 PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 {
 	name = "Scene";
+	segmentSize = { 0, 0 };
 
 	camInstance = CameraProperties::Instance();
 }
@@ -21,7 +22,8 @@ PanelScene::~PanelScene()
 void PanelScene::Start()
 {
 	//renInstance->render = new Renderer({ segmentSize.x, segmentSize.y });
-	camInstance->editorCamera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
+	//camInstance->editorCamera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
+	camInstance->editorCamera.SetRenderer({ segmentSize.x, segmentSize.y });
 }
 
 void PanelScene::Update()
@@ -46,7 +48,8 @@ void PanelScene::Update()
 			
 			if (camInstance->editorCamera.renderer == nullptr)
 			{
-				camInstance->editorCamera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
+				camInstance->editorCamera.SetRenderer({ segmentSize.x, segmentSize.y });
+				//camInstance->editorCamera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
 			}
 			else camInstance->editorCamera.renderer->Resize({ segmentSize.x, segmentSize.y });
 		}
@@ -61,5 +64,6 @@ void PanelScene::RenderSpace()
 	float aux = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
 
 	ImGui::SetCursorPosY(aux);
-	ImGui::Image((ImTextureID)camInstance->editorCamera.renderer->GetFrameBufffer()->GetTextureBuffer(), segmentSize, ImVec2(0, 1), ImVec2(1, 0));
+	ImTextureID texID = (ImTextureID)camInstance->editorCamera.renderer->GetFrameBufffer()->GetTextureBuffer();
+	ImGui::Image(texID, segmentSize, ImVec2(0, 1), ImVec2(1, 0));
 }

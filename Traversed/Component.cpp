@@ -6,6 +6,7 @@ Component::Component(GameObject* owner)
 	this->owner = owner;
 	active = true;
 	type = CO_TYPE::NONE;
+	deleteQueue = false;
 }
 
 Component::~Component()

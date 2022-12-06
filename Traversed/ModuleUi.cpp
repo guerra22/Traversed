@@ -10,6 +10,7 @@
 #include "PanelConfiguration.h"
 #include "PanelConsole.h"
 #include "PanelScene.h"
+#include "PanelGame.h"
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
 
@@ -41,9 +42,9 @@ void EditorProperties::Delete()
 void EditorProperties::SwitchColorMode() {
 	switch (colorMode)
 	{
-	case COLORMODE::LightMode: ImGui::StyleColorsLight(); break;
-	case COLORMODE::DarkMode: ImGui::StyleColorsDark(); break;
-	case COLORMODE::ClassicMode: ImGui::StyleColorsClassic(); break;
+	    case COLORMODE::LightMode: ImGui::StyleColorsLight(); break;
+	    case COLORMODE::DarkMode: ImGui::StyleColorsDark(); break;
+	    case COLORMODE::ClassicMode: ImGui::StyleColorsClassic(); break;
 	}
 }
 
@@ -91,10 +92,12 @@ bool ModuleUI::Start()
 	//Create Panels
 	panels.emplace_back(new PanelConsole());
 	panels.emplace_back(new PanelConfiguration());
-	panels.emplace_back(new PanelAbout());
 	panels.emplace_back(new PanelScene());
+	panels.emplace_back(new PanelGame());
 	panels.emplace_back(new PanelHierarchy());
 	panels.emplace_back(new PanelInspector());
+
+	panels.emplace_back(new PanelAbout());
 
 	//START
 	for (int i = 0; i < panels.size(); ++i)
@@ -126,9 +129,16 @@ bool ModuleUI::CleanUp()
 	return true;
 }
 
-UpdateStatus ModuleUI::PostUpdate()
+UpdateStatus ModuleUI::Update()
 {
 	DrawEditorGui();
+
+	return UPDATE_CONTINUE;
+}
+
+UpdateStatus ModuleUI::PostUpdate()
+{
+	//DrawEditorGui();
 
 	return UPDATE_CONTINUE;
 }
@@ -180,7 +190,7 @@ void ModuleUI::MainMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Exit", "ALT+F4"))
+			if (ImGui::MenuItem("Exit"))
 			{
 				App->StopEngine();
 			}

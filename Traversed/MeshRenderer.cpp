@@ -69,7 +69,7 @@ MeshRenderer::~MeshRenderer()
 	CleanNormals();
 }
 
-void MeshRenderer::Draw(Shader* shader, Texture text, float4x4 model)
+void MeshRenderer::Draw(Shader* shader, Camera* camera, Texture text, float4x4 model)
 {
 	if (this->shader == nullptr) this->shader = shader;
 
@@ -86,8 +86,8 @@ void MeshRenderer::Draw(Shader* shader, Texture text, float4x4 model)
 			shader->SetInt("texture_albedo", 0);
 		}
 
-		this->shader->SetMat4("projection", CameraProperties::Instance()->editorCamera.GetProjectionMatrix());
-		this->shader->SetMat4("view", CameraProperties::Instance()->editorCamera.GetViewMatrix());
+		this->shader->SetMat4("projection", camera->GetProjectionMatrix());
+		this->shader->SetMat4("view", camera->GetViewMatrix());
 		this->shader->SetMat4("model", &model.v[0][0]);
 
 		//Light
@@ -103,12 +103,12 @@ void MeshRenderer::Draw(Shader* shader, Texture text, float4x4 model)
 	}
 }
 
-void MeshRenderer::DrawNormals(Shader* shader, float4x4 model, bool faceNormals)
+void MeshRenderer::DrawNormals(Shader* shader, Camera* camera, float4x4 model, bool faceNormals)
 {
 	if (this->debugShader == nullptr) this->debugShader = shader;
 	debugShader->Use();
-	debugShader->SetMat4("projection", CameraProperties::Instance()->editorCamera.GetProjectionMatrix());
-	debugShader->SetMat4("view", CameraProperties::Instance()->editorCamera.GetViewMatrix());
+	debugShader->SetMat4("projection", camera->GetProjectionMatrix());
+	debugShader->SetMat4("view", camera->GetViewMatrix());
 	debugShader->SetMat4("model", &model.v[0][0]);
 	if (!faceNormals)
 	{
@@ -127,13 +127,16 @@ void MeshRenderer::CreateNormals(float magnitude)
 {
 	//VERETX NORMALS
 	vNormals.reserve(mesh.vertices.size() * 2);
+
 	VNVAO = 0;
 	VNVBO = 0;
+
 	for (int i = 0; i < mesh.vertices.size(); ++i)
 	{
 		vNormals.emplace_back(mesh.vertices[i].position);
 		vNormals.emplace_back(mesh.vertices[i].position + mesh.vertices[i].normal * magnitude);
 	}
+
 	//Buffer generation
 	glGenVertexArrays(1, &VNVAO);
 	glGenBuffers(1, &VNVBO);

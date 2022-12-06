@@ -384,6 +384,12 @@
     <ClInclude Include="External\GPUDetect\dxgi1_4.h">
       <Filter>Sources\External\GPUDetect</Filter>
     </ClInclude>
+    <ClInclude Include="PanelGame.h">
+      <Filter>Sources\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="External\Imgui\misc\cpp\imgui_stdlib.h">
+      <Filter>Sources\External\Imgui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -613,6 +619,12 @@
     </ClCompile>
     <ClCompile Include="External\GPUDetect\DeviceId.cpp">
       <Filter>Sources\External\GPUDetect</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelGame.cpp">
+      <Filter>Sources\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="External\Imgui\misc\cpp\imgui_stdlib.cpp">
+      <Filter>Sources\External\Imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

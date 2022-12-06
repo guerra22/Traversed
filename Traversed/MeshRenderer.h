@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Mesh.h"
 #include "TextureImporter.h"
 
 #include "External/Glew/include/glew.h"
@@ -13,6 +12,7 @@
 typedef unsigned int uint;
 
 class Shader;
+class Camera;
 
 struct Vertex {
 	Vertex(float3 position, float3 normal, float2 texCoord)
@@ -44,7 +44,8 @@ public:
 	MeshRenderer(Meshe meshData);
 	~MeshRenderer();
 
-	void Draw(Shader* shader, Texture text, float4x4 model = float4x4::identity);
+	void Draw(Shader* shader, Camera* camera, Texture text, float4x4 model = float4x4::identity);
+	void DrawNormals(Shader* shader, Camera* camera, float4x4 model, bool faceNormals = false);
 
 	void SetShader(Shader* shader);
 	void SetDebugShader(Shader* shader);
@@ -54,8 +55,6 @@ public:
 	void SetPosition(float3 newPos);
 	void SetRotation(float3 newRot);
 	void SetSize(float3 newSize);
-
-	void DrawNormals(Shader* shader, float4x4 model, bool faceNormals = false);
 
 	void CreateNormals(float magnitude = 0.25f);
 	void CleanNormals();

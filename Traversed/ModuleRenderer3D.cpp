@@ -2,6 +2,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
 #include "Renderer.h"
 
 #include "External/Glew/include/glew.h"
@@ -195,6 +196,10 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 {
 	//Meshes
 	cProps->editorCamera.renderer->Render();
+
+	if (cProps->gameCameras.size() != 0)
+		if (cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer != nullptr)
+			cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer->Render();
 
 	//Swap Buffer
 	SDL_GL_SwapWindow(wProps->window);

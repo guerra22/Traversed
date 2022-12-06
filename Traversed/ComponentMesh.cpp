@@ -15,6 +15,9 @@ ComponentMesh::ComponentMesh(GameObject* owner) : Component(owner)
 	this->type = CO_TYPE::MESH;
 
 	camInstance = CameraProperties::Instance();
+
+	displayNormals = false;
+	normalsMagnitude = 0.25f;
 }
 
 ComponentMesh::~ComponentMesh()
@@ -30,27 +33,37 @@ void ComponentMesh::Update()
 	if (mesh == nullptr) return;
 
 	camInstance->editorCamera.renderer->QueueMesh(this);
+
+	if (camInstance->gameCameras.size() != 0)
+	{
+		if (camInstance->gameCameras.at(camInstance->mainCameraId)->camera.renderer != nullptr)
+			camInstance->gameCameras.at(camInstance->mainCameraId)->camera.renderer->QueueMesh(this);
+	}
 }
 
 void ComponentMesh::UpdateGUI()
 {
-	if (ImGui::CollapsingHeader("Mesh Renderer", ImGuiTreeNodeFlags_Leaf))
+	ImGui::NewLine();
+	ImGui::Checkbox("Display Normals", &displayNormals);
+
+	if (displayNormals)
 	{
-		ImGui::Checkbox("Active##MeshRenderer", &this->active);
-
-		ImGui::SameLine();
-		ImGui::Checkbox("Display Normals", &displayNormals);
-
-		if (displayNormals)
+		ImGui::Checkbox("Face Normals ", &faceNormals);
+		if (ImGui::SliderFloat("Line Magnitude", &normalsMagnitude, 0.1f, 1.0f, "%.2f"))
 		{
-			ImGui::Checkbox("Face Normals ", &faceNormals);
-			if (ImGui::SliderFloat("Line Magnitude", &normalsMagnitude, 0.1f, 1.0f, "%.2f"))
-			{
-				mesh->CleanNormals();
-				mesh->CreateNormals(normalsMagnitude);
-			}
+			mesh->CleanNormals();
+			mesh->CreateNormals(normalsMagnitude);
 		}
+	}
 
+	ImGui::NewLine();
+
+	if (mesh == nullptr)
+	{
+		ImGui::Text("No mesh loaded!");
+	}
+	else
+	{
 		//Vertex
 		std::string txt = "Vertices: ";
 		txt += std::to_string(mesh->mesh.vertices.size());
@@ -66,17 +79,23 @@ void ComponentMesh::UpdateGUI()
 	}
 }
 
-void ComponentMesh::Render(Shader* shader, Shader* debugShader)
+void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera)
 {
 	if (!active) return;
-	mesh->Draw(shader,
-		owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
-		owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
-	if (displayNormals)
-		mesh->DrawNormals(
-			debugShader,
-			owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(),
-			faceNormals);
+
+	if (owner->GetComponent<ComponentMaterial>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
+	{
+		mesh->Draw(shader,
+			camera,
+			owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
+			owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
+		if (displayNormals)
+			mesh->DrawNormals(
+				debugShader,
+				camera,
+				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(),
+				faceNormals);
+	}
 }
 
 MeshRenderer* ComponentMesh::GetMesh()

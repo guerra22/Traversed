@@ -20,8 +20,7 @@ private:
 	void RenderSpace();
 
 private:
-	ImVec2 segmentSize = { 0, 0 };
-	//Renderer* renderer = nullptr;
+	ImVec2 segmentSize;
 
 	CameraProperties* camInstance = nullptr;
 };

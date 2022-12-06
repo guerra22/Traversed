@@ -10,8 +10,21 @@ enum CO_TYPE
 	NONE,
 	TRANSFORM,
 	MESH,
-	MATERIAL
+	MATERIAL,
+	CAMERA,
+	LAST
 };
+
+inline const char* CompTypeToString(CO_TYPE type)
+{
+	switch (type)
+	{
+	case TRANSFORM:   return "Transform";
+	case MESH:   return "Mesh";
+	case MATERIAL: return "Material";
+	case CAMERA: return "Camera";
+	}
+}
 
 class GameObject;
 
@@ -32,6 +45,7 @@ public:
 public:
 	CO_TYPE type;
 	bool active;
+	bool deleteQueue;
 
 	GameObject* owner = nullptr;
 };

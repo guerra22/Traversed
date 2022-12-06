@@ -94,6 +94,7 @@
     <ClInclude Include="DevIL.h" />
     <ClInclude Include="External\GPUDetect\DeviceId.h" />
     <ClInclude Include="External\GPUDetect\dxgi1_4.h" />
+    <ClInclude Include="External\Imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="External\MathGeo\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="External\MathGeo\include\Geometry\AABB.h" />
     <ClInclude Include="External\MathGeo\include\Geometry\AABB2D.h" />
@@ -188,6 +189,7 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="PanelConfiguration.h" />
     <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="PanelGame.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="PanelScene.h" />
@@ -208,6 +210,7 @@
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="External\GPUDetect\DeviceId.cpp" />
+    <ClCompile Include="External\Imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="External\MathGeo\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="External\MathGeo\include\Geometry\AABB.cpp" />
     <ClCompile Include="External\MathGeo\include\Geometry\Capsule.cpp" />
@@ -269,6 +272,7 @@
     <ClCompile Include="ModuleWindow.cpp" />
     <ClCompile Include="PanelConfiguration.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="PanelGame.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="PanelScene.cpp" />

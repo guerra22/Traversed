@@ -1,12 +1,13 @@
 #include "Renderer.h"
-#include "FrameBuffer.h"
 #include "ComponentMesh.h"
 #include "Shader.h"
+#include "FrameBuffer.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
 
-Renderer::Renderer(float2 size)
+Renderer::Renderer(float2 size, Camera* camera)
 {
+	owner = camera;
 	frameBuffer = new FrameBuffer();
 	Resize(size);
 
@@ -53,11 +54,6 @@ void Renderer::Resize(float2 size)
 
 #pragma endregion Renderer Update Phaces
 
-void Renderer::QueueMesh(ComponentMesh* mesh)
-{
-	meshes.emplace(mesh);
-}
-
 void Renderer::PreUpdate()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->GetFrameBuffer());
@@ -73,7 +69,10 @@ void Renderer::Update()
 {
 	while (meshes.size())
 	{
-		meshes.front()->Render(baseShader, debugShader);
+		if (meshes.front() != nullptr)
+		{
+			meshes.front()->Render(baseShader, debugShader, owner);
+		}
 		meshes.pop();
 	}
 }
@@ -84,3 +83,8 @@ void Renderer::PostUpdate()
 	//glDisableClientState(GL_VERTEX_ARRAY);
 }
 #pragma endregion Renderer Update Phaces
+
+void Renderer::QueueMesh(ComponentMesh* mesh)
+{
+	meshes.emplace(mesh);
+}

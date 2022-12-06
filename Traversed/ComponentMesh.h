@@ -9,6 +9,7 @@
 struct CameraProperties;
 
 class Shader;
+class Camera;
 
 class ComponentMesh : public Component
 {
@@ -20,7 +21,7 @@ public:
 
 	void UpdateGUI() override;
 
-	void Render(Shader* shader, Shader* debugShader);
+	void Render(Shader* shader, Shader* debugShader, Camera* camera);
 
 	MeshRenderer* GetMesh();
 	void SetMesh(MeshRenderer* mesh);
