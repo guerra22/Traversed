@@ -47,9 +47,9 @@ Application::Application()
 
 	// Main Modules
 	AddModule(window);
-	AddModule(camera);
 	AddModule(input);
 	AddModule(filesystem);
+	AddModule(camera);
 	// Scenes
 	AddModule(ui);
 	AddModule(sceneintro);

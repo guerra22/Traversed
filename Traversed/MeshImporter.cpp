@@ -10,7 +10,7 @@
 #include "External/Assimp/include/assimp/scene.h"
 #include "External/Assimp/include/assimp/postprocess.h"
 
-#pragma comment (lib, "lib/Assimp/lib/assimp.lib")
+#pragma comment (lib, "assimp.lib")
 
 MeshImporter::MeshImporter()
 {

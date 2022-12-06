@@ -117,8 +117,9 @@ UpdateStatus ModuleInput::PreUpdate()
 
 		case SDL_WINDOWEVENT:
 		    if (e.window.event == SDL_WINDOWEVENT_RESIZED)
-			App->renderer3D->OnResize(e.window.data1, e.window.data2);
+			   App->renderer3D->OnResize(e.window.data1, e.window.data2);
 			break;
+
 		case SDL_DROPFILE:
 			App->filesystem->DragAndDrop(e.drop.file);
 			SDL_free(e.drop.file);    // Free dropped_filedir memory
