@@ -11,6 +11,8 @@
 #include "External/ImGui/imgui_impl_opengl3.h"
 
 #include "MeshImporter.h"
+#include "ModuleResources.h"
+#include "ResourceModel.h"
 
 ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
@@ -26,10 +28,10 @@ ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(ow
 
 ComponentMesh::~ComponentMesh()
 {
-	if (mesh != nullptr)
+	/*if (mesh != nullptr)
 	{
 		RELEASE(mesh);
-	}
+	}*/
 }
 
 void ComponentMesh::Update()
@@ -128,7 +130,8 @@ nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
 {
 	if (mesh != nullptr)
 	{
-		data.SetString("Path", mesh->mesh.path);
+		data.SetString("Mesh Uuid", mesh->uuid);
+		data.SetString("Model Uuid", mesh->modelUuid);
 	}
 	data.SetInt("Normals", (int)normals);
 	data.SetFloat("Normals_Magnitude", normalsMagnitude);
@@ -138,8 +141,11 @@ nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
 
 void ComponentMesh::LoadUnique(nlohmann::JsonData data)
 {
-	std::string meshToLoad(data.GetString("Path"));
-	mesh = new MeshRenderer(MeshImporter::LoadMesh(meshToLoad));
+	std::string meshToLoad(data.GetString("Mesh Uuid"));
+	std::string modelToLoad(data.GetString("Model Uuid"));
+
+	ResourceModel* model = (ResourceModel*)ResourceProperties::Instance()->resources[modelToLoad];
+	mesh = MeshImporter::ImportMeshFromLibrary(model, meshToLoad);
 
 	normals = (Debug_Normals)data.GetInt("Normals");
 	SetNormalsString();

@@ -4,7 +4,7 @@
 #include "ComponentTransform.h"
 #include "ModuleSceneintro.h"
 #include "LibraryManager.h"
-#include "ResourceMesh.h"
+#include "ResourceModel.h"
 #include "TEUUID.h"
 
 #include "External/Assimp/include/assimp/cimport.h"
@@ -75,7 +75,85 @@ GameObject* MeshImporter::ImportMesh(std::string filePath, GameObject* parent, b
 	return toReturn;
 }
 			
-void MeshImporter::ImportToLibrary(ResourceMesh* resource)
+MeshRenderer* MeshImporter::ImportMeshFromLibrary(ResourceModel* model, std::string meshUuid)
+{
+	MeshRenderer* toReturn = nullptr;
+	SubMeshResource* subMesh = model->meshRendererMap->at(meshUuid);
+	if (subMesh != nullptr)
+	{
+		subMesh->referenceCount++;
+
+		//Id the MeshRenderer == nullptr means that the model is not loaded
+		if (subMesh->meshRenderer == nullptr)
+		{
+			subMesh->meshRenderer = new MeshRenderer(MeshImporter::LoadMesh(subMesh->libPath));
+			LOG(LOG_TYPE::ATTENTION, "Loading new mesh to memory.");
+		}
+		else LOG(LOG_TYPE::SUCCESS, "This mesh is already loaded. Current copies: %i", subMesh->referenceCount);
+
+
+		toReturn = subMesh->meshRenderer;
+
+	}
+
+	return toReturn;
+}
+
+GameObject* MeshImporter::ImportFromLibrary(ResourceModel* resource)
+{
+	GameObject* toReturn = new GameObject("MODEL IMPORT", false);
+	nlohmann::JsonData data;
+
+	try
+	{
+		char* buffer = nullptr;
+
+		uint size = LibraryManager::Load(resource->GetLibraryFile(), &buffer);
+		data.data = nlohmann::ordered_json::parse(buffer, buffer + size);
+		RELEASE(buffer);
+	}
+	catch (nlohmann::json::parse_error& ex)
+	{
+		LOG(LOG_TYPE::ERRO, "Error: Model parse at byte %i: %s", ex.byte, ex.what());
+		return nullptr;
+	}
+
+
+	//Load model root
+	std::map<std::string, GameObject*> modelMap;
+	std::vector<nlohmann::ordered_json> aux;
+
+	nlohmann::JsonData rootData;
+	aux = data.GetJsonVector("Model");
+
+	rootData.data = aux.at(0);
+	toReturn->Load(rootData);
+
+	//Load all other GO
+	for (int i = 1; i < aux.size(); ++i)
+	{
+		nlohmann::JsonData goData;
+		goData.data = aux.at(i);
+
+		std::string parentUUID(goData.GetString("Parent_UUID"));
+
+		GameObject* go = new GameObject("", false);
+		go->Load(goData);
+
+		if (modelMap.count(parentUUID) == 1)
+		{
+			modelMap[parentUUID]->AddChildren(go);
+		}
+		else toReturn->AddChildren(go);
+
+
+		modelMap.insert({ go->uuid, go });
+	}
+
+	return toReturn;
+}
+
+void MeshImporter::ImportToLibrary(ResourceModel* resource)
 {
 	GameObject* parent = nullptr;
 	const aiScene* scene = aiImportFile(resource->GetAssetsFile().c_str(), aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_ValidateDataStructure | aiProcess_FindInstances);
@@ -88,7 +166,7 @@ void MeshImporter::ImportToLibrary(ResourceMesh* resource)
 
 		node = scene->mRootNode;
 
-		parent = GenerateGameObjects(node, scene);
+		parent = GenerateGameObjects(node, scene, nullptr, resource);
 	}
 	if (parent != nullptr)
 	{
@@ -102,15 +180,19 @@ void MeshImporter::ImportToLibrary(ResourceMesh* resource)
 		std::string savePath = LIB_MODELS;
 		savePath += "/";
 		savePath += TE_UUID::Generate();
+		savePath += ".mdl";
 
 		LibraryManager::SaveJSON(savePath, data.data.dump(4));
 		resource->SetLibraryFile(savePath);
 	}
 
+	//Unloads anything that has been loaded for Library import reasons.
+	resource->CleanMeshRendererMap();
+
 	RELEASE(parent);
 }
 
-GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene, GameObject* parent, std::string* path)
+GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene, GameObject* parent, ResourceModel* resource)
 {
 	bool parentNoMesh = false;
 	//if(parent == nullptr && scene->mNumMeshes > 1) parent = new GameObject(scene->mRootNode->mName.C_Str());
@@ -145,25 +227,32 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 			Meshe mesh;
 
 			//Checks if the mesh already exists in the engine's CFF
-			if (path != nullptr && LibraryManager::Exists(*path))
-			{
-				//Custom File Load
-				mesh = LoadMesh(*path);
-			}
-			else
-			{
-				std::string aux = LIB_MESHES;
-				aux += "/";
-				aux += TE_UUID::Generate();
-				aux += ".mh";
+			std::string uuid = TE_UUID::Generate();
+			std::string aux = LIB_MESHES;
+			aux += "/";
+			aux += uuid;
+			aux += ".mh";
 
-				mesh = GenerateMesh(aimesh);
-				SaveMesh(mesh, aux);
-				mesh.path = aux;
-			}
+			mesh = GenerateMesh(aimesh);
+			SaveMesh(mesh, aux);
+			mesh.path = aux;
 
 			MeshRenderer* meshRenderer = new MeshRenderer(mesh);
 			meshGo->GetComponent<ComponentMesh>(MESH)->SetMesh(meshRenderer);
+
+			meshRenderer->uuid = uuid;
+			meshRenderer->modelUuid = resource->GetUUID();
+
+			//Store mesh in ModelResource
+			if (resource != nullptr) {
+				SubMeshResource* subRes = new SubMeshResource();
+				subRes->libPath = aux;
+				subRes->referenceCount++;
+				subRes->meshRenderer = meshRenderer;
+				//resource->meshRendererMap->emplace(uuid, meshRenderer);
+				resource->meshRendererMap->emplace(uuid, subRes);
+				//resource->meshCCF->emplace(uuid, aux);
+			}
 
 			if (node->mNumMeshes != 1) go->AddChildren(meshGo);
 		}
@@ -174,7 +263,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	{
 		for (uint k = 0; k < node->mNumChildren; ++k)
 		{
-			GenerateGameObjects(node->mChildren[k], scene, go);
+			GenerateGameObjects(node->mChildren[k], scene, go, resource);
 		}
 	}
 

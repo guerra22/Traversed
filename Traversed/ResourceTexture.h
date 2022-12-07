@@ -1,6 +1,7 @@
 #pragma once
 #include "Resource.h"
 
+struct TextureData;
 enum class TEXTURE_FORMAT
 {
 	COLOR_INDEX,
@@ -20,22 +21,13 @@ public:
 
 	nlohmann::JsonData SaveUnique(nlohmann::JsonData data) override;
 
-	bool ImportToLibrary() override;
+	void CleanInstance() override;
+	/*bool IsLoadedToMemory() override;
+	bool LoadToMemory();*/
 
 	/*void Save(std::string& path) const override;
 	void Load(const std::string& load) override;*/
 
 public:
-	uint width;
-	uint height;
-
-	uint depth;
-	uint mips;
-
-	uint bytes;
-
-	uint gpu_id;
-
-	TEXTURE_FORMAT format;
-
+	TextureData* texture = nullptr;
 };
