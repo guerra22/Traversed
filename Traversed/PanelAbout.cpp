@@ -7,9 +7,9 @@
 
 #include "External/Glew/include/glew.h"
 #include "External/Assimp/include/assimp/version.h"
+#include "External/Nlohmann/json.hpp"
 #include "External/PhysFS/include/physfs.h"
 #include "External/PugiXml/src/pugixml.hpp"
-//#include "Simdjson/simdjson.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -36,8 +36,8 @@ PanelAbout::PanelAbout(bool enabled) : UiPanel(enabled)
 	vGlew += (const char*)glewGetString(GLEW_VERSION);
 	vOpenGl = "OpenGl ";
 	vOpenGl += (const char*)glGetString(GL_VERSION);
-	vSimdjson = "Simdjson ";
-	//vSimdjson += std::to_string(simdjson::SIMDJSON_VERSION_MAJOR) + "." + std::to_string(simdjson::SIMDJSON_VERSION_MINOR) + "." + std::to_string(simdjson::SIMDJSON_VERSION_REVISION);
+	vNlohmann = "Nlohmann ";
+	vNlohmann += "NOT YET";
 	vAssimp = "Assimp " + std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision());
 	vPhysfs = "PhysFS " + std::to_string(versionPhys.major) + "." + std::to_string(versionPhys.minor) + "." + std::to_string(versionPhys.patch);
 
@@ -95,11 +95,11 @@ void PanelAbout::ThirdPartyLibs()
 	ImGui::BulletText("");
 	ImGui::TextURL(vOpenGl.c_str(), "https://www.opengl.org", 1, 0);
 
-	/*ImGui::BulletText("");
-	ImGui::TextURL(vSimdjson.c_str(), "https://github.com/Tencent/rapidjson", 1, 0);*/
-
 	ImGui::BulletText("");
 	ImGui::TextURL(vMathGeoLib.c_str(), "https://github.com/juj/MathGeoLib", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vNlohmann.c_str(), "https://github.com/nlohmann/json", 1, 0);
 
 	ImGui::BulletText("");
 	ImGui::TextURL(vAssimp.c_str(), "https://github.com/assimp/assimp", 1, 0);

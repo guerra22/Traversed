@@ -81,3 +81,21 @@ Texture ComponentMaterial::GetTexture()
 	else if (this->texture.w == 0 && this->texture.h == 0) return this->checkersTexture;
 	else return this->texture;
 }
+
+#pragma region Save/Load
+nlohmann::ordered_json ComponentMaterial::SaveUnique(nlohmann::JsonData data)
+{
+
+	data.SetString("Path", texture.path);
+	data.SetBool("Checkers", isCheckers);
+
+
+	return data.data;
+}
+
+void ComponentMaterial::Load(nlohmann::json data)
+{
+
+}
+
+#pragma endregion Save & Load

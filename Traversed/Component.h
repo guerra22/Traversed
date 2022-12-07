@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include <string> 
+#include "JsonUtils.h"
 
 enum CO_TYPE
 {
@@ -41,6 +41,12 @@ public:
 
 	void Enable();
 	void Disable();
+
+	nlohmann::ordered_json Save();
+	virtual void Load(nlohmann::json data);
+
+protected:
+	virtual nlohmann::ordered_json SaveUnique(nlohmann::JsonData data);
 
 public:
 	std::string uuid;

@@ -1,5 +1,6 @@
 #include "ModuleSceneIntro.h"
 #include "Application.h"
+#include "LibraryManager.h"
 
 #include "GameObject.h"
 #include "MeshImporter.h"
@@ -142,6 +143,30 @@ void ModuleSceneIntro::UpdateGameObjects(GameObject* go)
 }
 
 #pragma region Save/Load Settings
+void SaveGameObjects(GameObject* go, std::vector<nlohmann::ordered_json>& goPool)
+{
+	goPool.push_back(go->Save());
+
+	if (go->HasChildren())
+	{
+		for (int i = 0; i < go->children.size(); ++i)
+		{
+			SaveGameObjects(go->children[i], goPool);
+		}
+	}
+}
+
+void ModuleSceneIntro::SaveScene()
+{
+	nlohmann::JsonData data;
+	std::vector<nlohmann::ordered_json> goPool;
+	SaveGameObjects(sProps->root, goPool);
+
+	data.data.emplace("GameObjects", goPool);
+
+	LibraryManager::SaveJSON("Library/Scenes/Test.sc", data.data.dump(4));
+}
+
 void ModuleSceneIntro::LoadSettingsData(pugi::xml_node& load)
 {
 

@@ -52,7 +52,7 @@
       <SDLCheck>false</SDLCheck>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include\assimp;$(SolutionDir)Traversed\External\PhysFS\include;$(SolutionDir)Traversed\External\DevIL\include;$(SolutionDir)Traversed\External\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Traversed\External\Imgui;$(SolutionDir)Traversed\External\SDL\include;$(SolutionDir)Traversed\External\MathGeo\include;$(SolutionDir)Traversed\External\Glew\include;$(SolutionDir)Traversed\External\Assimp\include\assimp;$(SolutionDir)Traversed\External\PhysFS\include;$(SolutionDir)Traversed\External\DevIL\include;$(SolutionDir)Traversed\External\glm;$(SolutionDir)Traversed\External;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;WINDOWS_IGNORE_PACKING_MISMATCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -60,7 +60,7 @@
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <AdditionalDependencies>assimp.lib;DevIL.lib;ILU.lib;ILUT.lib;glew32.lib;glew32s.lib;MathGeoLib.lib;physfs.lib;SDL2.lib;SDL2main.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)Traversed\lib\Assimp\lib;$(SolutionDir)Traversed\lib\DevIL\libx86;$(SolutionDir)Traversed\lib\Glew\lib;$(SolutionDir)Traversed\lib\MathGeo\lib;$(SolutionDir)Traversed\lib\PhysFS\lib;$(SolutionDir)Traversed\lib\SDL\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Traversed\lib\Assimp\lib;$(SolutionDir)Traversed\lib\DevIL\libx86;$(SolutionDir)Traversed\lib\Glew\lib;$(SolutionDir)Traversed\lib\MathGeo\lib;$(SolutionDir)Traversed\lib\PhysFS\libx86;$(SolutionDir)Traversed\lib\SDL\libx86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -155,11 +155,56 @@
     <ClInclude Include="External\MathGeo\include\Math\sse_mathfun.h" />
     <ClInclude Include="External\MathGeo\include\Math\TransformOps.h" />
     <ClInclude Include="External\MathGeo\include\Time\Clock.h" />
+    <ClInclude Include="External\Nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="External\Nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\hash.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="External\Nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="External\Nlohmann\json.hpp" />
+    <ClInclude Include="External\Nlohmann\json_fwd.hpp" />
+    <ClInclude Include="External\Nlohmann\ordered_map.hpp" />
+    <ClInclude Include="External\Nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="External\Nlohmann\thirdparty\hedley\hedley_undef.hpp" />
     <ClInclude Include="External\PugiXml\src\pugiconfig.hpp" />
     <ClInclude Include="External\PugiXml\src\pugixml.hpp" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImGuiUtils.h" />
+    <ClInclude Include="JsonUtils.h" />
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loggs.h" />

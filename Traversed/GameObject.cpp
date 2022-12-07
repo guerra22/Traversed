@@ -3,7 +3,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
-
+#include "LibraryManager.h"
 #include "TEUUID.h"
 
 #include "External/ImGui/imgui.h"
@@ -92,6 +92,11 @@ void GameObject::UpdateCompMenuGUI()
 		}
 
 		ImGui::EndCombo();
+	}
+
+	if (ImGui::Button("Save GO"))
+	{
+		Save();
 	}
 }
 
@@ -233,3 +238,30 @@ std::string GameObject::GetUUName()
 
 	return toReturn.c_str();
 }
+
+#pragma region Save/Load
+nlohmann::ordered_json GameObject::Save()
+{
+	nlohmann::JsonData data;
+
+	data.SetString("Name", this->name);
+	data.SetString("UUID", this->uuid);
+	if (this->parent != nullptr) data.SetString("Parent UUID", this->parent->uuid);
+
+	std::vector<nlohmann::ordered_json> aux;
+	for (auto const& comp : components)
+	{
+		aux.push_back(comp.second->Save());
+	}
+	data.data.emplace("Components", aux);
+	LibraryManager::SaveJSON("Library/JsonTest.go", data.data.dump(4));
+
+	return data.data;
+}
+
+void GameObject::Load(nlohmann::json data)
+{
+
+}
+
+#pragma endregion Save & Load

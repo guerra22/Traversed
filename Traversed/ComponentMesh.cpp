@@ -107,3 +107,21 @@ void ComponentMesh::SetMesh(MeshRenderer* mesh)
 {
 	this->mesh = mesh;
 }
+
+#pragma region Save/Load
+nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
+{
+	data.SetString("Path", mesh->mesh.path);
+	data.SetBool("Normals", displayNormals);
+	data.SetBool("Face_Normals", faceNormals);
+	data.SetFloat("Normals_Magnitude", normalsMagnitude);
+
+	return data.data;
+}
+
+void ComponentMesh::Load(nlohmann::json data)
+{
+
+}
+
+#pragma endregion Save & Load

@@ -40,6 +40,7 @@ struct Meshe
 	std::vector<unsigned int> indices;
 	std::vector<Texture>      textures;
 	uint numFaces;
+	std::string path;
 };
 
 struct TextureData;
