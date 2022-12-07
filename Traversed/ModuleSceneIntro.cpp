@@ -80,7 +80,7 @@ bool ModuleSceneIntro::Start()
 	for (int i = 0; i < vGO.size(); ++i)
 	{
 		vGO[i]->GetComponent<ComponentMaterial>(MATERIAL)->SetTexture
-		(TextureImporter::ImportTexture("Assets/Baker_house.png"));
+		(TextureImporter::ImportTexture("Assets/Resources/Baker_house.png"));
 	}
 
 	return true;

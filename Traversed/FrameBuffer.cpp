@@ -17,9 +17,9 @@ void FrameBuffer::CreateBuffer(int width, int height)
 {
 	CleanBuffer();
 
-	height = (width / 16) * 9;
-
-	glViewport(0, 0, width, height);
+	viewportSize.x = width;
+	viewportSize.y = height;
+	SetViewport();
 
 	glGenFramebuffers(1, &frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
@@ -45,6 +45,11 @@ void FrameBuffer::CreateBuffer(int width, int height)
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void FrameBuffer::SetViewport()
+{
+	glViewport(0, 0, viewportSize.x, viewportSize.y);
 }
 
 void FrameBuffer::CleanBuffer()
