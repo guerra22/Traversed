@@ -4,8 +4,25 @@
 
 class MeshImporter;
 class TextureImporter;
+class LibraryFolder;
 
 struct SceneProperties;
+
+struct FileSystemProperties
+{
+public:
+	FileSystemProperties();
+
+	static FileSystemProperties* Instance();
+
+	static void Delete();
+
+public:
+	LibraryFolder* rootFolder;
+private:
+	static FileSystemProperties* instance;
+};
+
 
 class ModuleFileSystem : public Module
 {
@@ -28,7 +45,10 @@ public:
 	void DragAndDrop(std::string path);
 
 public:
+
+	FileSystemProperties* fsProps = nullptr;
+	SceneProperties* sProps = nullptr;
+
 	MeshImporter* meshImp = nullptr;
 	TextureImporter* textImp = nullptr;
-	SceneProperties* sProps = nullptr;
 };

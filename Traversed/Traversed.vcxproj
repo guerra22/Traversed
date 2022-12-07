@@ -216,6 +216,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImGuiUtils.h" />
     <ClInclude Include="JsonUtils.h" />
+    <ClInclude Include="LibraryFolder.h" />
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loggs.h" />
@@ -249,6 +250,7 @@
     <ClInclude Include="PanelGame.h" />
     <ClInclude Include="PanelHierarchy.h" />
     <ClInclude Include="PanelInspector.h" />
+    <ClInclude Include="PanelLibrary.h" />
     <ClInclude Include="PanelScene.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Mesh.h" />
@@ -340,6 +342,7 @@
     <ClCompile Include="PanelGame.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
     <ClCompile Include="PanelInspector.cpp" />
+    <ClCompile Include="PanelLibrary.cpp" />
     <ClCompile Include="PanelScene.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Renderer.cpp" />

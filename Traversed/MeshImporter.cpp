@@ -5,8 +5,6 @@
 #include "ModuleSceneintro.h"
 #include "LibraryManager.h"
 
-#include <vector>
-
 #include "External/Assimp/include/assimp/cimport.h"
 #include "External/Assimp/include/assimp/scene.h"
 #include "External/Assimp/include/assimp/postprocess.h"

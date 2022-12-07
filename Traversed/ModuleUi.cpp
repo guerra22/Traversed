@@ -15,7 +15,7 @@
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
 
-#include "LibraryManager.h"
+#include "PanelLibrary.h"
 
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "External/Imgui/imgui_impl_sdl.h"
@@ -100,6 +100,7 @@ bool ModuleUI::Start()
 	panels.emplace_back(new PanelGame());
 	panels.emplace_back(new PanelHierarchy());
 	panels.emplace_back(new PanelInspector());
+	panels.emplace_back(new PanelLibrary());
 
 	panels.emplace_back(new PanelAbout());
 

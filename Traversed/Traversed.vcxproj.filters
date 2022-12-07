@@ -573,6 +573,12 @@
     <ClInclude Include="External\ImGuizmo\ImCurveEdit.h">
       <Filter>Sources\External\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="PanelLibrary.h">
+      <Filter>Sources\Ui</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryFolder.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -826,6 +832,9 @@
     </ClCompile>
     <ClCompile Include="External\ImGuizmo\ImCurveEdit.cpp">
       <Filter>Sources\External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelLibrary.cpp">
+      <Filter>Sources\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

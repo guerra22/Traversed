@@ -8,8 +8,33 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "LibraryManager.h"
+#include "LibraryFolder.h"
 
 #include "External/PhysFS/include/physfs.h"
+
+#pragma region FileSystemProperties
+FileSystemProperties::FileSystemProperties()
+{
+
+}
+
+FileSystemProperties* FileSystemProperties::Instance()
+{
+	if (instance == nullptr) instance = new FileSystemProperties();
+
+	return instance;
+}
+
+void FileSystemProperties::Delete()
+{
+	if (instance != nullptr)
+	{
+		RELEASE(instance);
+	}
+}
+
+FileSystemProperties* FileSystemProperties::instance = nullptr;
+#pragma endregion File System Properties singleton struct
 
 ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -25,12 +50,14 @@ bool ModuleFileSystem::Init()
 {
 	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
 
-	LibraryManager::Init();
-
 	meshImp = new MeshImporter();
 	textImp = new TextureImporter();
 
+	fsProps = FileSystemProperties::Instance();
 	sProps = SceneProperties::Instance();
+
+	fsProps->rootFolder = new LibraryFolder("Library", "Library", nullptr);
+	LibraryManager::Init(*fsProps->rootFolder);
 
 	return true;
 }
@@ -51,6 +78,9 @@ bool ModuleFileSystem::CleanUp()
 	LibraryManager::CleanUp();
 
 	meshImp->CleanUp();
+	if (fsProps->rootFolder != nullptr) RELEASE(fsProps->rootFolder);
+	RELEASE(fsProps);
+
 	RELEASE(meshImp);
 	RELEASE(textImp);
 

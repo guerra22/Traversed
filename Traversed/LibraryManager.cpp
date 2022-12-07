@@ -1,9 +1,10 @@
 #include "LibraryManager.h"
+#include "LibraryFolder.h"
 
 #include "External/SDL/include/SDL.h"
 #include "External/PhysFS/include/physfs.h"
 
-void LibraryManager::Init()
+void LibraryManager::Init(LibraryFolder& root)
 {
 	char* base_path = SDL_GetBasePath();
 	PHYSFS_init(nullptr);
@@ -13,7 +14,10 @@ void LibraryManager::Init()
 		LOG(LOG_TYPE::NONE, "File System error while creating write dir: %s\n", PHYSFS_getLastError());
 
 	AddPath(".");
+	AddPath("Assets");
+
 	GenerateLibrary();
+	FolderUpdate(&root, true);
 }
 
 void LibraryManager::CleanUp()
@@ -29,6 +33,26 @@ void LibraryManager::GenerateLibrary()
 	CreateDir("Library/Animation");
 	CreateDir("Library/Textures");
 	CreateDir("Library/Scenes");
+}
+
+void LibraryManager::FolderUpdate(LibraryFolder* folder, bool recursive)
+{
+	char** aux = PHYSFS_enumerateFiles(folder->path.c_str());
+
+	for (char* c = *aux; c; c = *++aux) {
+		std::string path = folder->path;
+		path += "/";
+		path += c;
+
+		if (IsDirectory(path))
+		{
+			LibraryFolder* dir = new LibraryFolder(path, c, folder);
+			folder->children.emplace_back(dir);
+			if (recursive) FolderUpdate(dir);
+		}
+		else
+			folder->libItem.emplace_back(new LibraryItem(path, c));
+	}
 }
 
 bool LibraryManager::Exists(std::string file)
