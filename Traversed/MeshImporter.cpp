@@ -159,20 +159,23 @@ Meshe MeshImporter::GenerateMesh(aiMesh* mesh)
 			}
 		}
 	}
+
+	//Bounding box
+	newMesh.bBox.SetNegativeInfinity();
+	newMesh.bBox.Enclose((float3*)mesh->mVertices, newMesh.vertices.size());
+
 	return newMesh;
 }
 
 void MeshImporter::SaveMesh(Meshe mesh, std::string filePath)
 {
-	uint ranges[3] =
+	uint ranges[2] =
 	{
 		mesh.indices.size(),
 		mesh.vertices.size(),
-		mesh.numFaces
 	};
 
-	uint size = sizeof(ranges) + sizeof(uint) * ranges[0] + sizeof(Vertex) * ranges[1] + sizeof(uint) * ranges[2];
-
+	uint size = sizeof(ranges) + sizeof(uint) * ranges[0] + sizeof(Vertex) * ranges[1] + sizeof(uint) + sizeof(float3) * 2;
 
 	char* fileBuffer = new char[size];//Allocate
 	char* cursor = fileBuffer;
@@ -200,6 +203,17 @@ void MeshImporter::SaveMesh(Meshe mesh, std::string filePath)
 	memcpy(cursor, &mesh.numFaces, bytes);
 	cursor += bytes;
 
+	//Bounding Box
+	//Store BoundingBox MinPoint
+	bytes = sizeof(float3);
+	memcpy(cursor, &mesh.bBox.minPoint[0], bytes);
+	cursor += bytes;
+
+	//Store BoundingBox MaxPoint
+	bytes = sizeof(float3);
+	memcpy(cursor, &mesh.bBox.maxPoint[0], bytes);
+	cursor += bytes;
+
 	LibraryManager::Save(filePath, fileBuffer, size);
 
 	RELEASE_ARRAY(fileBuffer);
@@ -214,7 +228,7 @@ Meshe MeshImporter::LoadMesh(std::string filePath)
 
 	char* cursor = fileBuffer;
 
-	uint ranges[3];
+	uint ranges[2];
 	uint bytes = sizeof(ranges);
 	memcpy(ranges, cursor, bytes);
 	cursor += bytes;
@@ -235,9 +249,21 @@ Meshe MeshImporter::LoadMesh(std::string filePath)
 	memcpy(&mesh.vertices[0], cursor, bytes);
 	cursor += bytes;
 
-	//Store number of faces
+	//Load number of faces
 	bytes = sizeof(uint);
 	memcpy(&mesh.numFaces, cursor, bytes);
+	cursor += bytes;
+
+	//Bounding Box
+	mesh.bBox.SetNegativeInfinity();
+	//Load BoundingBox MinPoint
+	bytes = sizeof(float3);
+	memcpy(&mesh.bBox.minPoint[0], cursor, bytes);
+	cursor += bytes;
+
+	//Load BoundingBox MaxPoint
+	bytes = sizeof(float3);
+	memcpy(&mesh.bBox.maxPoint[0], cursor, bytes);
 	cursor += bytes;
 
 	RELEASE_ARRAY(fileBuffer);

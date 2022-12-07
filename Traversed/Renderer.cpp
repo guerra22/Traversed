@@ -4,6 +4,7 @@
 #include "FrameBuffer.h"
 #include "ModuleCamera3D.h"
 #include "ModuleRenderer3D.h"
+#include "GameObject.h"
 
 Renderer::Renderer(float2 size, Camera* camera)
 {
@@ -52,7 +53,7 @@ void Renderer::Resize(float2 size)
 	frameBuffer->CreateBuffer(this->size.x, this->size.y);
 }
 
-#pragma endregion Renderer Update Phaces
+#pragma region Renderer Update Phases
 
 void Renderer::PreUpdate()
 {
@@ -82,9 +83,11 @@ void Renderer::PostUpdate()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//glDisableClientState(GL_VERTEX_ARRAY);
 }
-#pragma endregion Renderer Update Phaces
+#pragma region Renderer Update Phases
 
 void Renderer::QueueMesh(ComponentMesh* mesh)
 {
-	meshes.emplace(mesh);
+	if (owner->ContainsBBox(mesh->GetMesh()->mesh.bBox)) //Checks if mesh is inside the render's camera frustum
+		meshes.emplace(mesh);
+	else LOG(LOG_TYPE::ATTENTION, "The mesh of the GO '%s' is outside frustum!", mesh->owner->name.c_str());
 }

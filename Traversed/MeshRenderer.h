@@ -6,6 +6,7 @@
 #include "External/MathGeo/include/Math/float2.h"
 #include "External/MathGeo/include/Math/float3.h"
 #include "External/MathGeo/include/Math/float4x4.h"
+#include "External/MathGeo/include/Geometry/AABB.h"
 
 #include <vector>
 
@@ -40,6 +41,7 @@ struct Meshe
 	std::vector<unsigned int> indices;
 	std::vector<Texture>      textures;
 	uint numFaces;
+	AABB bBox;
 	std::string path;
 };
 
@@ -66,6 +68,7 @@ public:
 
 	void CreateNormals(float magnitude = 0.25f);
 	void CleanNormals();
+	void CreateBoundingBox();
 
 public:
 	Meshe mesh;
@@ -76,13 +79,20 @@ private:
 	uint VBO;
 	uint EBO;
 
+	//Vertex normals
 	uint VNVAO;
 	uint VNVBO;
 	std::vector<float3> vNormals;
 
+	//Face normals
 	uint FNVAO;
 	uint FNVBO;
 	std::vector<float3> fNormals;
+
+	//Bounding box
+	uint BBVAO;
+	uint BBVBO;
+	std::vector<float3> bBox;
 
 	Shader* shader = nullptr;
 	Shader* debugShader = nullptr;

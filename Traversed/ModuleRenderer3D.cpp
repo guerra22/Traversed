@@ -199,7 +199,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 
 	if (cProps->gameCameras.size() != 0)
 		if (cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer != nullptr)
-			cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer->Render();
+			cProps->gameCameras.at(cProps->mainCameraId)->Render();
 
 	//Swap Buffer
 	SDL_GL_SwapWindow(wProps->window);

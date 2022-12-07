@@ -50,6 +50,11 @@ void ComponentCamera::Update()
 	}
 }
 
+void ComponentCamera::Render()
+{
+	//camera.renderer->Render(camera.frustu);
+}
+
 void ComponentCamera::UpdateGUI()
 {
 	if (isMainCamera) ImGui::Text("Im the main camera!");

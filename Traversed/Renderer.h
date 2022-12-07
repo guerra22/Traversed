@@ -1,6 +1,7 @@
 #pragma once
 
 #include "External/MathGeo/include/Math/float2.h"
+#include "External/MathGeo/include/Geometry/AABB.h"
 #include <queue>
 
 #define DEBUG_VERTEX_SHADER "Shader/debug.vs"
