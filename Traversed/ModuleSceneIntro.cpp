@@ -157,6 +157,12 @@ UpdateStatus ModuleSceneIntro::Update()
 
 UpdateStatus ModuleSceneIntro::PostUpdate()
 {
+	if (sProps->loadSceneRequest)
+	{
+		LoadScene(sProps->scenePath);
+		sProps->loadSceneRequest = false;
+		sProps->scenePath = "";
+	}
 
 	return UPDATE_CONTINUE;
 }

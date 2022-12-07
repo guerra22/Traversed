@@ -13,6 +13,7 @@ class ModuleInput;
 class ModuleUI;
 class ModuleSceneIntro;
 class ModuleFileSystem;
+class ModuleResources;
 class ModuleRenderer3D;
 
 struct Time
@@ -41,6 +42,7 @@ public:
 	ModuleUI* ui = nullptr;
 	ModuleSceneIntro* sceneintro = nullptr;
 	ModuleFileSystem* filesystem = nullptr;
+	ModuleResources* resources = nullptr;
 
 	float fps = 1.0f / 60.0f;
 	Timer timer;

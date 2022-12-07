@@ -7,6 +7,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleUI.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleResources.h"
 #include "ModuleFileSystem.h"
 
 #pragma region Time
@@ -40,6 +41,7 @@ Application::Application()
 	ui = new ModuleUI(this, true);
 	sceneintro = new ModuleSceneIntro(this, true);
 	filesystem = new ModuleFileSystem(this, true);
+	resources = new ModuleResources(this, true);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -49,6 +51,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(input);
 	AddModule(filesystem);
+	AddModule(resources);
 	AddModule(camera);
 	// Scenes
 	AddModule(ui);

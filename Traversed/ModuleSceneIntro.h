@@ -32,6 +32,9 @@ public:
 	int GetGuizmoOperation() { return guizmoOperation; }
 	void SetGuizmoOperation(int value) { guizmoOperation = value; }
 
+	bool loadSceneRequest = false;
+	std::string scenePath = "";
+
 private:
 	static SceneProperties* instance;
 

@@ -25,9 +25,6 @@
     <Filter Include="Sources\GameObject\Component">
       <UniqueIdentifier>{7475548b-dd04-435a-847e-1706069c79db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Resource">
-      <UniqueIdentifier>{888c4474-6936-4bdb-b13b-278d59bc0055}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Renderer">
       <UniqueIdentifier>{35b7982d-6677-472b-b372-80df5a5dfb2c}</UniqueIdentifier>
     </Filter>
@@ -48,6 +45,9 @@
     </Filter>
     <Filter Include="Sources\External\ImGuizmo">
       <UniqueIdentifier>{4f3edba9-e0eb-4c46-ba63-af3f75c6056b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Resources">
+      <UniqueIdentifier>{888c4474-6936-4bdb-b13b-278d59bc0055}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -160,7 +160,7 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Sources\Resource</Filter>
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
     <ClInclude Include="List.h">
       <Filter>Sources\Tools</Filter>
@@ -191,12 +191,6 @@
     </ClInclude>
     <ClInclude Include="MeshRenderer.h">
       <Filter>Sources\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshImporter.h">
-      <Filter>Sources\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureImporter.h">
-      <Filter>Sources\Resource</Filter>
     </ClInclude>
     <ClInclude Include="External\MathGeo\include\MathGeoLib.h">
       <Filter>Sources\External\MathGeo</Filter>
@@ -400,10 +394,10 @@
       <Filter>Sources\External\Imgui</Filter>
     </ClInclude>
     <ClInclude Include="TEUUID.h">
-      <Filter>Sources\Resource</Filter>
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
     <ClInclude Include="LibraryManager.h">
-      <Filter>Sources\Resource</Filter>
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
     <ClInclude Include="External\Nlohmann\byte_container_with_subtype.hpp">
       <Filter>Sources\External\Nlohmann</Filter>
@@ -577,7 +571,22 @@
       <Filter>Sources\Ui</Filter>
     </ClInclude>
     <ClInclude Include="LibraryFolder.h">
-      <Filter>Sources\Resource</Filter>
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureImporter.h">
+      <Filter>Sources\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshImporter.h">
+      <Filter>Sources\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleResources.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceTexture.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceMesh.h">
+      <Filter>Sources\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -691,12 +700,6 @@
     </ClCompile>
     <ClCompile Include="MeshRenderer.cpp">
       <Filter>Sources\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshImporter.cpp">
-      <Filter>Sources\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureImporter.cpp">
-      <Filter>Sources\Resource</Filter>
     </ClCompile>
     <ClCompile Include="External\MathGeo\include\Geometry\Ray.cpp">
       <Filter>Sources\External\MathGeo</Filter>
@@ -813,7 +816,7 @@
       <Filter>Sources\External\Imgui</Filter>
     </ClCompile>
     <ClCompile Include="LibraryManager.cpp">
-      <Filter>Sources\Resource</Filter>
+      <Filter>Sources\Resources</Filter>
     </ClCompile>
     <ClCompile Include="External\ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>Sources\External\ImGuiFileDialog</Filter>
@@ -835,6 +838,24 @@
     </ClCompile>
     <ClCompile Include="PanelLibrary.cpp">
       <Filter>Sources\Ui</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureImporter.cpp">
+      <Filter>Sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshImporter.cpp">
+      <Filter>Sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleResources.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceTexture.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceMesh.cpp">
+      <Filter>Sources\Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

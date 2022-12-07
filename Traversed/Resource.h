@@ -1,41 +1,49 @@
 #pragma once
+#include "LibraryManager.h"
+#include "JsonUtils.h"
 
-#include <string>
-
-typedef unsigned int uint;
-
-enum class ResourceType
+enum class RESOURCE_TYPE
 {
-	NONE = 0,
 	TEXTURE,
 	MESH,
-	MODEL,
-	SCENE
+	SCENE,
+	UNKNOWN
 };
 
 class Resource
 {
 public:
-	Resource(uint id, ResourceType t, std::string& assets, std::string& library) : uid(id), type(t), assetsPath(assets), libraryPath(library) {}
+	Resource(std::string uuid, RESOURCE_TYPE type);
+	~Resource();
 
-	~Resource() {}
+	RESOURCE_TYPE GetType() const;
 
-	virtual void Load() {}
-	virtual void UnLoad() {}
+	std::string GetUUID() const;
 
-	virtual void DrawOnEditor() {}
+	std::string GetAssetsFile() const { return assetsFile; }
+	void SetAssetsFile(std::string path) { assetsFile = path; }
+	std::string GetLibraryFile() const { return libraryFile; }
+	void SetLibraryFile(std::string path) { libraryFile = path; }
 
-	inline const ResourceType& GetType() const { return type; }
-	inline const uint& GetUID() const { return uid; }
-	inline const std::string& GetAssetsPath() const { return assetsPath; }
-	inline const std::string& GetLibraryPath() const { return libraryPath; }
-	inline const std::string& GetName() const { return name; }
+	bool IsLoadedToMemory() const;
+	bool LoadToMemory();
+
+
+	//virtual void LoadUnique(nlohmann::JsonData data);
+
+	void Save(std::string savePath);
+	void Load(const std::string& path);
 
 protected:
-	uint uid;
-	ResourceType type;
+	virtual nlohmann::JsonData SaveUnique(nlohmann::JsonData data);
 
-	std::string assetsPath;
-	std::string libraryPath;
-	std::string name;
+protected:
+	std::string uuid;
+	std::string assetsFile;
+	std::string libraryFile;
+
+	RESOURCE_TYPE type = RESOURCE_TYPE::UNKNOWN;
+
+public:
+	uint referenceCount = 0;
 };

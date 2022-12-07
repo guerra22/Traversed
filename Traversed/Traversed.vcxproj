@@ -223,6 +223,7 @@
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="ModuleFileSystem.h" />
+    <ClInclude Include="ModuleResources.h" />
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
@@ -256,6 +257,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceMesh.h" />
+    <ClInclude Include="ResourceTexture.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="TEUUID.h" />
     <ClInclude Include="TextureImporter.h" />
@@ -317,6 +320,7 @@
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />
     <ClCompile Include="ModuleFileSystem.cpp" />
+    <ClCompile Include="ModuleResources.cpp" />
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -346,6 +350,9 @@
     <ClCompile Include="PanelScene.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Resource.cpp" />
+    <ClCompile Include="ResourceMesh.cpp" />
+    <ClCompile Include="ResourceTexture.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
   </ItemGroup>

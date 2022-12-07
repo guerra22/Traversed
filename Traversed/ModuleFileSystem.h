@@ -18,7 +18,9 @@ public:
 	static void Delete();
 
 public:
-	LibraryFolder* rootFolder;
+	LibraryFolder* rootFolder = nullptr;
+	LibraryFolder* currentFolder = nullptr;
+
 private:
 	static FileSystemProperties* instance;
 };

@@ -6,6 +6,8 @@
 //#include "LibraryManager.h"
 
 struct FileSystemProperties;
+struct SceneProperties;
+struct ResourceProperties;
 class LibraryFolder;
 
 class PanelLibrary : public UiPanel
@@ -23,7 +25,12 @@ private:
 	void BoxView();
 
 private:
+	float leftWin;
+	float rightWin;
+
 	FileSystemProperties* fsIntance = nullptr;
+	ResourceProperties* resInstance = nullptr;
+	SceneProperties* sInstance = nullptr;
 	LibraryFolder* currentFolder = nullptr;
 };
 
