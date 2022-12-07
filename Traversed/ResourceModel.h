@@ -9,6 +9,16 @@ struct SubMeshResource
 	MeshRenderer* meshRenderer = nullptr;
 	uint referenceCount = 0;
 	std::string libPath;
+
+	void DecreaseRC()
+	{
+		--referenceCount;
+		if (referenceCount <= 0)
+		{
+			RELEASE(meshRenderer);
+			meshRenderer = nullptr;
+		}
+	}
 };
 
 class ResourceModel : public Resource

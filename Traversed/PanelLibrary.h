@@ -8,6 +8,7 @@
 struct FileSystemProperties;
 struct SceneProperties;
 struct ResourceProperties;
+struct LibraryItem;
 class LibraryFolder;
 
 class PanelLibrary : public UiPanel
@@ -24,6 +25,8 @@ private:
 	void Hierarchy();
 	void BoxView();
 
+	void ExecuteItemActive(LibraryItem* item, float cellSize);
+
 private:
 	float leftWin;
 	float rightWin;
@@ -32,7 +35,8 @@ private:
 	ResourceProperties* resInstance = nullptr;
 	SceneProperties* sInstance = nullptr;
 	LibraryFolder* currentFolder = nullptr;
-};
 
+	std::string* package = nullptr;
+};
 
 #endif
