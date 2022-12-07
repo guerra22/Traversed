@@ -26,4 +26,5 @@ namespace LibraryManager
 	unsigned int Copy(std::string filePath, std::string dir, std::string& output);
 
 	void SaveJSON(std::string filePath, std::string jsonDump);
+	std::string LoadJSON(std::string filePath);
 };

@@ -10,6 +10,8 @@
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
 
+#include "MeshImporter.h"
+
 ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
 	this->type = CO_TYPE::MESH;
@@ -111,7 +113,10 @@ void ComponentMesh::SetMesh(MeshRenderer* mesh)
 #pragma region Save/Load
 nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
 {
-	data.SetString("Path", mesh->mesh.path);
+	if (mesh != nullptr)
+	{
+		data.SetString("Path", mesh->mesh.path);
+	}
 	data.SetBool("Normals", displayNormals);
 	data.SetBool("Face_Normals", faceNormals);
 	data.SetFloat("Normals_Magnitude", normalsMagnitude);
@@ -119,9 +124,14 @@ nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
 	return data.data;
 }
 
-void ComponentMesh::Load(nlohmann::json data)
+void ComponentMesh::LoadUnique(nlohmann::JsonData data)
 {
+	std::string meshToLoad(data.GetString("Path"));
+	mesh = new MeshRenderer(MeshImporter::LoadMesh(meshToLoad));
 
+	displayNormals = data.GetBool("Normals");
+	faceNormals = data.GetBool("Face_Normals");
+	normalsMagnitude = data.GetFloat("Normals_Magnitude");
 }
 
 #pragma endregion Save & Load

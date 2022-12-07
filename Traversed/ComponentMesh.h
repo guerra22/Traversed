@@ -22,7 +22,7 @@ public:
 	void UpdateGUI() override;
 
 	nlohmann::ordered_json SaveUnique(nlohmann::JsonData data) override;
-	void Load(nlohmann::json data) override;
+	void LoadUnique(nlohmann::JsonData data) override;
 
 	void Render(Shader* shader, Shader* debugShader, Camera* camera);
 

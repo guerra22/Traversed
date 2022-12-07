@@ -47,7 +47,7 @@ nlohmann::ordered_json Component::Save()
 {
 	nlohmann::JsonData data;
 
-	data.SetString("Type", CompTypeToString(type));
+	data.SetInt("Type", (int)type);
 	data.SetString("UUID", uuid);
 	data.SetBool("Active", active);
 
@@ -59,7 +59,16 @@ nlohmann::ordered_json Component::SaveUnique(nlohmann::JsonData data)
 	return data.data;
 }
 
-void Component::Load(nlohmann::json data)
+void Component::Load(nlohmann::JsonData data)
+{
+	this->type = (CO_TYPE)data.GetInt("Type");
+	this->uuid = data.GetString("UUID");
+	this->active = data.GetBool("Active");
+
+	LoadUnique(data);
+}
+
+void Component::LoadUnique(nlohmann::JsonData data)
 {
 
 }

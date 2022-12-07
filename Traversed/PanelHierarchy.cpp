@@ -26,8 +26,11 @@ void PanelHierarchy::Update()
 {
 	if (ImGui::Begin(name.c_str()))
 	{
-		DisplayGameObject(sceneInstance->root);
-		RightClickMenuContextWindow();
+		if (sceneInstance->root != nullptr)
+		{
+			DisplayGameObject(sceneInstance->root);
+			RightClickMenuContextWindow();
+		}
 	}
 	ImGui::End();
 }

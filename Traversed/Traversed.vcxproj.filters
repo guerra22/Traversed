@@ -43,6 +43,9 @@
     <Filter Include="Sources\External\Nlohmann">
       <UniqueIdentifier>{8fd92bf5-5ec9-4187-ac6a-006ea2e73401}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External\ImGuiFileDialog">
+      <UniqueIdentifier>{b4866465-3ae4-44b6-8cf3-86cdb3ff294c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -534,6 +537,21 @@
     <ClInclude Include="JsonUtils.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
+    <ClInclude Include="External\ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuiFileDialog\stb\stb_image_resize.h">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuiFileDialog\stb\stb_image.h">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuiFileDialog\dirent\dirent.h">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -769,6 +787,9 @@
     </ClCompile>
     <ClCompile Include="LibraryManager.cpp">
       <Filter>Sources\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>Sources\External\ImGuiFileDialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

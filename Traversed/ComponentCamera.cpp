@@ -63,9 +63,12 @@ nlohmann::ordered_json ComponentCamera::SaveUnique(nlohmann::JsonData data)
 	return data.data;
 }
 
-void ComponentCamera::Load(nlohmann::json data)
+void ComponentCamera::LoadUnique(nlohmann::JsonData data)
 {
+	this->isMainCamera = data.GetBool("Main_camera");
+	camInstance->gameCameras.at(camInstance->mainCameraId)->isMainCamera = false;
 
+	camInstance->mainCameraId = camInstance->gameCameras.size() - 1;
 }
 
 #pragma endregion Save & Load

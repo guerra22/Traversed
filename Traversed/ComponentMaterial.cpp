@@ -93,9 +93,12 @@ nlohmann::ordered_json ComponentMaterial::SaveUnique(nlohmann::JsonData data)
 	return data.data;
 }
 
-void ComponentMaterial::Load(nlohmann::json data)
+void ComponentMaterial::LoadUnique(nlohmann::JsonData data)
 {
+	std::string texToLoad(data.GetString("Path"));
+	texture = TextureImporter::ImportTexture(texToLoad);
 
+	isCheckers = data.GetBool("Checkers");
 }
 
 #pragma endregion Save & Load

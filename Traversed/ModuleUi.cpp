@@ -15,7 +15,9 @@
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
 
-#include "External/Imgui/imgui.h"
+#include "LibraryManager.h"
+
+#include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 #include "External/Imgui/imgui_impl_opengl3.h"
 
@@ -151,6 +153,7 @@ void ModuleUI::DrawEditorGui()
 	//Menus
 	MainMenuBar();
 	UpdatePanels();
+	FileDialogMenu();
 
 	//Demo
 	//ImGui::ShowDemoWindow();
@@ -191,9 +194,23 @@ void ModuleUI::MainMenuBar()
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("New Scene"))
+			{
+				App->sceneintro->NewScene();
+			}
+
 			if (ImGui::MenuItem("Save Scene"))
 			{
 				App->sceneintro->SaveScene();
+			}
+
+			if (ImGui::MenuItem("Load Scene"))
+			{
+				//ImGuiFileDialog::OpenModal
+				ImGuiFileDialogFlags flags = ImGuiFileDialogFlags_DisableCreateDirectoryButton;
+				flags |= ImGuiFileDialogFlags_DontShowHiddenFiles;
+				flags |= ImGuiFileDialogFlags_ReadOnlyFileNameField;
+				ImGuiFileDialog::Instance()->OpenDialog("ChooseSceneFile", "Choose a scene file", ".sc", "", 1, nullptr, flags);
 			}
 
 			if (ImGui::MenuItem("Exit"))
@@ -233,6 +250,27 @@ void ModuleUI::MainMenuBar()
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+void ModuleUI::FileDialogMenu()
+{
+	std::string filePath = "Library/Scenes/";
+
+	//Display
+	if (ImGuiFileDialog::Instance()->Display("ChooseSceneFile", 32, ImVec2({ 400, 400 })))
+	{
+		//On ok.
+		if (ImGuiFileDialog::Instance()->IsOk())
+		{
+			filePath += ImGuiFileDialog::Instance()->GetCurrentFileName();
+
+
+			App->sceneintro->LoadScene(filePath);
+		}
+
+		ImGuiFileDialog::Instance()->Close();
+	}
+
 }
 
 void ModuleUI::UpdatePanels()

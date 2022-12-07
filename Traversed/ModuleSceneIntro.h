@@ -8,6 +8,8 @@ class Application;
 class GameObject;
 class ComponentCamera;
 
+struct CameraProperties;
+
 struct SceneProperties
 {
 public:
@@ -43,7 +45,11 @@ public:
 	void SaveSettingsData(pugi::xml_node& save) override;
 	void LoadSettingsData(pugi::xml_node& load) override;
 
+	void NewScene();
+
 	void SaveScene();
+
+	void LoadScene(std::string filePath);
 
 private:
 	void InitGameObjects(GameObject* go);
@@ -53,4 +59,5 @@ private:
 
 private:
 	SceneProperties* sProps = nullptr;
+	CameraProperties* cProps = nullptr;
 };
