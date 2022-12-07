@@ -1,5 +1,6 @@
 #include "LibraryManager.h"
 #include "LibraryFolder.h"
+#include "Globals.h"
 
 #include "External/SDL/include/SDL.h"
 #include "External/PhysFS/include/physfs.h"
@@ -41,7 +42,7 @@ void LibraryManager::GenerateLibrary()
 
 void LibraryManager::FolderSystemUpdate(LibraryFolder* folder, bool recursive)
 {
-	if (folder->children.size() != 0 || folder->libItem.size() != 0) folder->CleanUp();
+	//if (folder->children.size() != 0 || folder->libItem.size() != 0) folder->CleanUp();
 	//else return; //Nothing to update - Return
 
 	char** aux = PHYSFS_enumerateFiles(folder->path.c_str());
@@ -52,6 +53,8 @@ void LibraryManager::FolderSystemUpdate(LibraryFolder* folder, bool recursive)
 		std::string path = folder->path;
 		path += "/";
 		path += c;
+
+		if (folder->ContainsPath(path)) continue; //Continue if the path already exists
 
 		if (IsDirectory(path))
 		{
@@ -68,7 +71,10 @@ void LibraryManager::FolderSystemUpdate(LibraryFolder* folder, bool recursive)
 
 			if (extension != "meta") //Ignore if extension is meta
 			{
-				folder->libItem.emplace_back(new LibraryItem(path, c, extension));
+				std::string meta = path;
+				meta += ".meta";
+
+				folder->libItem.emplace_back(new LibraryItem(path, c, extension, Exists(meta)));
 			}
 		}
 	}
@@ -240,13 +246,43 @@ uint LibraryManager::Save(std::string filePath, char* data, uint size, bool appe
 	return toReturn;
 }
 
-uint LibraryManager::Copy(std::string filePath, std::string dir, std::string& output)
+uint LibraryManager::Copy(std::string filePath, std::string dir)
 {
-	uint toReturn = 0;
+	uint size = 0;
+	std::string saveDir = dir;
+	saveDir += "/";
 
-	//if (filePath.empty() || dir.empty()) return toReturn;
+	//Copy name to new direction
+	size_t pos = NormalizePath(filePath).find_last_of("/");
+	if (pos != std::string::npos)
+		saveDir += filePath.substr(pos + 1);
 
-	return toReturn;
+	char* buffer = nullptr;
+	//Load(NormalizePath(filePath), &buffer);
+
+	std::FILE* handler;
+	fopen_s(&handler, filePath.c_str(), "rb");
+
+	if (handler != nullptr)
+	{
+		fseek(handler, 0, SEEK_END);
+		size = ftell(handler);
+		rewind(handler);
+
+		char* buffer = new char[size];
+		size = fread(buffer, 1, size, handler);
+
+		if (size > 0)
+		{
+			Save(saveDir, buffer, size);
+		}
+
+
+		RELEASE_ARRAY(buffer);
+		fclose(handler);
+	}
+
+	return size;
 }
 
 void LibraryManager::SaveJSON(std::string filePath, std::string jsonDump)

@@ -4,6 +4,7 @@
 #include "MeshImporter.h"
 #include "TextureImporter.h"
 #include "ModuleSceneintro.h"
+#include "ModuleResources.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
@@ -54,6 +55,7 @@ bool ModuleFileSystem::Init()
 	textImp = new TextureImporter();
 
 	fsProps = FileSystemProperties::Instance();
+	resProps = ResourceProperties::Instance();
 	sProps = SceneProperties::Instance();
 
 	fsProps->rootFolder = new LibraryFolder("Assets", "Assets", nullptr);
@@ -119,12 +121,14 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 	switch (str2int(extension.c_str()))
 	{
 	case str2int("fbx"):
-		MeshImporter::ImportMesh(path, nullptr, true);
-		break;
+		//MeshImporter::ImportMesh(path, nullptr, true);
+			//break;
 	case str2int("dds"):
 	case str2int("png"):
 	{
-		TextureImporter::ImportTexture(path);
+		LibraryManager::Copy(path, fsProps->currentFolder->path);
+
+		//TextureImporter::ImportTexture(path);
 		/*GameObject* aux = sProps->GetSelectedGO();
 		if (aux != nullptr)
 		{
@@ -149,6 +153,8 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 		LOG(LOG_TYPE::ERRO, "ERROR: JPG format not supported!");
 		break;
 	}
+	LibraryManager::FolderSystemUpdate(fsProps->currentFolder);
+	resProps->requestFolderFileCheck = true;
 }
 
 #pragma region Save/Load Settings

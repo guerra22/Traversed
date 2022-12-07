@@ -7,6 +7,7 @@ class TextureImporter;
 class LibraryFolder;
 
 struct SceneProperties;
+struct ResourceProperties;
 
 struct FileSystemProperties
 {
@@ -20,6 +21,7 @@ public:
 public:
 	LibraryFolder* rootFolder = nullptr;
 	LibraryFolder* currentFolder = nullptr;
+	ResourceProperties* resProps = nullptr;
 
 private:
 	static FileSystemProperties* instance;
@@ -50,6 +52,7 @@ public:
 
 	FileSystemProperties* fsProps = nullptr;
 	SceneProperties* sProps = nullptr;
+	ResourceProperties* resProps = nullptr;
 
 	MeshImporter* meshImp = nullptr;
 	TextureImporter* textImp = nullptr;

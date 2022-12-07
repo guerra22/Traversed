@@ -4,6 +4,7 @@
 #include "ComponentTransform.h"
 #include "ModuleSceneintro.h"
 #include "LibraryManager.h"
+#include "ResourceMesh.h"
 
 #include "External/Assimp/include/assimp/cimport.h"
 #include "External/Assimp/include/assimp/scene.h"
@@ -66,6 +67,11 @@ GameObject* MeshImporter::ImportMesh(std::string filePath, GameObject* parent, b
 	return toReturn;
 }
 			
+void MeshImporter::ImportToLibrary(ResourceMesh* resource)
+{
+
+}
+
 GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene, GameObject* parent)
 {
 	if (parent == nullptr && scene->mNumMeshes > 1) parent = new GameObject(scene->mRootNode->mName.C_Str());
