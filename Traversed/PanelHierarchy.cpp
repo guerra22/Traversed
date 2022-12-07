@@ -2,6 +2,9 @@
 #include "GameObject.h"
 #include "ModuleSceneintro.h"
 #include "MeshImporter.h"
+#include "ComponentCamera.h"
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 
 PanelHierarchy::PanelHierarchy(bool enabled) : UiPanel(enabled)
 {
@@ -124,6 +127,26 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 
 	if (ImGui::BeginMenu("Nodes"))
 	{
+		GameObject* newGO = nullptr;
+
+		if (ImGui::MenuItem("Empty Node"))  auxGO->AddChildren(new GameObject("Empty Node", false));
+		if (ImGui::MenuItem("Spatial Node")) auxGO->AddChildren(new GameObject("Spatial Node"));
+
+		if (ImGui::MenuItem("Mesh Node"))
+		{
+			newGO = new GameObject("Mesh Node");
+			newGO->CreateComponent(MESH);
+			newGO->CreateComponent(MATERIAL);
+			auxGO->AddChildren(newGO);
+		}
+
+		if (ImGui::MenuItem("Camera Node"))
+		{
+			newGO = new GameObject("Camera Node");
+			newGO->CreateComponent(CAMERA);
+			auxGO->AddChildren(newGO);
+		}
+
 		if (ImGui::BeginMenu("Primitive Node"))
 		{
 			if (ImGui::MenuItem("Cube")) MeshImporter::ImportMesh("Assets/Primitives/cube.fbx", auxGO);

@@ -19,6 +19,8 @@ public:
 	void UpdateGUI() override;
 
 	float4x4 GetWorldMatrix();
+
+	Quat GetRotationAsQuat();
 public:
 
 	float4x4 localTransform;

@@ -47,3 +47,8 @@ float4x4 ComponentTransform::GetWorldMatrix()
 
 	return toReturn;
 }
+
+Quat ComponentTransform::GetRotationAsQuat()
+{
+	return Quat::FromEulerXYZ(math::DegToRad(rotation.x), math::DegToRad(rotation.y), math::DegToRad(rotation.z));
+}
