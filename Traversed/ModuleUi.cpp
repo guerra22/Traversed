@@ -20,6 +20,7 @@
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "External/Imgui/imgui_impl_sdl.h"
 #include "External/Imgui/imgui_impl_opengl3.h"
+#include "External/ImGuizmo/ImGuizmo.h"
 
 #pragma region EditorProperties
 EditorProperties::EditorProperties()
@@ -167,6 +168,7 @@ void ModuleUI::BeginRender()
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame();// App->window->GetSDLWindow());
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
 }
@@ -263,7 +265,6 @@ void ModuleUI::FileDialogMenu()
 		if (ImGuiFileDialog::Instance()->IsOk())
 		{
 			filePath += ImGuiFileDialog::Instance()->GetCurrentFileName();
-
 
 			App->sceneintro->LoadScene(filePath);
 		}

@@ -46,6 +46,9 @@
     <Filter Include="Sources\External\ImGuiFileDialog">
       <UniqueIdentifier>{b4866465-3ae4-44b6-8cf3-86cdb3ff294c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\External\ImGuizmo">
+      <UniqueIdentifier>{4f3edba9-e0eb-4c46-ba63-af3f75c6056b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -552,6 +555,24 @@
     <ClInclude Include="External\ImGuiFileDialog\dirent\dirent.h">
       <Filter>Sources\External\ImGuiFileDialog</Filter>
     </ClInclude>
+    <ClInclude Include="External\ImGuizmo\ImGradient.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuizmo\ImGuizmo.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuizmo\ImSequencer.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuizmo\ImZoomSlider.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuizmo\GraphEditor.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="External\ImGuizmo\ImCurveEdit.h">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -790,6 +811,21 @@
     </ClCompile>
     <ClCompile Include="External\ImGuiFileDialog\ImGuiFileDialog.cpp">
       <Filter>Sources\External\ImGuiFileDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuizmo\ImGradient.cpp">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuizmo\ImGuizmo.cpp">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuizmo\ImSequencer.cpp">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuizmo\GraphEditor.cpp">
+      <Filter>Sources\External\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="External\ImGuizmo\ImCurveEdit.cpp">
+      <Filter>Sources\External\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

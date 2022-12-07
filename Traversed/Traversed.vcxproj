@@ -99,6 +99,12 @@
     <ClInclude Include="External\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
     <ClInclude Include="External\ImGuiFileDialog\stb\stb_image.h" />
     <ClInclude Include="External\ImGuiFileDialog\stb\stb_image_resize.h" />
+    <ClInclude Include="External\ImGuizmo\GraphEditor.h" />
+    <ClInclude Include="External\ImGuizmo\ImCurveEdit.h" />
+    <ClInclude Include="External\ImGuizmo\ImGradient.h" />
+    <ClInclude Include="External\ImGuizmo\ImGuizmo.h" />
+    <ClInclude Include="External\ImGuizmo\ImSequencer.h" />
+    <ClInclude Include="External\ImGuizmo\ImZoomSlider.h" />
     <ClInclude Include="External\Imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="External\MathGeo\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="External\MathGeo\include\Geometry\AABB.h" />
@@ -263,6 +269,11 @@
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="External\GPUDetect\DeviceId.cpp" />
     <ClCompile Include="External\ImGuiFileDialog\ImGuiFileDialog.cpp" />
+    <ClCompile Include="External\ImGuizmo\GraphEditor.cpp" />
+    <ClCompile Include="External\ImGuizmo\ImCurveEdit.cpp" />
+    <ClCompile Include="External\ImGuizmo\ImGradient.cpp" />
+    <ClCompile Include="External\ImGuizmo\ImGuizmo.cpp" />
+    <ClCompile Include="External\ImGuizmo\ImSequencer.cpp" />
     <ClCompile Include="External\Imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="External\MathGeo\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="External\MathGeo\include\Geometry\AABB.cpp" />

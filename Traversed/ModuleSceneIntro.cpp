@@ -185,7 +185,7 @@ void ModuleSceneIntro::SaveScene()
 	data.data.emplace("GameObjects", goPool);
 
 	//Save to JSON
-	LibraryManager::SaveJSON("Library/Scenes/Test.sc", data.data.dump(4));
+	LibraryManager::SaveJSON("Library/Scenes/Baker_house.sc", data.data.dump(4));
 }
 
 void ModuleSceneIntro::LoadScene(std::string filePath)

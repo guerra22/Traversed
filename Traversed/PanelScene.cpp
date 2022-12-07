@@ -1,9 +1,15 @@
 #include "PanelScene.h"
 #include "ModuleCamera3D.h"
+#include "ModuleSceneintro.h"
 #include "FrameBuffer.h"
+
+#include "Camera.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 #include "External/MathGeo/include/Math/float2.h"
 #include "External/ImGui/imgui_internal.h"
+#include "External/ImGuizmo/ImGuizmo.h"
 
 PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 {
@@ -11,6 +17,7 @@ PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 	segmentSize = { 0, 0 };
 
 	camInstance = CameraProperties::Instance();
+	sceneInstance = SceneProperties::Instance();
 }
 
 PanelScene::~PanelScene()
@@ -58,6 +65,7 @@ void PanelScene::Update()
 		}
 
 		RenderSpace();
+		Guizmo(camInstance->editorCamera, sceneInstance->GetSelectedGO());
 	}
 	ImGui::End();
 }
@@ -66,7 +74,37 @@ void PanelScene::RenderSpace()
 {
 	float aux = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
 
+	//Render Framebuffer
 	ImGui::SetCursorPosY(aux);
 	ImTextureID texID = (ImTextureID)camInstance->editorCamera.renderer->GetFrameBufffer()->GetTextureBuffer();
 	ImGui::Image(texID, segmentSize, ImVec2(0, 1), ImVec2(1, 0));
+}
+
+void PanelScene::Guizmo(Camera& cam, GameObject* go)
+{
+	if (go == nullptr) return;
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>(TRANSFORM);
+	if (transform == nullptr) return;
+
+	//ImGuizmo::Enable(true);
+
+	//ImGuizmo::SetDrawlist();
+
+	float x = ImGui::GetWindowPos().x;
+	float y = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
+	float w = segmentSize.x;
+	float h = segmentSize.y;
+	//Guizmo
+
+	float4x4 aux = transform->GetWorldMatrix();
+	float4x4 i = float4x4::identity;
+
+	ImGuizmo::SetRect(x, y, w, h);
+	ImGuizmo::Manipulate(cam.GetViewMatrix(), cam.GetProjectionMatrix(), ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, &aux.v[0][0], &i.v[0][0], NULL);
+
+	if (ImGuizmo::IsOver())
+	{
+
+	}
+
 }
