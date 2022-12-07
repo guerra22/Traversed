@@ -37,6 +37,7 @@ void PanelScene::Update()
 {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar;
 	flags |= ImGuiWindowFlags_NoScrollWithMouse;
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 	if (ImGui::Begin(name.c_str(), 0, flags))
 	{
@@ -48,14 +49,10 @@ void PanelScene::Update()
 		if (ImGui::IsMouseHoveringRect(winPos, winSize))
 		{
 			ImVec2 mouseGlobalPos = ImGui::GetMousePos();
-			float2 normMousePos = float2(mouseGlobalPos.x - winPos.x, mouseGlobalPos.y - winPos.y);
+			float2 normMousePos = float2(mouseGlobalPos.x - winPos.x, mouseGlobalPos.y - winPos.y - ImGui::GetFrameHeight());
 
 			camInstance->isMouseOnScene = true;
-			//camInstance->mouseScreenPos.x = ((normMousePos.x - winSize.x / 2) / (winSize.x / 2)) * 1.0f;
-			//camInstance->mouseScreenPos.y = ((normMousePos.y - winSize.y / 2) / (winSize.y / 2)) * 1.0f;
-			//camInstance->mouseScreenPos.x = (normMousePos.x / (winSize.x / 2)) * 0.1f;
-			//camInstance->mouseScreenPos.y = (normMousePos.y / (winSize.y / 2)) * 0.1f;
-			camInstance->mouseScreenPos.x = -((normMousePos.x / segmentSize.x) - 0.5) * 2.0f;
+			camInstance->mouseScreenPos.x = ((normMousePos.x / segmentSize.x) - 0.5) * 2.0f;
 			camInstance->mouseScreenPos.y = ((1.0f - (normMousePos.y / segmentSize.y)) - 0.5) * 2.0f;
 		}
 		else camInstance->isMouseOnScene = false;
@@ -82,14 +79,15 @@ void PanelScene::Update()
 		Guizmo(camInstance->editorCamera, sceneInstance->GetSelectedGO());
 	}
 	ImGui::End();
+	ImGui::PopStyleVar();
 }
 
 void PanelScene::RenderSpace()
 {
-	float aux = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
+	//float aux = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
 
 	//Render Framebuffer
-	ImGui::SetCursorPosY(aux);
+	//ImGui::SetCursorPosY(aux);
 
 	camInstance->editorCamera.renderer->GetFrameBufffer()->SetViewport();
 

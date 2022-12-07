@@ -10,12 +10,10 @@ Renderer::Renderer(float2 size, Camera* camera)
 {
 	owner = camera;
 	frameBuffer = new FrameBuffer();
-	defaultFrameBuffer = new FrameBuffer();
 	Resize(size);
 
 	debugShader = new Shader(DEBUG_VERTEX_SHADER, DEBUG_FRAGMENT_SHADER, "DEBUG SHADER");
 	baseShader = new Shader(BASE_VERTEX_SHADER, BASE_FRAGMENT_SHADER, "BASE SHADER");
-	screenShader = new Shader("Shader/Post-processing/pp_Normal.vs", "Shader/Post-processing/pp_Normal.fs", "DEPHT SHADER");
 }
 
 Renderer::~Renderer()
@@ -53,7 +51,6 @@ void Renderer::Resize(float2 size)
 {
 	this->size = size;
 	frameBuffer->CreateBuffer(this->size.x, this->size.y);
-	defaultFrameBuffer->CreateBuffer(this->size.x, this->size.y);
 }
 
 #pragma region Renderer Update Phases
@@ -101,13 +98,6 @@ void Renderer::PostUpdate()
 	//Second Pass for Post-processing
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
-void Renderer::PostProcessing()
-{
-	screenShader->Use();
-	screenShader->SetInt("screenTexture", frameBuffer->GetTextureBuffer());
-}
-
 
 #pragma region Renderer Update Phases
 

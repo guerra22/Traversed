@@ -114,15 +114,15 @@ bool ModuleSceneIntro::Init()
 bool ModuleSceneIntro::Start()
 {
 	//Import Example mesh & texture
-	GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
-
-	std::vector<GameObject*> vGO = aux->GetChildrens();
+	//GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
+	//GameObject* aux = MeshImporter::ImportMesh("Assets/street/street2.fbx");
+	/*std::vector<GameObject*> vGO = aux->GetChildrens();
 
 	for (int i = 0; i < vGO.size(); ++i)
 	{
 		vGO[i]->GetComponent<ComponentMaterial>(MATERIAL)->SetTexture
-		(TextureImporter::ImportTexture("Assets/Resources/Baker_house.png"));
-	}
+		(TextureImporter::ImportTexture("Assets/Assets/street/Building_V01_C.png"));
+	}*/
 
 	if (sProps->root == nullptr) return UPDATE_CONTINUE;
 	InitGameObjects(sProps->root);
