@@ -36,6 +36,16 @@ void ComponentMesh::Update()
 {
 	if (mesh == nullptr) return;
 
+	//Update AABB
+	float4x4 aux = owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix();
+	//Generate global OBB
+	obb = this->mesh->mesh.localAABB;
+	obb.Transform(aux.Transposed());
+
+	//Generate global AABB
+	aabb.SetNegativeInfinity();
+	aabb.Enclose(obb);
+
 	camInstance->editorCamera.renderer->QueueMesh(this);
 
 	if (camInstance->gameCameras.size() != 0)

@@ -25,6 +25,10 @@ public:
 
 	bool ContainsBBox(AABB& bBox);
 
+	LineSegment ScreenPointToRay(float2 screenPos);
+
+	void SetAspectRatio(float aspectRatio);
+
 public:
 	float4x4 ProjectionMatrix;
 	float4x4 ViewMatrix;

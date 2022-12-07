@@ -13,6 +13,7 @@ public:
 
 	Camera editorCamera;
 	bool isMouseOnScene = false;
+	float2 mouseScreenPos = float2(0, 0);
 
 	std::vector<ComponentCamera*> gameCameras;
 	int mainCameraId;

@@ -5,6 +5,7 @@
 #include "Component.h"
 
 #include "MeshRenderer.h"
+#include "External/MathGeo/include/Geometry/OBB.h"
 
 struct CameraProperties;
 
@@ -29,11 +30,17 @@ public:
 	MeshRenderer* GetMesh();
 	void SetMesh(MeshRenderer* mesh);
 
+	OBB& GetOBB() { return obb; }
+	AABB& GetAABB() { return aabb; }
+
 private:
 	void SetNormalsString();
 
 private:
 	MeshRenderer* mesh = nullptr;
+
+	OBB obb;
+	AABB aabb;
 
 	CameraProperties* camInstance = nullptr;
 

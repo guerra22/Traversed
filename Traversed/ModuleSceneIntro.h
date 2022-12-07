@@ -3,10 +3,12 @@
 #include "Module.h"
 
 #include <vector>
+#include "External/MathGeo/include/Geometry/LineSegment.h"
 
 class Application;
 class GameObject;
 class ComponentCamera;
+class MeshRenderer;
 
 struct CameraProperties;
 
@@ -22,6 +24,10 @@ public:
 	static void Delete();
 
 	GameObject* GetSelectedGO(GameObject* go = nullptr);
+
+	void UnselectGO();
+
+	bool Intersect(GameObject* go, LineSegment ray);
 
 	int GetGuizmoOperation() { return guizmoOperation; }
 	void SetGuizmoOperation(int value) { guizmoOperation = value; }
