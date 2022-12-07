@@ -14,7 +14,6 @@
 #include "PanelGame.h"
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
-
 #include "PanelLibrary.h"
 
 #include "ImGuiFileDialog/ImGuiFileDialog.h"

@@ -7,13 +7,13 @@
 #define CONFIG_FILENAME "Settings/config.xml"
 
 class Module;
-class ModuleCamera3D;
 class ModuleWindow;
 class ModuleInput;
-class ModuleUI;
-class ModuleSceneIntro;
 class ModuleFileSystem;
 class ModuleResources;
+class ModuleCamera3D;
+class ModuleUI;
+class ModuleSceneIntro;
 class ModuleRenderer3D;
 
 struct Time
@@ -37,12 +37,12 @@ class Application
 public:
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
-	ModuleRenderer3D* renderer3D = nullptr;
-	ModuleCamera3D* camera = nullptr;
-	ModuleUI* ui = nullptr;
-	ModuleSceneIntro* sceneintro = nullptr;
 	ModuleFileSystem* filesystem = nullptr;
 	ModuleResources* resources = nullptr;
+	ModuleCamera3D* camera = nullptr;
+	ModuleSceneIntro* sceneintro = nullptr;
+	ModuleUI* ui = nullptr;
+	ModuleRenderer3D* renderer3D = nullptr;
 
 	float fps = 1.0f / 60.0f;
 	Timer timer;

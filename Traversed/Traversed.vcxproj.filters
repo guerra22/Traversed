@@ -126,9 +126,6 @@
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="DevIL.h">
-      <Filter>Sources\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Sources\GameObject</Filter>
     </ClInclude>

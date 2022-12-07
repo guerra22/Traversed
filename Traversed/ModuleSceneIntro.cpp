@@ -113,16 +113,6 @@ bool ModuleSceneIntro::Init()
 
 bool ModuleSceneIntro::Start()
 {
-	//GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
-	//GameObject* aux = MeshImporter::ImportMesh("Assets/street/Street environment_V01.FBX");
-	//std::vector<GameObject*> vGO = aux->GetChildrens();
-
-	/*for (int i = 0; i < vGO.size(); ++i)
-	{
-		vGO[i]->GetComponent<ComponentMaterial>(MATERIAL)->SetTexture
-		(TextureImporter::ImportTexture("Assets/Assets/street/Building_V01_C.png"));
-	}*/
-
 	if (sProps->root == nullptr) return UPDATE_CONTINUE;
 	InitGameObjects(sProps->root);
 
@@ -239,7 +229,7 @@ void ModuleSceneIntro::SaveScene()
 	data.data.emplace("GameObjects", goPool);
 
 	//Save to JSON
-	LibraryManager::SaveJSON("Library/Scenes/Baker_house.sc", data.data.dump(4));
+	LibraryManager::SaveJSON("Library/Scenes/Test.sc", data.data.dump(4));
 }
 
 void ModuleSceneIntro::LoadScene(std::string filePath)

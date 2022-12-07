@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Globals.h"
 
 #include <string>
@@ -10,6 +9,7 @@
 #define LIB_MATERIALS "Library/Materials";
 #define LIB_TEXTURES "Library/Textures";
 #define LIB_SCENES "Library/Scenes";
+
 
 class LibraryFolder;
 

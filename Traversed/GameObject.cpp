@@ -74,7 +74,6 @@ void GameObject::UpdateCompMenuGUI()
 	ImGui::Separator();
 	ImGui::NewLine();
 
-
 	if (ImGui::BeginCombo(" ", "Add Component", ImGuiComboFlags_PopupAlignLeft))
 	{
 		for (int compType = TRANSFORM; compType != LAST; compType++)
@@ -90,26 +89,8 @@ void GameObject::UpdateCompMenuGUI()
 			}
 
 		}
-
 		ImGui::EndCombo();
 	}
-
-	/*if (ImGui::Button("Save GO"))
-	{
-		Save();
-	}
-
-	if (ImGui::Button("Load GO"))
-	{
-		nlohmann::JsonData data;
-		char* buffer = nullptr;
-
-		uint size = LibraryManager::Load("Library/JsonTest.go", &buffer);
-		data.data = nlohmann::ordered_json::parse(buffer, buffer + size);
-		RELEASE(buffer);
-
-		Load(data);
-	}*/
 }
 
 Component* GameObject::CreateComponent(CO_TYPE type)
@@ -124,18 +105,18 @@ Component* GameObject::CreateComponent(CO_TYPE type)
 
 	switch (type)
 	{
-	case TRANSFORM:
-		toReturn = new ComponentTransform(this, TE_UUID::Generate());
-		break;
-	case MESH:
-		toReturn = new ComponentMesh(this, TE_UUID::Generate());
-		break;
-	case MATERIAL:
-		toReturn = new ComponentMaterial(this, TE_UUID::Generate());
-		break;
-	case CAMERA:
-		toReturn = new ComponentCamera(this, TE_UUID::Generate());
-		break;
+	    case TRANSFORM:
+		    toReturn = new ComponentTransform(this, TE_UUID::Generate());
+		    break;
+	    case MESH:
+		    toReturn = new ComponentMesh(this, TE_UUID::Generate());
+		    break;
+	    case MATERIAL:
+		    toReturn = new ComponentMaterial(this, TE_UUID::Generate());
+		    break;
+	    case CAMERA:
+		    toReturn = new ComponentCamera(this, TE_UUID::Generate());
+		    break;
 	}
 
 	if (toReturn != nullptr) components[type] = toReturn;
@@ -266,10 +247,6 @@ nlohmann::ordered_json GameObject::Save()
 		aux.push_back(comp.second->Save());
 	}
 	data.data.emplace("Components", aux);
-	/*std::string savePath = LIB_MODELS;
-	savePath += "/";
-	savePath += this->uuid;
-	LibraryManager::SaveJSON(savePath, data.data.dump(4)); */
 
 	return data.data;
 }

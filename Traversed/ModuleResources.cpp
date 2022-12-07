@@ -198,7 +198,6 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 			{
 				res->CleanInstance();
 				ImportFile(res); //Imports to lib
-
 			}
 
 			resProps->resources[res->GetUUID()] = res;

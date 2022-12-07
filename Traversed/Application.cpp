@@ -1,6 +1,8 @@
 #include "Application.h"
 
 #include "Loggs.h"
+
+//Modules
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
@@ -36,12 +38,12 @@ Application::Application()
 {
 	window = new ModuleWindow(this, true);
 	input = new ModuleInput(this, true);
-	renderer3D = new ModuleRenderer3D(this, true);
-	camera = new ModuleCamera3D(this, true);
-	ui = new ModuleUI(this, true);
-	sceneintro = new ModuleSceneIntro(this, true);
 	filesystem = new ModuleFileSystem(this, true);
 	resources = new ModuleResources(this, true);
+	camera = new ModuleCamera3D(this, true);
+	sceneintro = new ModuleSceneIntro(this, true);
+	ui = new ModuleUI(this, true);
+	renderer3D = new ModuleRenderer3D(this, true);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -179,7 +181,6 @@ void Application::LoadEditorConfiguration()
 	{
 		pugi::xml_node data = config.child("config").child(list_modules[i]->name.c_str());
 		list_modules[i]->LoadSettingsData(data);
-
 	}
 	//Load fps cap
 	G_Time->frameCap = config.first_child().child("Application").child("FpsCap").attribute("value").as_int();

@@ -21,7 +21,6 @@ public:
 public:
 	LibraryFolder* rootFolder = nullptr;
 	LibraryFolder* currentFolder = nullptr;
-	ResourceProperties* resProps = nullptr;
 
 private:
 	static FileSystemProperties* instance;

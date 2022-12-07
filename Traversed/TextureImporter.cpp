@@ -3,7 +3,6 @@
 #include "LibraryManager.h"
 
 #include "External/Glew/include/glew.h"
-
 #include "External/DevIL/include/il.h"
 #include "External/DevIL/include/ilut.h"
 #include "External/Nlohmann/json.hpp"
@@ -85,7 +84,6 @@ TextureData* TextureImporter::ImportTexture(std::string filePath)
 		ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
 
 		TextureData* txtData = new TextureData();;
-
 
 		glGenTextures(1, &txtData->texture.id);
 		glBindTexture(GL_TEXTURE_2D, txtData->texture.id);
@@ -201,8 +199,8 @@ void TextureImporter::ImportToLibrary(ResourceTexture* resource)
 		{
 			LOG(LOG_TYPE::ERRO, "ERROR: Could not save image to library '%s'", ilutGetString(ilGetError()));
 		}
-		RELEASE_ARRAY(data);
 
+		RELEASE_ARRAY(data);
 		ilDeleteImages(1, &imgID);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

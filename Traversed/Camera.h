@@ -41,3 +41,4 @@ public:
 
 	Renderer* renderer = nullptr;
 };
+

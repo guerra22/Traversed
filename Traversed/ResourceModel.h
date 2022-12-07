@@ -1,9 +1,7 @@
 #pragma once
 #include "Resource.h"
 
-
 class MeshRenderer;
-
 struct SubMeshResource
 {
 	MeshRenderer* meshRenderer = nullptr;
@@ -31,7 +29,6 @@ public:
 	//std::vector<std::string> meshesUuid;
 
 	void CleanInstance() override;
-
 	void PlanDelete() override;
 
 	void CleanMeshRendererMap();
@@ -44,3 +41,4 @@ public:
 	std::map<std::string, SubMeshResource*>* meshRendererMap;
 	//std::map<std::string, std::string> *meshCCF = nullptr; //UUID, CFF 
 };
+

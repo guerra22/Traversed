@@ -91,7 +91,6 @@
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentTransform.h" />
-    <ClInclude Include="DevIL.h" />
     <ClInclude Include="External\GPUDetect\DeviceId.h" />
     <ClInclude Include="External\GPUDetect\dxgi1_4.h" />
     <ClInclude Include="External\ImGuiFileDialog\dirent\dirent.h" />

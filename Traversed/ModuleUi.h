@@ -1,5 +1,5 @@
-#ifndef __ModuleUi_H__
-#define __ModuleUi_H__
+#ifndef __ModuleUI_H__
+#define __ModuleUI_H__
 
 #include "Module.h"
 

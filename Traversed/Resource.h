@@ -47,9 +47,7 @@ public:
 
 protected:
 	virtual nlohmann::JsonData SaveUnique(nlohmann::JsonData data);
-
 	virtual void LoadUnique(nlohmann::JsonData data);
-
 protected:
 	std::string uuid;
 	std::string assetsFile;
@@ -59,3 +57,4 @@ protected:
 
 	uint referenceCount = 0;
 };
+

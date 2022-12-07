@@ -6,7 +6,6 @@
 class GameObject;
 struct SceneProperties;
 
-
 class PanelInspector : public UiPanel
 {
 public:

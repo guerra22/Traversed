@@ -26,6 +26,7 @@ public:
 	std::string extension;
 	bool active = false;
 
+
 	std::string GetMeta() const
 	{
 		std::string toReturn = path;
@@ -54,6 +55,7 @@ public:
 	std::vector<LibraryFolder*> children;
 
 	std::vector<LibraryItem*> libItem; //Contains all files
+
 
 public:
 	void CleanUp()

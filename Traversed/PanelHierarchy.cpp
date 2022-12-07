@@ -167,7 +167,7 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 	if (ImGui::MenuItem("DELETE", 0, false, go == nullptr ? false : true))
 	{
 		//auxGO->DeleteGameObject();
-		LOG(LOG_TYPE::ATTENTION, "DELETE GAMEOBJECT NOT YET IMPLEMENTED", go->name.c_str());
+		//LOG(LOG_TYPE::ATTENTION, "DELETE GAMEOBJECT NOT YET IMPLEMENTED", go->name.c_str());
 	}
 }
 

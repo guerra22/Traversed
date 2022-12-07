@@ -51,7 +51,6 @@ void PanelGame::Update()
 
 				Resize();
 			}
-
 		}
 		RenderSpace();
 	}

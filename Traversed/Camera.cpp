@@ -26,6 +26,7 @@ Camera::Camera()
 	frustum.up = Y;
 
 	frustum.pos = Position;
+
 }
 
 Camera::~Camera()
@@ -101,7 +102,6 @@ bool Camera::ContainsBBox(AABB& bBox)
 {
 	float3 vCorner[8];
 	int iTotalIn = 0;
-
 	math::Plane frustumPlanes[6];
 	frustum.GetPlanes(frustumPlanes);
 
@@ -114,7 +114,7 @@ bool Camera::ContainsBBox(AABB& bBox)
 		int iPtIn = 1;
 		for (int i = 0; i < 8; ++i) {
 			// test this point against the planes
-			if (frustumPlanes[p].IsOnPositiveSide(vCorner[i])) { //<-- ¡°IsOnPositiveSide¡± from MathGeoLib
+			if (frustumPlanes[p].IsOnPositiveSide(vCorner[i])) { //<-- “IsOnPositiveSide?from MathGeoLib
 				iPtIn = 0;
 				--iInCount;
 			}

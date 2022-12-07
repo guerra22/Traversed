@@ -1,7 +1,6 @@
 #ifndef _COMPONENTMESH_H
 #define _COMPONENTMESH_H
 
-#pragma once
 #include "Component.h"
 
 #include "MeshRenderer.h"

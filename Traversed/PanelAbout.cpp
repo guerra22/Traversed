@@ -4,7 +4,6 @@
 
 #include "External/SDL/include/SDL.h"
 #include "MathGeoLib.h"
-
 #include "External/Glew/include/glew.h"
 #include "External/Assimp/include/assimp/version.h"
 #include "External/Nlohmann/json.hpp"

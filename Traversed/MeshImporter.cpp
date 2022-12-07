@@ -42,44 +42,6 @@ void MeshImporter::CleanUp()
 	//detach log stream
 	aiDetachAllLogStreams();
 }
-
-//GameObject* MeshImporter::ImportMesh(std::string filePath, GameObject* parent, bool dragAndDrop)
-//{
-//	GameObject* toReturn = nullptr;
-//
-//	const aiScene* scene = aiImportFile(filePath.c_str(), aiProcessPreset_TargetRealtime_Fast);
-//
-//	aiNode* node = nullptr;
-//
-//	if (scene != nullptr && scene->HasMeshes())
-//	{
-//		if (dragAndDrop) LOG(LOG_TYPE::SUCCESS, "IMPORTING FILE: %s", filePath.c_str());
-//
-//		node = scene->mRootNode;
-//
-//		if (parent == nullptr)
-//		{
-//			toReturn = GenerateGameObjects(node, scene);
-//			SceneProperties::Instance()->root->AddChildren(toReturn);
-//		}
-//		else
-//		{
-//			parent->AddChildren(GenerateGameObjects(node, scene));
-//			toReturn = parent;
-//		}
-//	}
-//
-//	if (scene == nullptr && dragAndDrop) LOG(LOG_TYPE::ERRO, "ERROR: Importing file: '%s'", filePath.c_str());
-//
-//	//Save model
-//	/*if (toReturn != nullptr)
-//	{
-//		std::vector<nlohmann::ordered_json> goPool;
-//		SaveGameObjects(toReturn go);
-//	}*/
-//
-//	return toReturn;
-//}
 			
 MeshRenderer* MeshImporter::ImportMeshFromLibrary(ResourceModel* model, std::string meshUuid)
 {

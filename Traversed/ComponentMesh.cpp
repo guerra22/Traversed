@@ -21,6 +21,7 @@ ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(ow
 	camInstance = CameraProperties::Instance();
 
 	normals = Debug_Normals::OFF;
+
 	SetNormalsString();
 
 	normalsMagnitude = 0.25f;

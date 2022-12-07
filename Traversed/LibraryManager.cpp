@@ -1,6 +1,8 @@
 #include "LibraryManager.h"
-#include "LibraryFolder.h"
+
 #include "Globals.h"
+
+#include "LibraryFolder.h"
 
 #include "External/SDL/include/SDL.h"
 #include "External/PhysFS/include/physfs.h"
@@ -10,6 +12,7 @@ void LibraryManager::Init(LibraryFolder& root)
 	char* base_path = SDL_GetBasePath();
 	PHYSFS_init(nullptr);
 	SDL_free(base_path);
+
 
 	if (PHYSFS_setWriteDir(".") == 0)
 		LOG(LOG_TYPE::NONE, "File System error while creating write dir: %s\n", PHYSFS_getLastError());
@@ -30,14 +33,19 @@ void LibraryManager::GenerateLibrary()
 {
 	std::string aux = LIB_ROOT;
 	CreateDir(aux);
+
 	aux = LIB_MESHES;
 	CreateDir(aux);
+
 	aux = LIB_MATERIALS;
 	CreateDir(aux);
+
 	aux = LIB_MODELS;
 	CreateDir(aux);
+
 	aux = LIB_TEXTURES;
 	CreateDir(aux);
+
 	aux = LIB_SCENES;
 	CreateDir(aux);
 }
@@ -56,7 +64,9 @@ void LibraryManager::FolderSystemUpdate(LibraryFolder* folder, bool recursive)
 		path += "/";
 		path += c;
 
+
 		if (folder->ContainsPath(path)) continue; //Continue if the path already exists
+
 
 		if (IsDirectory(path))
 		{

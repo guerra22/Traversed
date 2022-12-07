@@ -1,15 +1,14 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
-
+#include "LibraryFolder.h"
+#include "LibraryManager.h"
 #include "MeshImporter.h"
 #include "TextureImporter.h"
-#include "ModuleSceneintro.h"
 #include "ModuleResources.h"
+#include "ModuleSceneintro.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
-#include "LibraryManager.h"
-#include "LibraryFolder.h"
 
 #include "External/PhysFS/include/physfs.h"
 
@@ -120,38 +119,38 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 		extension = path.substr(pos + 1);
 	switch (str2int(extension.c_str()))
 	{
-	case str2int("fbx"):
+	    case str2int("fbx"):
 		//MeshImporter::ImportMesh(path, nullptr, true);
 			//break;
-	case str2int("dds"):
-	case str2int("png"):
-	{
-		LibraryManager::Copy(path, fsProps->currentFolder->path);
+	    case str2int("dds"):
+	    case str2int("png"):
+	    {
+		    LibraryManager::Copy(path, fsProps->currentFolder->path);
 
-		//TextureImporter::ImportTexture(path);
-		/*GameObject* aux = sProps->GetSelectedGO();
-		if (aux != nullptr)
-		{
-			ComponentMaterial* auxText = nullptr;
-			auxText = aux->GetComponent<ComponentMaterial>(MATERIAL);
-			if (auxText != nullptr)
-			{
-				auxText->SetTexture(TextureImporter::ImportTexture(path));
-			}
-			else
-			{
-				LOG(LOG_TYPE::ERRO, "ERROR: The selected 'GameObject' doesn't have a 'CompTexture'");
-			}
-		}
-		else
-		{
-			LOG(LOG_TYPE::ERRO, "ERROR: There is no 'GameObject' selected!");
-		}*/
-	}
-	break;
-	case str2int("jpg"):
-		LOG(LOG_TYPE::ERRO, "ERROR: JPG format not supported!");
-		break;
+		    //TextureImporter::ImportTexture(path);
+		    /*GameObject* aux = sProps->GetSelectedGO();
+		    if (aux != nullptr)
+		    {
+			    ComponentMaterial* auxText = nullptr;
+			    auxText = aux->GetComponent<ComponentMaterial>(MATERIAL);
+			    if (auxText != nullptr)
+			    {
+			 	    auxText->SetTexture(TextureImporter::ImportTexture(path));
+			    }
+			    else
+			    {
+				    LOG(LOG_TYPE::ERRO, "ERROR: The selected 'GameObject' doesn't have a 'CompTexture'");
+			    }
+		    }
+		    else
+		    {
+			    LOG(LOG_TYPE::ERRO, "ERROR: There is no 'GameObject' selected!");
+		     }*/
+	    }
+	        break;
+	    case str2int("jpg"):
+		    LOG(LOG_TYPE::ERRO, "ERROR: JPG format not supported!");
+		    break;
 	}
 	LibraryManager::FolderSystemUpdate(fsProps->currentFolder);
 	resProps->requestFolderFileCheck = true;
