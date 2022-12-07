@@ -1,4 +1,5 @@
 #include "ComponentTransform.h"
+#include "GameObject.h"
 #include "External/MathGeo/include/MathGeoLib.h"
 
 #include "External/ImGui/imgui.h"
@@ -40,6 +41,25 @@ void ComponentTransform::UpdateGUI()
 
 float4x4 ComponentTransform::GetWorldMatrix()
 {
+	float4x4 parentFloat = float4x4::identity;
+	if (owner->parent != nullptr)
+	{
+		ComponentTransform* parentTransform = owner->parent->GetComponent<ComponentTransform>(TRANSFORM);
+		if (parentTransform != nullptr)
+		{
+			parentFloat = parentTransform->GetWorldMatrix();
+		}
+	}
+
+	math::Quat q = Quat::FromEulerXYZ(math::DegToRad(rotation.x), math::DegToRad(rotation.y), math::DegToRad(rotation.z));
+	float4x4 toReturn = float4x4::FromTRS(position, q.ToFloat4x4(), localScale);
+	toReturn.Transpose();
+	toReturn = toReturn * parentFloat;
+	return toReturn;
+}
+
+float4x4 ComponentTransform::GetLocalMatrix()
+{
 	math::Quat q = Quat::FromEulerXYZ(math::DegToRad(rotation.x), math::DegToRad(rotation.y), math::DegToRad(rotation.z));
 	float4x4 toReturn = float4x4::FromTRS(position, q.ToFloat4x4(), localScale);
 
@@ -50,6 +70,7 @@ float4x4 ComponentTransform::GetWorldMatrix()
 
 void ComponentTransform::SetWorldMatrix(float4x4 matrix)
 {
+	//if (owner->parent != nullptr)
 	math::Quat q;
 	matrix.Decompose(position, q, localScale);
 

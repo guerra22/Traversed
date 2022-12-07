@@ -34,6 +34,8 @@ void LibraryManager::GenerateLibrary()
 	CreateDir(aux);
 	aux = LIB_MATERIALS;
 	CreateDir(aux);
+	aux = LIB_MODELS;
+	CreateDir(aux);
 	aux = LIB_TEXTURES;
 	CreateDir(aux);
 	aux = LIB_SCENES;

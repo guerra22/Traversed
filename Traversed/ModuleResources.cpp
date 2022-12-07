@@ -66,6 +66,7 @@ bool ModuleResources::CleanUp()
 	{
 		if (res.second != nullptr)
 		{
+			res.second->Save(); //Save just in case
 			RELEASE(resProps->resources[res.first]);
 		}
 	}
@@ -185,7 +186,9 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder)
 				res->Load();
 			}
 
-			ImportFile(res); //Imports to lib
+			//Import the file if the meta doesn't have a direction to the library file or the library file can't be found.
+			if (res->GetLibraryFile().empty() || !LibraryManager::Exists(res->GetLibraryFile())) ImportFile(res); //Imports to lib
+
 			resProps->resources[res->GetUUID()] = res;
 
 			folder->libItem[i]->hasResourceBeenLoaded = true;

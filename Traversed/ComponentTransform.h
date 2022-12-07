@@ -22,6 +22,7 @@ public:
 	void LoadUnique(nlohmann::JsonData data) override;
 
 	float4x4 GetWorldMatrix();
+	float4x4 GetLocalMatrix();
 
 	void SetWorldMatrix(float4x4 matrix);
 
