@@ -2,6 +2,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleSceneintro.h"
 #include "ModuleUI.h"
+#include "ModuleResources.h"
 #include "FrameBuffer.h"
 
 #include "Camera.h"
@@ -12,6 +13,10 @@
 #include "External/ImGui/imgui_internal.h"
 #include "External/ImGuizmo/ImGuizmo.h"
 
+#include "LibraryFolder.h"
+#include "ResourceMesh.h"
+#include "MeshImporter.h"
+
 PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 {
 	name = "Scene";
@@ -20,6 +25,7 @@ PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 	camInstance = CameraProperties::Instance();
 	sceneInstance = SceneProperties::Instance();
 	editorInstance = EditorProperties::Instance();
+	resourceInstance = ResourceProperties::Instance();
 }
 
 PanelScene::~PanelScene()
@@ -93,6 +99,7 @@ void PanelScene::RenderSpace()
 
 	ImTextureID texID = (ImTextureID)camInstance->editorCamera.renderer->GetFrameBufffer()->GetTextureBuffer();
 	ImGui::Image(texID, segmentSize, ImVec2(0, 1), ImVec2(1, 0));
+	DropTarget();
 }
 
 void PanelScene::Guizmo(Camera& cam, GameObject* go)
@@ -118,5 +125,25 @@ void PanelScene::Guizmo(Camera& cam, GameObject* go)
 	{
 		aux.Transpose();
 		transform->SetWorldMatrix(aux);
+	}
+}
+
+void PanelScene::DropTarget()
+{
+	if (ImGui::BeginDragDropTarget())
+	{
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ContentBrowserItem"))
+		{
+			IM_ASSERT(payload->DataSize == sizeof(LibraryItem));
+			const LibraryItem item = *static_cast<const LibraryItem*>(payload->Data);
+
+			if (item.extension.compare("fbx"))
+			{
+				ResourceMesh* res = (ResourceMesh*)resourceInstance->resources[item.resUuid];
+			}
+
+		}
+
+		ImGui::EndDragDropTarget();
 	}
 }

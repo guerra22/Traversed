@@ -107,6 +107,7 @@ void PanelLibrary::BoxView()
 		//Iterate files
 		for (int k = 0; k < currentFolder->libItem.size(); ++k)
 		{
+			ImGui::PushID(k);
 			if (ImGui::ImageButton(0, { cellSize, cellSize }))
 			{
 				switch (str2int(currentFolder->libItem[k]->extension.c_str()))
@@ -120,9 +121,19 @@ void PanelLibrary::BoxView()
 					break;
 				}
 			}
-			else ImGui::Text(currentFolder->libItem[k]->name.c_str());
+			//Drag
+			if (ImGui::BeginDragDropSource())
+			{
+				ImGui::SetDragDropPayload("ContentBrowserItem", currentFolder->libItem[k], sizeof(LibraryItem));
+				ImGui::Text(currentFolder->libItem[k]->name.c_str());
+
+				ImGui::EndDragDropSource();
+			}
+
+			ImGui::Text(currentFolder->libItem[k]->name.c_str());
 
 			ImGui::NextColumn();
+			ImGui::PopID();
 		}
 		ImGui::Columns(1);
 		//Options

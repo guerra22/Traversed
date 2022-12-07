@@ -113,7 +113,7 @@ bool ModuleSceneIntro::Init()
 
 bool ModuleSceneIntro::Start()
 {
-	GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
+	//GameObject* aux = MeshImporter::ImportMesh("Assets/BakerHouse.fbx");
 	//GameObject* aux = MeshImporter::ImportMesh("Assets/street/Street environment_V01.FBX");
 	//std::vector<GameObject*> vGO = aux->GetChildrens();
 
