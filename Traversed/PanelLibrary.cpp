@@ -27,7 +27,7 @@ void PanelLibrary::Start()
 	currentFolder = fsIntance->rootFolder;
 	fsIntance->currentFolder = currentFolder;
 	//Checks firsts when the app loads 
-	resInstance->requestFolderFileCheck = true;
+	//resInstance->requestFolderFileCheck = true;
 
 	leftWin = 0;
 	rightWin = 0;

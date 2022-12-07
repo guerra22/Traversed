@@ -28,10 +28,19 @@ ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(ow
 
 ComponentMesh::~ComponentMesh()
 {
-	/*if (mesh != nullptr)
+	if (mesh != nullptr)
 	{
-		RELEASE(mesh);
-	}*/
+		if (!mesh->uuid.empty() && !mesh->modelUuid.empty())
+		{
+			ResourceModel* resource = nullptr;
+
+			//Needs to check if contains the resource since Resources are created after imporing the Model to the library.
+			if (ResourceProperties::Instance()->resources.count(mesh->modelUuid))
+				resource = (ResourceModel*)ResourceProperties::Instance()->resources[mesh->modelUuid];
+
+			if (resource != nullptr) resource->meshRendererMap->at(mesh->uuid)->DecreaseRC();
+		}
+	}
 }
 
 void ComponentMesh::Update()

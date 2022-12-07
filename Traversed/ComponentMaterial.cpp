@@ -17,7 +17,15 @@ ComponentMaterial::ComponentMaterial(GameObject* owner, std::string uuid) : Comp
 
 ComponentMaterial::~ComponentMaterial()
 {
+	if (!texture.resUuid.empty())
+	{
+		ResourceTexture* resource = (ResourceTexture*)ResourceProperties::Instance()->resources[texture.resUuid];
 
+		if (resource != nullptr)
+		{
+			resource->DecreaseRC();
+		}
+	}
 }
 
 void ComponentMaterial::Init()
@@ -80,7 +88,7 @@ void ComponentMaterial::TextureDrop()
 			IM_ASSERT(payload->DataSize == sizeof(LibraryItem));
 			const LibraryItem item = *static_cast<const LibraryItem*>(payload->Data);
 
-			ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources[item.resUuid];
+			ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(item.resUuid);
 
 			if (!texture.resUuid.empty()) //Decrease current RC
 				ResourceProperties::Instance()->resources[texture.resUuid]->DecreaseRC();
@@ -114,6 +122,7 @@ nlohmann::ordered_json ComponentMaterial::SaveUnique(nlohmann::JsonData data)
 {
 
 	data.SetString("Path", texture.path);
+	data.SetString("Texture Uuid", texture.resUuid);
 	data.SetBool("Checkers", isCheckers);
 
 
@@ -123,7 +132,8 @@ nlohmann::ordered_json ComponentMaterial::SaveUnique(nlohmann::JsonData data)
 void ComponentMaterial::LoadUnique(nlohmann::JsonData data)
 {
 	std::string texToLoad(data.GetString("Path"));
-	//texture = TextureImporter::ImportTexture(texToLoad);
+	texture = TextureImporter::ImportFromLibrary((ResourceTexture*)
+		ResourceProperties::Instance()->resources[data.GetString("Texture Uuid")]);
 
 	isCheckers = data.GetBool("Checkers");
 }

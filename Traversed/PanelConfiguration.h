@@ -12,13 +12,13 @@ class RenderProperties;
 class WindowProperties;
 class EditorProperties;
 class CameraProperties;
+class ResourceProperties;
 
 class PanelConfiguration : public UiPanel
 {
 public:
 	PanelConfiguration(bool enabled = false);
 	~PanelConfiguration();
-
 	void Update() override;
 
 private:
@@ -28,6 +28,7 @@ private:
 	void RenderingHeader();
 	void EditorHeader();
 	void GameHeader();
+	void ActiveResourceHeader();
 
 	void GetCaps();
 
@@ -37,16 +38,15 @@ private:
 	WindowProperties* wProps = nullptr;
 	EditorProperties* eProps = nullptr;
 	CameraProperties* cProps = nullptr;
+	ResourceProperties* resProps = nullptr;
+
 	Time* time = nullptr;
 
 	bool vsync = false;
-
 	/*std::string strCaps;*/
 	std::vector<float> framerateQueue;
 	std::vector<float> milisecondsQueue;
-
 	std::string strCaps;
-
 	uint64 ram;
 	uint64 cpuCount;
 	uint64 cache;

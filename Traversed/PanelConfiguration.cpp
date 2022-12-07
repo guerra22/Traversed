@@ -4,6 +4,9 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
 #include "ModuleUI.h"
+#include "ModuleResources.h"
+#include "ResourceModel.h"
+#include "ResourceTexture.h"
 
 #include "ComponentCamera.h"
 #include "GameObject.h"
@@ -22,6 +25,7 @@ PanelConfiguration::PanelConfiguration(bool enabled) : UiPanel(enabled)
 	rProps = RenderProperties::Instance();
 	eProps = EditorProperties::Instance();
 	cProps = CameraProperties::Instance();
+	resProps = ResourceProperties::Instance();
 	time = Time::Instance();
 
 	//GetCaps();
@@ -68,6 +72,7 @@ void PanelConfiguration::Update()
 		if (ImGui::CollapsingHeader("Window")) WindowHeader();
 		if (ImGui::CollapsingHeader("Input")) InputHeader();
 		if (ImGui::CollapsingHeader("Rendering")) RenderingHeader();
+		if (ImGui::CollapsingHeader("Active Resource")) ActiveResourceHeader();
 		if (ImGui::CollapsingHeader("Game")) GameHeader();
 		if (ImGui::CollapsingHeader("Editor")) EditorHeader();
 	}
@@ -273,6 +278,56 @@ void PanelConfiguration::GameHeader()
 			ImGui::EndCombo();
 		}
 	}
+}
+
+void PanelConfiguration::ActiveResourceHeader()
+{
+	uint total = 0;
+
+	ImGui::Columns(3, 0);
+	for (auto const& res : resProps->resources)
+	{
+		if (res.second != nullptr)
+		{
+			if (res.second->GetType() == RESOURCE_TYPE::MODEL)
+			{
+				ResourceModel* model = (ResourceModel*)resProps->resources[res.first];
+				if (model == nullptr) continue;
+
+				for (auto const& m : *model->meshRendererMap)
+				{
+					if (m.second->referenceCount > 0)
+					{
+						ImGui::Text(std::to_string(m.second->referenceCount).c_str());
+						ImGui::NextColumn();
+						ImGui::Text(m.first.c_str());
+						ImGui::NextColumn();
+						ImGui::Text(m.second->libPath.c_str());
+						ImGui::NextColumn();
+						total++;
+					}
+				}
+			}
+			else
+			{
+				if (res.second->GetRC() > 0)
+				{
+					ImGui::Text(std::to_string(res.second->GetRC()).c_str());
+					ImGui::NextColumn();
+					ImGui::Text(res.first.c_str());
+					ImGui::NextColumn();
+					ImGui::Text(res.second->GetLibraryFile().c_str());
+					ImGui::NextColumn();
+					total++;
+				}
+			}
+		}
+	}
+	ImGui::Columns(1);
+
+	std::string totalText = "Total: ";
+	totalText += std::to_string(total);
+	ImGui::Text(totalText.c_str());
 }
 
 #pragma endregion Configuration methods

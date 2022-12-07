@@ -33,7 +33,8 @@ public:
 	void DecreaseRC()
 	{
 		--referenceCount;
-		CleanInstance();
+
+		if (referenceCount < 1) CleanInstance();
 	}
 	uint GetRC() { return referenceCount; }
 

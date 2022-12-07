@@ -50,6 +50,7 @@ bool ModuleResources::Init()
 	resProps = ResourceProperties::Instance();
 	fsProps = FileSystemProperties::Instance();
 
+	resProps->requestFullFolderFileCheck = true;
 
 	return true;
 }
@@ -86,6 +87,11 @@ UpdateStatus ModuleResources::PreUpdate()
 		resProps->requestFolderFileCheck = false;
 	}
 
+	if (resProps->requestFullFolderFileCheck)
+	{
+		FolderFileCheck(fsProps->rootFolder, true);
+		resProps->requestFullFolderFileCheck = false;
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -152,7 +158,7 @@ void ModuleResources::UnloadResource(Resource* resource)
 	resProps->resources.erase(uuid);
 }
 
-void ModuleResources::FolderFileCheck(LibraryFolder* folder)
+void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 {
 	for (int i = 0; i < folder->libItem.size(); ++i)
 	{
@@ -181,6 +187,13 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder)
 			resProps->resources[res->GetUUID()] = res;
 
 			folder->libItem[i]->resUuid = res->GetUUID();
+		}
+	}
+	if (fullCheck)
+	{
+		for (int k = 0; k < folder->children.size(); ++k)
+		{
+			FolderFileCheck(folder->children[k], fullCheck);
 		}
 	}
 }
