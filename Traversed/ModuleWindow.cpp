@@ -58,8 +58,8 @@ void WindowProperties::ToggleFullscreen()
 
 void WindowProperties::ToggleResizable()
 {
-	/*if (resizable) SDL_SetWindowResizable(window, SDL_TRUE);
-	else SDL_SetWindowResizable(window, SDL_FALSE);*/
+	if (resizable) SDL_SetWindowResizable(window, SDL_TRUE);
+	else SDL_SetWindowResizable(window, SDL_FALSE);
 }
 
 void WindowProperties::ToggleBorderless()
