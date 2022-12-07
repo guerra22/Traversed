@@ -40,8 +40,6 @@ public:
 	static Texture ImportFromLibrary(ResourceTexture* resource);
 	static void ImportToLibrary(ResourceTexture* resource);
 
-private:
-
 	static void CheckerImage();
 
 public:

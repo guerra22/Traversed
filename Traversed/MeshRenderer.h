@@ -90,6 +90,7 @@ public:
 	std::string modelUuid;
 	std::string uuid;
 
+	bool planDelete = false;
 private:
 
 	uint VAO;

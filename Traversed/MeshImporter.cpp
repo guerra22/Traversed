@@ -6,7 +6,13 @@
 #include "LibraryManager.h"
 #include "ResourceModel.h"
 #include "TEUUID.h"
+#include "ModuleResources.h"
+#include "ResourceTexture.h"
+#include "ComponentMaterial.h"
+#include "ModuleFileSystem.h"
+#include "LibraryFolder.h"
 
+#include "External/MathGeo/include/Math/MathFunc.h"
 #include "External/Assimp/include/assimp/cimport.h"
 #include "External/Assimp/include/assimp/scene.h"
 #include "External/Assimp/include/assimp/postprocess.h"
@@ -37,43 +43,43 @@ void MeshImporter::CleanUp()
 	aiDetachAllLogStreams();
 }
 
-GameObject* MeshImporter::ImportMesh(std::string filePath, GameObject* parent, bool dragAndDrop)
-{
-	GameObject* toReturn = nullptr;
-
-	const aiScene* scene = aiImportFile(filePath.c_str(), aiProcessPreset_TargetRealtime_Fast);
-
-	aiNode* node = nullptr;
-
-	if (scene != nullptr && scene->HasMeshes())
-	{
-		if (dragAndDrop) LOG(LOG_TYPE::SUCCESS, "IMPORTING FILE: %s", filePath.c_str());
-
-		node = scene->mRootNode;
-
-		if (parent == nullptr)
-		{
-			toReturn = GenerateGameObjects(node, scene);
-			SceneProperties::Instance()->root->AddChildren(toReturn);
-		}
-		else
-		{
-			parent->AddChildren(GenerateGameObjects(node, scene));
-			toReturn = parent;
-		}
-	}
-
-	if (scene == nullptr && dragAndDrop) LOG(LOG_TYPE::ERRO, "ERROR: Importing file: '%s'", filePath.c_str());
-
-	//Save model
-	/*if (toReturn != nullptr)
-	{
-		std::vector<nlohmann::ordered_json> goPool;
-		SaveGameObjects(toReturn go);
-	}*/
-
-	return toReturn;
-}
+//GameObject* MeshImporter::ImportMesh(std::string filePath, GameObject* parent, bool dragAndDrop)
+//{
+//	GameObject* toReturn = nullptr;
+//
+//	const aiScene* scene = aiImportFile(filePath.c_str(), aiProcessPreset_TargetRealtime_Fast);
+//
+//	aiNode* node = nullptr;
+//
+//	if (scene != nullptr && scene->HasMeshes())
+//	{
+//		if (dragAndDrop) LOG(LOG_TYPE::SUCCESS, "IMPORTING FILE: %s", filePath.c_str());
+//
+//		node = scene->mRootNode;
+//
+//		if (parent == nullptr)
+//		{
+//			toReturn = GenerateGameObjects(node, scene);
+//			SceneProperties::Instance()->root->AddChildren(toReturn);
+//		}
+//		else
+//		{
+//			parent->AddChildren(GenerateGameObjects(node, scene));
+//			toReturn = parent;
+//		}
+//	}
+//
+//	if (scene == nullptr && dragAndDrop) LOG(LOG_TYPE::ERRO, "ERROR: Importing file: '%s'", filePath.c_str());
+//
+//	//Save model
+//	/*if (toReturn != nullptr)
+//	{
+//		std::vector<nlohmann::ordered_json> goPool;
+//		SaveGameObjects(toReturn go);
+//	}*/
+//
+//	return toReturn;
+//}
 			
 MeshRenderer* MeshImporter::ImportMeshFromLibrary(ResourceModel* model, std::string meshUuid)
 {
@@ -158,6 +164,9 @@ GameObject* MeshImporter::ImportFromLibrary(ResourceModel* resource)
 void MeshImporter::ImportToLibrary(ResourceModel* resource)
 {
 	GameObject* parent = nullptr;
+
+	if (resource->meshRendererMap == nullptr) resource->meshRendererMap = new std::map<std::string, SubMeshResource*>();
+
 	const aiScene* scene = aiImportFile(resource->GetAssetsFile().c_str(), aiProcess_Triangulate | aiProcess_OptimizeMeshes | aiProcess_ValidateDataStructure | aiProcess_FindInstances);
 	aiNode* node = nullptr;
 
@@ -168,7 +177,8 @@ void MeshImporter::ImportToLibrary(ResourceModel* resource)
 
 		node = scene->mRootNode;
 
-		parent = GenerateGameObjects(node, scene, nullptr, resource);
+		std::vector<std::string> matUuid = GetMaterials(scene);
+		parent = GenerateGameObjects(node, scene, matUuid, nullptr, resource);
 	}
 	if (parent != nullptr)
 	{
@@ -194,7 +204,7 @@ void MeshImporter::ImportToLibrary(ResourceModel* resource)
 	resource->CleanMeshRendererMap();
 }
 
-GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene, GameObject* parent, ResourceModel* resource)
+GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene, std::vector<std::string> matUuid, GameObject* parent, ResourceModel* resource)
 {
 	bool parentNoMesh = false;
 	//if(parent == nullptr && scene->mNumMeshes > 1) parent = new GameObject(scene->mRootNode->mName.C_Str());
@@ -202,13 +212,21 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	GameObject* go = new GameObject(node->mName.C_Str());
 
 	//GET SET transform
-	aiMatrix4x4 aiTransform = node->mTransformation;
-	float4x4 fTransform = float4x4(aiTransform[0][0], aiTransform[0][1], aiTransform[0][2], aiTransform[0][3],
-		aiTransform[1][0], aiTransform[1][1], aiTransform[1][2], aiTransform[1][3],
-		aiTransform[2][0], aiTransform[2][1], aiTransform[2][2], aiTransform[2][3],
-		aiTransform[3][0], aiTransform[3][1], aiTransform[3][2], aiTransform[3][3]
-	);
-	go->GetComponent<ComponentTransform>(TRANSFORM)->SetWorldMatrix(fTransform);
+	aiVector3D position;
+	aiQuaternion rotation;
+	aiVector3D localScale;
+	node->mTransformation.Decompose(position, rotation, localScale);
+
+	Quat q = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 toDeg = q.ToEulerXYZ();
+	toDeg.x = math::RadToDeg(toDeg.x);
+	toDeg.y = math::RadToDeg(toDeg.y);
+	toDeg.z = math::RadToDeg(toDeg.z);
+
+	ComponentTransform* transform = go->GetComponent<ComponentTransform>(TRANSFORM);
+	transform->position = float3(position.x, position.y, position.z);
+	transform->rotation = toDeg;
+	transform->localScale = float3(localScale.x, localScale.y, localScale.z);
 
 	if (node->mNumMeshes >= 1)
 	{
@@ -220,11 +238,18 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 
 			GameObject* meshGo = nullptr;
 
+			uint matIn = aimesh->mMaterialIndex;
+
 			if (node->mNumMeshes == 1) meshGo = go;
 			else meshGo = new GameObject(aimesh->mName.C_Str());
 
 			meshGo->CreateComponent(MESH);
-			meshGo->CreateComponent(MATERIAL);
+			ComponentMaterial* textMat = (ComponentMaterial*)meshGo->CreateComponent(MATERIAL);
+
+			if (textMat != nullptr && !matUuid.empty())
+			{
+				textMat->SetTextureUuid(matUuid[aimesh->mMaterialIndex]);
+			}
 
 			Meshe mesh;
 
@@ -251,9 +276,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 				subRes->libPath = aux;
 				subRes->referenceCount++;
 				subRes->meshRenderer = meshRenderer;
-				//resource->meshRendererMap->emplace(uuid, meshRenderer);
 				resource->meshRendererMap->emplace(uuid, subRes);
-				//resource->meshCCF->emplace(uuid, aux);
 			}
 
 			if (node->mNumMeshes != 1) go->AddChildren(meshGo);
@@ -265,7 +288,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	{
 		for (uint k = 0; k < node->mNumChildren; ++k)
 		{
-			GenerateGameObjects(node->mChildren[k], scene, go, resource);
+			GenerateGameObjects(node->mChildren[k], scene, matUuid, go, resource);
 		}
 	}
 
@@ -281,6 +304,79 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	}
 
 	return parent;
+}
+
+std::vector<std::string> MeshImporter::GetMaterials(const aiScene* scene)
+{
+	std::vector<std::string> toReturn;
+	std::string toAdd;
+
+	if (scene->HasMaterials())
+	{
+		std::vector<LibraryFolder*> folders;
+		IterateForFolders(FileSystemProperties::Instance()->rootFolder, folders);
+
+		for (int i = 0; i < scene->mNumMaterials; ++i)
+		{
+			if (scene->mMaterials[i]->GetTextureCount(aiTextureType_DIFFUSE) >= 1)
+			{
+				aiString aifilePath;
+				scene->mMaterials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &aifilePath);
+
+				std::string filePath = aifilePath.C_Str();
+
+				for (int m = 0; m < folders.size(); ++m)
+				{
+					for (int k = 0; k < folders[m]->libItem.size(); ++k)
+					{
+						if (folders[m]->libItem[k]->name == filePath)
+						{
+							if (folders[m]->libItem[k]->hasMeta && !folders[m]->libItem[k]->resUuid.empty())
+							{
+								toAdd = folders[m]->libItem[k]->resUuid;
+							}
+							else
+							{
+								ResourceProperties* resProps = ResourceProperties::Instance();
+								folders[m]->libItem[i]->hasMeta = true;
+								ResourceTexture* resource = (ResourceTexture*)resProps->CreateNewResource(folders[m]->libItem[k]->path, RESOURCE_TYPE::TEXTURE);
+
+								TextureImporter::ImportToLibrary(resource);
+								resProps->resources[resource->GetUUID()] = resource;
+
+								std::string texUuid = resource->GetUUID();
+								toAdd = texUuid;
+								folders[m]->libItem[k]->resUuid = texUuid;
+							}
+							break;
+						}
+					}
+					if (!toAdd.empty())
+					{
+						toReturn.emplace_back(toAdd);
+						toAdd = "";
+						break;
+					}
+				}
+			}
+			else
+			{
+				toReturn.emplace_back("");
+			}
+		}
+	}
+
+	return toReturn;
+}
+
+void MeshImporter::IterateForFolders(LibraryFolder* fol, std::vector<LibraryFolder*>& folders)
+{
+	folders.emplace_back(fol);
+	for (int i = 0; i < fol->children.size(); ++i)
+	{
+		IterateForFolders(fol->children[i], folders);
+	}
+
 }
 
 Meshe MeshImporter::GenerateMesh(aiMesh* mesh)

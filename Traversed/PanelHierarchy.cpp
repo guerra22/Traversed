@@ -150,7 +150,7 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 			auxGO->AddChildren(newGO);
 		}
 
-		if (ImGui::BeginMenu("Primitive Node"))
+		/*if (ImGui::BeginMenu("Primitive Node"))
 		{
 			if (ImGui::MenuItem("Cube")) MeshImporter::ImportMesh("Assets/Primitives/cube.fbx", auxGO);
 			if (ImGui::MenuItem("Sphere")) MeshImporter::ImportMesh("Assets/Primitives/sphere.fbx", auxGO);
@@ -159,7 +159,7 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 			if (ImGui::MenuItem("Cylinder")) MeshImporter::ImportMesh("Assets/Primitives/cylinder.fbx", auxGO);
 			if (ImGui::MenuItem("Capsule")) MeshImporter::ImportMesh("Assets/Primitives/capsule.fbx", auxGO);
 			ImGui::EndMenu();
-		}
+		}*/
 
 		ImGui::EndMenu();
 	}

@@ -4,6 +4,7 @@
 #include "ResourceTexture.h"
 #include "LibraryFolder.h"
 
+#include "External/Glew/include/glew.h"
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
@@ -13,6 +14,9 @@ ComponentMaterial::ComponentMaterial(GameObject* owner, std::string uuid) : Comp
 	this->type = MATERIAL;
 
 	isCheckers = false;
+
+	if (TextureImporter::checkers.id == 0) TextureImporter::CheckerImage();
+	checkersTexture = TextureImporter::checkers;
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -88,13 +92,22 @@ void ComponentMaterial::TextureDrop()
 			IM_ASSERT(payload->DataSize == sizeof(LibraryItem));
 			const LibraryItem item = *static_cast<const LibraryItem*>(payload->Data);
 
-			ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(item.resUuid);
+			switch (str2int(item.extension.c_str()))
+			{
+			case str2int("png"):
+			case str2int("PNG"):
+			case str2int("DDS"):
+			case str2int("dds"):
+			case str2int("jpg"):
+			case str2int("JPG"):
 
-			if (!texture.resUuid.empty()) //Decrease current RC
-				ResourceProperties::Instance()->resources[texture.resUuid]->DecreaseRC();
+				ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(item.resUuid);
 
-			this->texture = TextureImporter::ImportFromLibrary(res);
+				if (!texture.resUuid.empty()) //Decrease current RC
+					ResourceProperties::Instance()->resources[texture.resUuid]->DecreaseRC();
 
+				this->texture = TextureImporter::ImportFromLibrary(res);
+			}
 		}
 	}
 }
@@ -110,8 +123,18 @@ void ComponentMaterial::SetTexture(unsigned int id, std::string path)
 	this->texture.path = path;
 }
 
+void ComponentMaterial::SetTextureUuid(std::string uuid)
+{
+	this->texture.resUuid = uuid;
+}
+
 Texture ComponentMaterial::GetTexture()
 {
+	if (!glIsTexture(this->texture.id))
+	{
+		this->texture = Texture();
+	}
+
 	if (isCheckers) return this->checkersTexture;
 	else if (this->texture.w == 0 && this->texture.h == 0) return this->checkersTexture;
 	else return this->texture;
@@ -132,8 +155,21 @@ nlohmann::ordered_json ComponentMaterial::SaveUnique(nlohmann::JsonData data)
 void ComponentMaterial::LoadUnique(nlohmann::JsonData data)
 {
 	std::string texToLoad(data.GetString("Path"));
-	texture = TextureImporter::ImportFromLibrary((ResourceTexture*)
-		ResourceProperties::Instance()->resources[data.GetString("Texture Uuid")]);
+	std::string texUuid = data.GetString("Texture Uuid");
+
+	if (!texUuid.empty())
+	{
+		ResourceTexture* res = nullptr;
+		if (ResourceProperties::Instance()->resources.count(texUuid) == 1)
+			res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(texUuid);
+		if (res != nullptr)
+		{
+
+			texture = TextureImporter::ImportFromLibrary(res);
+		}
+	}
+	else
+		texture = Texture();
 
 	isCheckers = data.GetBool("Checkers");
 }

@@ -32,6 +32,8 @@ public:
 
 	void CleanInstance() override;
 
+	void PlanDelete() override;
+
 	void CleanMeshRendererMap();
 
 protected:

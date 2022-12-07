@@ -31,6 +31,26 @@ void ResourceProperties::Delete()
 	}
 }
 
+Resource* ResourceProperties::CreateNewResource(std::string assetsPath, RESOURCE_TYPE type)
+{
+	Resource* toReturn = nullptr;
+	std::string uuid = TE_UUID::Generate();
+
+	switch (type)
+	{
+	case RESOURCE_TYPE::TEXTURE: toReturn = new ResourceTexture(uuid); break;
+	case RESOURCE_TYPE::MODEL: toReturn = new ResourceModel(uuid); break;
+	default: toReturn = new Resource(uuid, RESOURCE_TYPE::UNKNOWN); break;
+	}
+
+	if (toReturn != nullptr)
+	{
+		toReturn->SetAssetsFile(assetsPath);
+	}
+
+	return toReturn;
+}
+
 ResourceProperties* ResourceProperties::instance = nullptr;
 #pragma endregion Resource Properties singleton struct
 
@@ -93,6 +113,18 @@ UpdateStatus ModuleResources::PreUpdate()
 		resProps->requestFullFolderFileCheck = false;
 	}
 
+	//Delete Plan delete
+	if (!resProps->planDeleteLib.empty())
+	{
+		for (int i = 0; i < resProps->planDeleteLib.size(); ++i)
+		{
+			resProps->planDeleteLib[i]->CleanInstance();
+			RELEASE(resProps->planDeleteLib[i]);
+
+		}
+		resProps->planDeleteLib.clear();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -131,26 +163,6 @@ void ModuleResources::ImportFile(Resource* resource)
 	resource->Save();
 }
 
-Resource* ModuleResources::CreateNewResource(std::string assetsPath, RESOURCE_TYPE type)
-{
-	Resource* toReturn = nullptr;
-	std::string uuid = TE_UUID::Generate();
-
-	switch (type)
-	{
-	case RESOURCE_TYPE::TEXTURE: toReturn = new ResourceTexture(uuid); break;
-	case RESOURCE_TYPE::MODEL: toReturn = new ResourceModel(uuid); break;
-	default: toReturn = new Resource(uuid, RESOURCE_TYPE::UNKNOWN); break;
-	}
-
-	if (toReturn != nullptr)
-	{
-		toReturn->SetAssetsFile(assetsPath);
-	}
-
-	return toReturn;
-}
-
 void ModuleResources::UnloadResource(Resource* resource)
 {
 	std::string uuid = resource->GetUUID();
@@ -164,7 +176,7 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 	{
 		if (folder->libItem[i]->resUuid.empty())
 		{
-			Resource* res = CreateNewResource(folder->libItem[i]->path, GetResourceType(folder->libItem[i]->extension));
+			Resource* res = resProps->CreateNewResource(folder->libItem[i]->path, GetResourceType(folder->libItem[i]->extension)); 
 			//Check for meta, if it doesn't has meta file, create it.
 			if (!folder->libItem[i]->hasMeta)
 			{
@@ -182,7 +194,12 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 			}
 
 			//Import the file if the meta doesn't have a direction to the library file or the library file can't be found.
-			if (res->GetLibraryFile().empty() || !LibraryManager::Exists(res->GetLibraryFile())) ImportFile(res); //Imports to lib
+			if (res->GetLibraryFile().empty() || !LibraryManager::Exists(res->GetLibraryFile()))
+			{
+				res->CleanInstance();
+				ImportFile(res); //Imports to lib
+
+			}
 
 			resProps->resources[res->GetUUID()] = res;
 

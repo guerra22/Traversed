@@ -46,6 +46,11 @@ ComponentMesh::~ComponentMesh()
 void ComponentMesh::Update()
 {
 	if (mesh == nullptr) return;
+	if (mesh->planDelete)
+	{
+		mesh = nullptr;
+		return;
+	}
 
 	//Update AABB
 	float4x4 aux = owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix();
@@ -143,7 +148,7 @@ void ComponentMesh::MeshDrop()
 
 void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera, bool game)
 {
-	if (!active) return;
+	if (!active || mesh == NULL) return;
 
 	if (owner->GetComponent<ComponentMaterial>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
 	{

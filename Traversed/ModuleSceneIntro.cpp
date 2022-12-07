@@ -126,6 +126,9 @@ bool ModuleSceneIntro::Start()
 	if (sProps->root == nullptr) return UPDATE_CONTINUE;
 	InitGameObjects(sProps->root);
 
+	sProps->loadSceneRequest = true;
+	sProps->scenePath = "/Library/Scenes/Street.sc";
+
 	return true;
 }
 

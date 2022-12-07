@@ -4,6 +4,9 @@
 #include "ModuleResources.h"
 #include "LibraryFolder.h"
 #include "LibraryManager.h"
+#include "ResourceModel.h"
+#include "MeshImporter.h"
+#include "MeshRenderer.h"
 
 #include "ImGuiUtils.h"
 #include "External/ImGui/imgui_internal.h"
@@ -82,6 +85,9 @@ void PanelLibrary::BoxView()
 	{
 		float panelWidth = ImGui::GetContentRegionAvail().x;
 		int columnCount = (int)(panelWidth / (cellSize + padding * 2));
+
+		if (columnCount <= 0) columnCount = 1;
+
 		ImGui::Columns(columnCount, 0, false);
 
 		//Go to previous folder topping the root Library folder
@@ -94,6 +100,7 @@ void PanelLibrary::BoxView()
 		//Iterate folders
 		for (int i = 0; i < currentFolder->children.size(); ++i)
 		{
+			//if (currentFolder->children[i]->name == "Primitives") continue;
 			if (ImGui::Button(currentFolder->children[i]->name.c_str(), { cellSize, cellSize }))
 			{
 				LibraryManager::FolderSystemUpdate(currentFolder->children[i]);
@@ -126,6 +133,14 @@ void PanelLibrary::BoxView()
 				ImGui::SetTooltip(currentFolder->libItem[k]->name.c_str());
 			}
 
+			//POPUP MENU
+			if (ImGui::BeginPopupContextItem("LibraryItemMenu", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
+			{
+				k += RightClickMenuContent(currentFolder->libItem[k]);
+
+				ImGui::EndPopup();
+			}
+
 			//Drag
 			if (ImGui::BeginDragDropSource())
 			{
@@ -149,4 +164,66 @@ void PanelLibrary::BoxView()
 		ImGui::SliderFloat("Pad", &padding, 0, 32);
 	}
 	ImGui::EndChild();
+}
+
+void PanelLibrary::ExecuteItemActive(LibraryItem* item, float cellSize)
+{
+	ResourceModel* res = (ResourceModel*)ResourceProperties::Instance()->resources[item->resUuid];
+	for (auto const& mesh : *res->meshRendererMap)
+	{
+		if (mesh.second != nullptr)
+		{
+			ImGui::NextColumn();
+			if (ImGui::Button(mesh.first.c_str(), { cellSize, cellSize }))
+			{
+
+			}
+			if (ImGui::BeginDragDropSource())
+			{
+				if (package != nullptr) RELEASE(package);
+				package = new std::string(res->GetUUID());
+				package->append("/");
+				package->append(mesh.first);
+				ImGui::SetDragDropPayload("MeshCFF", package, sizeof(std::string));
+				std::string tooltip = "Dragging ";
+				tooltip += mesh.second->libPath;
+				ImGui::Text(tooltip.c_str());
+				ImGui::EndDragDropSource();
+			}
+		}
+	}
+
+}
+
+int PanelLibrary::RightClickMenuContent(LibraryItem* item)
+{
+	if (ImGui::MenuItem("DELETE", 0, false))
+	{
+		LOG(LOG_TYPE::ATTENTION, "DELETE LIBITEM %s", item->name.c_str());
+
+		std::map<std::string, Resource*>::iterator iterator = resInstance->resources.find(item->resUuid);
+		Resource* resource = iterator->second; // Need a pointer var for RELEASE.
+
+		LibraryManager::RemoveFile(iterator->second->GetLibraryFile());
+		LibraryManager::RemoveFile(iterator->second->GetAssetsFile());
+		LibraryManager::RemoveFile(item->GetMeta());
+
+		//RELEASE(item);
+		currentFolder->libItem.erase(std::find(currentFolder->libItem.begin(), currentFolder->libItem.end(), item));
+
+		//RELEASE(iterator->second);
+		resInstance->resources.erase(iterator);
+
+		RELEASE(item);
+
+
+		//The delete of resources is handled by a vector on the next iterator iterator. 
+		//PlanDelete() method only tells the pointes on the components that they should nullptr themselves.
+		//Component's pointer = nullptr -> End of engine iteration -> Delete of pointers from memory
+		resource->PlanDelete();
+		resInstance->planDeleteLib.push_back(resource);
+
+		return -1;
+	}
+	return 0;
 }

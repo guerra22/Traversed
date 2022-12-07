@@ -27,6 +27,8 @@ private:
 
 	void ExecuteItemActive(LibraryItem* item, float cellSize);
 
+	int RightClickMenuContent(LibraryItem* item);
+
 private:
 	float leftWin;
 	float rightWin;
