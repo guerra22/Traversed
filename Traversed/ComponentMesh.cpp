@@ -18,7 +18,9 @@ ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(ow
 
 	camInstance = CameraProperties::Instance();
 
-	displayNormals = false;
+	normals = Debug_Normals::OFF;
+	SetNormalsString();
+
 	normalsMagnitude = 0.25f;
 }
 
@@ -46,16 +48,16 @@ void ComponentMesh::Update()
 void ComponentMesh::UpdateGUI()
 {
 	ImGui::NewLine();
-	ImGui::Checkbox("Display Normals", &displayNormals);
 
-	if (displayNormals)
+	if (ImGui::BeginCombo("Normals", normalsString.c_str()))
 	{
-		ImGui::Checkbox("Face Normals ", &faceNormals);
-		if (ImGui::SliderFloat("Line Magnitude", &normalsMagnitude, 0.1f, 1.0f, "%.2f"))
-		{
-			mesh->CleanNormals();
-			mesh->CreateNormals(normalsMagnitude);
-		}
+		if (ImGui::Selectable("NONE")) normals = Debug_Normals::OFF;
+		if (ImGui::Selectable("VERTEX")) normals = Debug_Normals::VERTEX;
+		if (ImGui::Selectable("FACE")) normals = Debug_Normals::FACE;
+		if (ImGui::Selectable("BOTH")) normals = Debug_Normals::BOTH;
+		SetNormalsString();
+
+		ImGui::EndCombo();
 	}
 
 	ImGui::NewLine();
@@ -81,22 +83,23 @@ void ComponentMesh::UpdateGUI()
 	}
 }
 
-void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera)
+void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera, bool game)
 {
 	if (!active) return;
 
 	if (owner->GetComponent<ComponentMaterial>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
 	{
-		mesh->Draw(shader,
-			camera,
-			owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
-			owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
-		if (displayNormals)
-			mesh->DrawNormals(
+		if (game)
+			mesh->LiteDraw(shader,
+				camera,
+				owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
+				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
+		else
+			mesh->FullDraw(shader,
 				debugShader,
 				camera,
-				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(),
-				faceNormals);
+				owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
+				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(), normals);
 	}
 }
 
@@ -117,8 +120,7 @@ nlohmann::ordered_json ComponentMesh::SaveUnique(nlohmann::JsonData data)
 	{
 		data.SetString("Path", mesh->mesh.path);
 	}
-	data.SetBool("Normals", displayNormals);
-	data.SetBool("Face_Normals", faceNormals);
+	data.SetInt("Normals", (int)normals);
 	data.SetFloat("Normals_Magnitude", normalsMagnitude);
 
 	return data.data;
@@ -129,9 +131,20 @@ void ComponentMesh::LoadUnique(nlohmann::JsonData data)
 	std::string meshToLoad(data.GetString("Path"));
 	mesh = new MeshRenderer(MeshImporter::LoadMesh(meshToLoad));
 
-	displayNormals = data.GetBool("Normals");
-	faceNormals = data.GetBool("Face_Normals");
+	normals = (Debug_Normals)data.GetInt("Normals");
+	SetNormalsString();
 	normalsMagnitude = data.GetFloat("Normals_Magnitude");
 }
 
 #pragma endregion Save & Load
+
+void ComponentMesh::SetNormalsString()
+{
+	switch (normals)
+	{
+	case Debug_Normals::OFF: normalsString = "NONE"; break;
+	case Debug_Normals::VERTEX: normalsString = "VERTEX"; break;
+	case Debug_Normals::FACE: normalsString = "FACE"; break;
+	case Debug_Normals::BOTH: normalsString = "BOTH"; break;
+	}
+}

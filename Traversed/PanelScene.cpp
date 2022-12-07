@@ -1,6 +1,7 @@
 #include "PanelScene.h"
 #include "ModuleCamera3D.h"
 #include "ModuleSceneintro.h"
+#include "ModuleUI.h"
 #include "FrameBuffer.h"
 
 #include "Camera.h"
@@ -18,6 +19,7 @@ PanelScene::PanelScene(bool enabled) : UiPanel(enabled)
 
 	camInstance = CameraProperties::Instance();
 	sceneInstance = SceneProperties::Instance();
+	editorInstance = EditorProperties::Instance();
 }
 
 PanelScene::~PanelScene()
@@ -61,7 +63,10 @@ void PanelScene::Update()
 				camInstance->editorCamera.SetRenderer({ segmentSize.x, segmentSize.y });
 				//camInstance->editorCamera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
 			}
-			else camInstance->editorCamera.renderer->Resize({ segmentSize.x, segmentSize.y });
+			else
+			{
+				camInstance->editorCamera.renderer->Resize({ segmentSize.x, segmentSize.y });
+			}
 		}
 
 		RenderSpace();
@@ -76,6 +81,9 @@ void PanelScene::RenderSpace()
 
 	//Render Framebuffer
 	ImGui::SetCursorPosY(aux);
+
+	camInstance->editorCamera.renderer->GetFrameBufffer()->SetViewport();
+
 	ImTextureID texID = (ImTextureID)camInstance->editorCamera.renderer->GetFrameBufffer()->GetTextureBuffer();
 	ImGui::Image(texID, segmentSize, ImVec2(0, 1), ImVec2(1, 0));
 }
@@ -104,10 +112,4 @@ void PanelScene::Guizmo(Camera& cam, GameObject* go)
 		aux.Transpose();
 		transform->SetWorldMatrix(aux);
 	}
-
-	if (ImGuizmo::IsOver())
-	{
-
-	}
-
 }

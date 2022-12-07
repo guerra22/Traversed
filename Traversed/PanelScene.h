@@ -6,6 +6,7 @@
 
 struct CameraProperties;
 struct SceneProperties;
+struct EditorProperties;
 
 class Camera;
 class GameObject;
@@ -29,5 +30,6 @@ private:
 
 	CameraProperties* camInstance = nullptr;
 	SceneProperties* sceneInstance = nullptr;
+	EditorProperties* editorInstance = nullptr;
 };
 #endif

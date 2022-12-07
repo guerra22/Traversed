@@ -65,7 +65,10 @@ void PanelGame::Resize()
 		mainCamera->camera.SetRenderer({ segmentSize.x, segmentSize.y });
 		//mainCamera->camera.renderer = new Renderer({ segmentSize.x, segmentSize.y });
 	}
-	else mainCamera->camera.renderer->Resize({ segmentSize.x, segmentSize.y });
+	else
+	{
+		mainCamera->camera.renderer->Resize({ segmentSize.x, segmentSize.y });
+	}
 }
 
 void PanelGame::LookForCamera()
