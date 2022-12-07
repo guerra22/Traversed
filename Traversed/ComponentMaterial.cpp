@@ -5,7 +5,7 @@
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
 
-ComponentMaterial::ComponentMaterial(GameObject* owner) : Component(owner)
+ComponentMaterial::ComponentMaterial(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
 	this->type = MATERIAL;
 

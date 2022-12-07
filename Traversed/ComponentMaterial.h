@@ -7,7 +7,7 @@
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial(GameObject* owner);
+	ComponentMaterial(GameObject* owner, std::string uuid);
 	~ComponentMaterial() override;
 
 	void Init() override;

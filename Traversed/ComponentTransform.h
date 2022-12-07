@@ -10,7 +10,7 @@
 class ComponentTransform : public Component
 {
 public:
-	ComponentTransform(GameObject* owner);
+	ComponentTransform(GameObject* owner, std::string uuid);
 	~ComponentTransform() override;
 
 	void Init() override;

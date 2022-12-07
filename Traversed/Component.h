@@ -31,7 +31,7 @@ class GameObject;
 class Component
 {
 public:
-	Component(GameObject* owner);
+	Component(GameObject* owner, std::string uuid);
 	virtual ~Component();
 
 	virtual void Init();
@@ -43,6 +43,7 @@ public:
 	void Disable();
 
 public:
+	std::string uuid;
 	CO_TYPE type;
 	bool active;
 	bool deleteQueue;

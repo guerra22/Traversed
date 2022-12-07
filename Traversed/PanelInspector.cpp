@@ -35,6 +35,10 @@ void PanelInspector::Update()
 				if (go->name.size() == 0) go->name = "NoName";
 			}
 
+			ImGui::Text("UUID: ");
+			ImGui::SameLine();
+			ImGui::Text(go->uuid.c_str());
+
 			for (auto const& comp : go->components)
 			{
 				std::string aux = CompTypeToString(comp.second->type);

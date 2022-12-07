@@ -8,7 +8,7 @@
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
 
-ComponentCamera::ComponentCamera(GameObject* owner) : Component(owner)
+ComponentCamera::ComponentCamera(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
 	this->type = CAMERA;
 

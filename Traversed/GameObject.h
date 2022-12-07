@@ -61,9 +61,11 @@ public:
 
 	void DeleteGameObject();
 
+	std::string GetUUName();
+
 public:
 	std::string name;
-
+	std::string uuid;
 	bool selected;
 
 	std::map<CO_TYPE, Component*> components;

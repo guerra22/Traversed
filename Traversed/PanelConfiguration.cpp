@@ -97,9 +97,13 @@ void PanelConfiguration::ApplicationHeader()
 
 void PanelConfiguration::WindowHeader()
 {
-	ImGui::SliderFloat("Brightness", &wProps->brightness, 0.f, 1.0f);
+	if (ImGui::SliderFloat("Brightness", &wProps->brightness, 0.f, 1.0f))
+	{
+		SDL_SetWindowBrightness(wProps->window, wProps->brightness);
+	}
 	if (ImGui::IsItemDeactivatedAfterEdit()) LOG(LOG_TYPE::ENGINE, "Brightness set to '%.2f'", wProps->brightness);
 
+	SDL_GetWindowSize(wProps->window, &wProps->w, &wProps->h);
 	ImGui::Text("Window Size -> ( %i, %i )", wProps->w, wProps->h);
 
 	if (ImGui::Checkbox("Fullscreen", &wProps->fullscreen))

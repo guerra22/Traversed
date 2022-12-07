@@ -5,7 +5,7 @@
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
 
-ComponentTransform::ComponentTransform(GameObject* owner) : Component(owner)
+ComponentTransform::ComponentTransform(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
 	this->type = CO_TYPE::TRANSFORM;
 	position = float3(.0f, .0f, .0f);

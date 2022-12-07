@@ -10,7 +10,7 @@ class CameraProperties;
 class ComponentCamera : public Component
 {
 public:
-	ComponentCamera(GameObject* owner);
+	ComponentCamera(GameObject* owner, std::string uuid);
 	~ComponentCamera() override;
 
 	void Init() override;

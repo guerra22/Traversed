@@ -10,7 +10,7 @@
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
 
-ComponentMesh::ComponentMesh(GameObject* owner) : Component(owner)
+ComponentMesh::ComponentMesh(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
 	this->type = CO_TYPE::MESH;
 

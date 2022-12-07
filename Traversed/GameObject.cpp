@@ -4,6 +4,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 
+#include "TEUUID.h"
+
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/imgui_impl_sdl.h"
 #include "External/ImGui/imgui_impl_opengl3.h"
@@ -11,6 +13,7 @@
 GameObject::GameObject(std::string name, bool spatial)
 {
 	this->name = name;
+	this->uuid = TE_UUID::Generate();
 	selected = false;
 
 	if (spatial) CreateComponent(CO_TYPE::TRANSFORM);
@@ -105,16 +108,16 @@ Component* GameObject::CreateComponent(CO_TYPE type)
 	switch (type)
 	{
 	case TRANSFORM:
-		toReturn = new ComponentTransform(this);
+		toReturn = new ComponentTransform(this, TE_UUID::Generate());
 		break;
 	case MESH:
-		toReturn = new ComponentMesh(this);
+		toReturn = new ComponentMesh(this, TE_UUID::Generate());
 		break;
 	case MATERIAL:
-		toReturn = new ComponentMaterial(this);
+		toReturn = new ComponentMaterial(this, TE_UUID::Generate());
 		break;
 	case CAMERA:
-		toReturn = new ComponentCamera(this);
+		toReturn = new ComponentCamera(this, TE_UUID::Generate());
 		break;
 	}
 
@@ -220,4 +223,13 @@ void GameObject::DeleteGameObject()
 
 	this->~GameObject();
 	children.clear();
+}
+
+std::string GameObject::GetUUName()
+{
+	std::string toReturn = name;
+	toReturn += "##";
+	toReturn += uuid;
+
+	return toReturn.c_str();
 }

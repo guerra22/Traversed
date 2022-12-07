@@ -14,7 +14,7 @@ class Camera;
 class ComponentMesh : public Component
 {
 public:
-	ComponentMesh(GameObject* owner);
+	ComponentMesh(GameObject* owner, std::string uuid);
 	~ComponentMesh() override;
 
 	void Update() override;

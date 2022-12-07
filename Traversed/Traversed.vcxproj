@@ -160,6 +160,7 @@
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="ImGuiUtils.h" />
+    <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loggs.h" />
     <ClInclude Include="MeshImporter.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="TEUUID.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="UiPanel.h" />
@@ -246,6 +248,7 @@
     <ClCompile Include="External\PugiXml\src\pugixml.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="MemLeaks.h" />
     <ClCompile Include="MeshImporter.cpp" />
     <ClCompile Include="MeshRenderer.cpp" />

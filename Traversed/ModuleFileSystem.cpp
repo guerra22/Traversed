@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ModuleFileSystem.h"
 
 #include "MeshImporter.h"
@@ -6,6 +7,7 @@
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "LibraryManager.h"
 
 #include "External/PhysFS/include/physfs.h"
 
@@ -21,21 +23,23 @@ ModuleFileSystem::~ModuleFileSystem()
 
 bool ModuleFileSystem::Init()
 {
-	bool ret = true;
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
+	LibraryManager::Init();
 
 	meshImp = new MeshImporter();
 	textImp = new TextureImporter();
 
 	sProps = SceneProperties::Instance();
 
-	return ret;
+	return true;
 }
 
 bool ModuleFileSystem::Start()
 {
 	bool ret = true;
 
-	meshImp->Start();
+	meshImp->Init();
 
 	return ret;
 }
@@ -43,6 +47,8 @@ bool ModuleFileSystem::Start()
 bool ModuleFileSystem::CleanUp()
 {
 	bool ret = true;
+
+	LibraryManager::CleanUp();
 
 	meshImp->CleanUp();
 	RELEASE(meshImp);
@@ -75,13 +81,11 @@ UpdateStatus ModuleFileSystem::PostUpdate()
 void ModuleFileSystem::DragAndDrop(std::string path)
 {
 	std::string extension = "";
-
 	//Find last dot
 	size_t pos = path.find_last_of(".");
 	//make sure the poisition is valid
 	if (pos != std::string::npos)
 		extension = path.substr(pos + 1);
-
 	switch (str2int(extension.c_str()))
 	{
 	case str2int("fbx"):
@@ -91,12 +95,10 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 	case str2int("png"):
 	{
 		GameObject* aux = sProps->GetSelectedGO();
-
 		if (aux != nullptr)
 		{
 			ComponentMaterial* auxText = nullptr;
 			auxText = aux->GetComponent<ComponentMaterial>(MATERIAL);
-
 			if (auxText != nullptr)
 			{
 				auxText->SetTexture(TextureImporter::ImportTexture(path));
@@ -111,8 +113,7 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 			LOG(LOG_TYPE::ERRO, "ERROR: There is no 'GameObject' selected!");
 		}
 	}
-		break;
-
+	break;
 	case str2int("jpg"):
 		LOG(LOG_TYPE::ERRO, "ERROR: JPG format not supported!");
 		break;

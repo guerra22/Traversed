@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+#define LIB_TEXTURE "Library/Textures/"
+
 typedef unsigned int uint;
 
 struct Texture {
@@ -36,6 +38,8 @@ private:
 	static int CheckTexturesLoaded(std::string filePath, Texture& texture);
 
 	static void CheckerImage();
+
+	static void SaveTexture(std::string filePath);
 
 public:
 	static Texture checkers;

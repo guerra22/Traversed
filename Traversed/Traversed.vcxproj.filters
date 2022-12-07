@@ -390,6 +390,12 @@
     <ClInclude Include="External\Imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Sources\External\Imgui</Filter>
     </ClInclude>
+    <ClInclude Include="TEUUID.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="LibraryManager.h">
+      <Filter>Sources\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -622,6 +628,9 @@
     </ClCompile>
     <ClCompile Include="External\Imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Sources\External\Imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="LibraryManager.cpp">
+      <Filter>Sources\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
