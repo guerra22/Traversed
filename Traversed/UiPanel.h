@@ -22,7 +22,7 @@ public:
 
 public:
 
-	bool enabled = false;
+	bool enabled = true;
 
 	std::string name = "EmptyPanel";
 

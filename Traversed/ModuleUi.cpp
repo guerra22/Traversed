@@ -57,7 +57,7 @@ EditorProperties* EditorProperties::instance = nullptr;
 
 ModuleUI::ModuleUI(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	name = "Ui";
+	name = "Editor";
 	eProps = EditorProperties::Instance();
 }
 
@@ -95,8 +95,8 @@ bool ModuleUI::Start()
 	//Create Panels
 	panels.emplace_back(new PanelConsole());
 	panels.emplace_back(new PanelConfiguration());
-	panels.emplace_back(new PanelScene());
 	panels.emplace_back(new PanelGame());
+	panels.emplace_back(new PanelScene());
 	panels.emplace_back(new PanelHierarchy());
 	panels.emplace_back(new PanelInspector());
 	panels.emplace_back(new PanelLibrary());
