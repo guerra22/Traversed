@@ -13,16 +13,8 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 - All meshes use a bounding volume (AABB) and can be discarded using Frustum Culling. This process is visualized in the editor (debug raycast and boxes).
 - Models, meshes and textures are saved to custom format under “Library” folder
 - Scene can be serialized to a file that can be loaded.
-- The editor has 2 windows one with the scene(editor view) and another captured from a gameobject with a camera component(main game camera), each one has its own
-framebuffer and the user can visualize both at the same time.
+- The editor has 2 windows one with the scene(editor view) and another captured from a gameobject with a camera component(main game camera), each one has its own framebuffer and the user can visualize both at the same time.
 -  Resource Management
-
-
-- Custom File for load&save the scene.
-- Serialization
-- Frustum Culling for the game camera.
-- Mouse Picking in editor view.
-- Simple Resource Management.
 
 # Attention
 - The scene view is black at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
