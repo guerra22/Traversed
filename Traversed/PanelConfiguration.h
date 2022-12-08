@@ -27,6 +27,7 @@ private:
 	void InputHeader();
 	void RenderingHeader();
 	void EditorHeader();
+	void HardwareHeader();
 	void GameHeader();
 	void ActiveResourceHeader();
 

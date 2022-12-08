@@ -128,7 +128,7 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 	if (go == nullptr) auxGO = sceneInstance->root;
 	else auxGO = go;
 
-	if (ImGui::BeginMenu("Nodes"))
+	if (ImGui::BeginMenu("Create Nodes"))
 	{
 		GameObject* newGO = nullptr;
 
@@ -150,25 +150,14 @@ void PanelHierarchy::RightClickMenuContent(GameObject* go)
 			auxGO->AddChildren(newGO);
 		}
 
-		/*if (ImGui::BeginMenu("Primitive Node"))
-		{
-			if (ImGui::MenuItem("Cube")) MeshImporter::ImportMesh("Assets/Primitives/cube.fbx", auxGO);
-			if (ImGui::MenuItem("Sphere")) MeshImporter::ImportMesh("Assets/Primitives/sphere.fbx", auxGO);
-			if (ImGui::MenuItem("Plane")) MeshImporter::ImportMesh("Assets/Primitives/plane.fbx", auxGO);
-			if (ImGui::MenuItem("Pyramid")) MeshImporter::ImportMesh("Assets/Primitives/pyramid.fbx", auxGO);
-			if (ImGui::MenuItem("Cylinder")) MeshImporter::ImportMesh("Assets/Primitives/cylinder.fbx", auxGO);
-			if (ImGui::MenuItem("Capsule")) MeshImporter::ImportMesh("Assets/Primitives/capsule.fbx", auxGO);
-			ImGui::EndMenu();
-		}*/
-
 		ImGui::EndMenu();
 	}
 
-	if (ImGui::MenuItem("DELETE", 0, false, go == nullptr ? false : true))
-	{
-		//auxGO->DeleteGameObject();
-		//LOG(LOG_TYPE::ATTENTION, "DELETE GAMEOBJECT NOT YET IMPLEMENTED", go->name.c_str());
-	}
+	//if (ImGui::MenuItem("DELETE", 0, false, go == nullptr ? false : true))
+	//{
+	//	//auxGO->DeleteGameObject();
+	//	//LOG(LOG_TYPE::ATTENTION, "DELETE GAMEOBJECT NOT YET IMPLEMENTED", go->name.c_str());
+	//}
 }
 
 void PanelHierarchy::GetSelectedNode(GameObject* go)

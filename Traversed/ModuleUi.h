@@ -13,13 +13,14 @@ enum COLORMODE
 {
 	LightMode = 0,
 	DarkMode,
-	ClassicMode
+	ClassicMode,
+	CustomizeMode
 };
 
 struct EditorProperties
 {
 public:
-	COLORMODE colorMode = COLORMODE::DarkMode;
+	COLORMODE colorMode = COLORMODE::CustomizeMode;
 
 	EditorProperties();
 
@@ -29,6 +30,7 @@ public:
 
 	void SwitchColorMode();
 
+	void SetupImGuiStyle();
 private:
 	static EditorProperties* instance;
 };

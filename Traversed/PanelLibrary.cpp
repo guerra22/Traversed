@@ -158,10 +158,6 @@ void PanelLibrary::BoxView()
 			ImGui::PopID();
 		}
 		ImGui::Columns(1);
-		//Options
-
-		ImGui::SliderFloat("Zoom", &itemSize, 16, 128, "%.0f");
-		ImGui::SliderFloat("Pad", &padding, 0, 32);
 	}
 	ImGui::EndChild();
 }

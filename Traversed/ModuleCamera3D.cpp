@@ -99,7 +99,7 @@ void ModuleCamera3D::SceneCameraInput()
 
 	float Sensitivity = 0.25f;
 
-	float speed = 6.0f, zoomSpeed = 8.0f;
+	float speed = 26.0f, zoomSpeed = 26.0f;
 	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed *= 2.0f, zoomSpeed *= 2.0f;
 	speed *= App->fps;

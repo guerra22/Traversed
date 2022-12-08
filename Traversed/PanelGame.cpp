@@ -89,14 +89,4 @@ void PanelGame::RenderSpace()
 		ImTextureID texID = (ImTextureID)mainCamera->camera.renderer->GetFrameBufffer()->GetTextureBuffer();
 		ImGui::Image(texID, segmentSize, ImVec2(0, 1), ImVec2(1, 0));
 	}
-	else
-	{
-		std::string text = "No Main Camera set!";
-		float font_size = ImGui::GetFontSize() * text.size() / 2;
-		ImGui::SameLine(ImGui::GetWindowSize().x / 2 - font_size + (font_size / 2));
-
-		ImGui::SetWindowFontScale(3);
-		ImGui::SetCursorPosY(ImGui::GetWindowSize().y / 2);
-		ImGui::Text(text.c_str());
-	}
 }

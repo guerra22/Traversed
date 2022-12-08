@@ -74,7 +74,8 @@ void PanelConfiguration::Update()
 		if (ImGui::CollapsingHeader("Rendering")) RenderingHeader();
 		if (ImGui::CollapsingHeader("Active Resource")) ActiveResourceHeader();
 		if (ImGui::CollapsingHeader("Game")) GameHeader();
-		if (ImGui::CollapsingHeader("Editor")) EditorHeader();
+		//if (ImGui::CollapsingHeader("Editor")) EditorHeader();
+		if (ImGui::CollapsingHeader("Hardware")) HardwareHeader();
 	}
 	ImGui::End();
 }
@@ -202,27 +203,17 @@ void PanelConfiguration::RenderingHeader()
 		rProps->ToggleTexture2D();
 		LOG(LOG_TYPE::ENGINE, "Texture 2D '%s'", rProps->texture2D ? "ON" : "OFF");
 	}*/
-
-	ImGui::Separator();
-	ImGui::Text("CPU cores: %i ", cpuCount);
-	ImGui::Text("System RAM: %.1f Gb", (ram / 1000.0f));
-	ImGui::Text("Cache: %i Bytes", (int)cache);
-	ImGui::Text("%s", strCaps.c_str());
-	/*ImGui::Text("Caps: %s", strCaps);*/
-	ImGui::Separator();
-
-	ImGui::Text("GPU Vendor: %s", glGetString(GL_VENDOR));
-	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
-
-	ImGui::Text("VRam Budget: %i Mb", (int)(VRamBudget / (1024.f * 1024.f)));
-	ImGui::Text("VRam Usage: %i Mb", (int)(VRamCurrentUsage / (1024.f * 1024.f)));
-	ImGui::Text("VRam Available: %i Mb", (int)(VRamAvailable / (1024.f * 1024.f)));
-	ImGui::Text("VRAM Reserved: %i Mb", (int)(VRamReserve / (1024.f * 1024.f)));
 }
 
 void PanelConfiguration::EditorHeader()
 {
 	int aux = (int)&eProps->colorMode;
+	if (ImGui::RadioButton("Customize mode", (eProps->colorMode == COLORMODE::CustomizeMode ? true : false)))
+	{
+		eProps->colorMode = COLORMODE::CustomizeMode;
+		eProps->SwitchColorMode();
+		LOG(LOG_TYPE::ENGINE, "Customize mode 'ON'");
+	}
 	if (ImGui::RadioButton("Light mode", (eProps->colorMode == COLORMODE::LightMode ? true : false)))
 	{
 		eProps->colorMode = COLORMODE::LightMode;
@@ -241,6 +232,25 @@ void PanelConfiguration::EditorHeader()
 		eProps->SwitchColorMode();
 		LOG(LOG_TYPE::ENGINE, "Classic mode 'ON'");
 	}
+}
+
+void PanelConfiguration::HardwareHeader()
+{
+	ImGui::Separator();
+	ImGui::Text("CPU cores: %i ", cpuCount);
+	ImGui::Text("System RAM: %.1f Gb", (ram / 1000.0f));
+	ImGui::Text("Cache: %i Bytes", (int)cache);
+	ImGui::Text("%s", strCaps.c_str());
+	/*ImGui::Text("Caps: %s", strCaps);*/
+	ImGui::Separator();
+
+	ImGui::Text("GPU Vendor: %s", glGetString(GL_VENDOR));
+	ImGui::Text("GPU: %s", glGetString(GL_RENDERER));
+
+	ImGui::Text("VRam Budget: %i Mb", (int)(VRamBudget / (1024.f * 1024.f)));
+	ImGui::Text("VRam Usage: %i Mb", (int)(VRamCurrentUsage / (1024.f * 1024.f)));
+	ImGui::Text("VRam Available: %i Mb", (int)(VRamAvailable / (1024.f * 1024.f)));
+	ImGui::Text("VRAM Reserved: %i Mb", (int)(VRamReserve / (1024.f * 1024.f)));
 }
 
 void PanelConfiguration::GameHeader()

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
 	<Application>
-		<FpsCap value="60" />
+		<FpsCap value="180" />
 	</Application>
 	<Window>
 		<Brightness value="1" />
@@ -29,6 +29,6 @@
 		<Hierarchy value="true" />
 		<Inspector value="true" />
 		<Library value="true" />
-		<ColorMode value="1" />
+		<ColorMode value="3" />
 	</Editor>
 </config>
