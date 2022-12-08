@@ -3,7 +3,21 @@
 Traversed Engine is a 3D Engine for Game Development, this engine is used to learn game development in the third year of citm-upc.
 
 # Features
-- There's a GameObject structure, one for each loaded mesh. Each GameObject could have 4 display components: Transform, Mesh, Texture and Camera.
+- The ‘Street Environment’ scene is automatically loaded at the start.
+- The user is able to use the inspector to modify a GameObject:
+- Hierarchy:create empty and create children
+- Transform: translate, rotate and scale Game Objects.
+- Texture: select or drop any imported texture
+- Camera is a component with settings that can be modified.
+- GameObjects can be picked from the world using the mouse.
+- All meshes use a bounding volume (AABB) and can be discarded using Frustum Culling. This process is visualized in the editor (debug raycast and boxes).
+- Models, meshes and textures are saved to custom format under “Library” folder
+- Scene can be serialized to a file that can be loaded.
+- The editor has 2 windows one with the scene(editor view) and another captured from a gameobject with a camera component(main game camera), each one has its own
+framebuffer and the user can visualize both at the same time.
+-  Resource Management
+
+
 - Custom File for load&save the scene.
 - Serialization
 - Frustum Culling for the game camera.
@@ -11,7 +25,6 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 - Simple Resource Management.
 
 # Attention
-- Street scene is automatically loaded at the start.
 - The scene view is black at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
 - The game view dosen't display nothing  because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
 # Editor Windows
@@ -31,8 +44,9 @@ Mouse picking:
 ## Game panel
 - The game view only displays when there is a Camera object.
 - In order to do it, u should right click the mouse in the Hierarchy panel and create a camera node.
-- The initial position of a camera object is (0,0,0)
+- The initial position of a new camera object is (0,0,0)
 - You can change the transform of the camera in Inspector to move game view.
+- The other method is select an object then add a camera component.
 
 ## General menu
 File: 
