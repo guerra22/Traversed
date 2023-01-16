@@ -8,7 +8,9 @@
 #include "TEUUID.h"
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
-#include "ComponentTexture.h"
+#include "ResourceMaterial.h"
+#include "Material.h"
+#include "ComponentMaterial.h"
 #include "ModuleFileSystem.h"
 #include "LibraryFolder.h"
 
@@ -207,13 +209,24 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 			else meshGo = new GameObject(aimesh->mName.C_Str());
 
 			meshGo->CreateComponent(MESH);
-			ComponentTexture* textMat = (ComponentTexture*)meshGo->CreateComponent(MATERIAL);
+			//Generate Material
+			ComponentMaterial* mat = (ComponentMaterial*)meshGo->CreateComponent(MATERIAL);
+
+			if (mat != nullptr && !matUuid.empty())
+			{
+				if (matUuid[aimesh->mMaterialIndex] != "")
+				{
+					ResourceMaterial* res = (ResourceMaterial*)ResourceProperties::Instance()->resources.at(matUuid[aimesh->mMaterialIndex]);
+					mat->material = res->ImportFromLibrary();
+				}
+			}
+			/*CompTexture* textMat = (CompTexture*) meshGo->CreateComponent(MATERIAL);
 
 			if (textMat != nullptr && !matUuid.empty())
 			{
 				if (matUuid[aimesh->mMaterialIndex] != "")
 					textMat->SetTextureUuid(matUuid[aimesh->mMaterialIndex]);
-			}
+			}*/
 
 			Meshe mesh;
 
@@ -295,24 +308,42 @@ std::vector<std::string> MeshImporter::GetMaterials(const aiScene* scene)
 					{
 						if (folders[m]->libItem[k]->name == filePath)
 						{
+							if (!folders[m]->libItem[k]->hasMeta && folders[m]->libItem[k]->resUuid.empty())
+							{
+								ResourceProperties* resProps = ResourceProperties::Instance();
+								folders[m]->libItem[k]->hasMeta = true;
+
+								//Texture
+								ResourceTexture* resTex = (ResourceTexture*)resProps->CreateNewResource(folders[m]->libItem[k]->path, RESOURCE_TYPE::TEXTURE);
+								TextureImporter::ImportToLibrary(resTex);
+								TextureImporter::ImportFromLibrary(resTex);
+								resProps->resources[resTex->GetUUID()] = resTex;
+
+								//Material
+								std::string matBuffer;
+								std::string name = LibraryManager::GetFilename(folders[m]->libItem[k]->name);
+								std::string matName = folders[m]->libItem[k]->crudePath + name + ".material";
+								LibraryManager::SaveJSON(matName, matBuffer);
+								ResourceMaterial* resMat = (ResourceMaterial*)resProps->CreateNewResource(matName, RESOURCE_TYPE::MATERIAL);
+
+								Material* material = new Material(name);
+								material->SetDefaultShader(resTex);
+
+								resMat->ImportToLibrary(material);
+								resProps->resources[resMat->GetUUID()] = resMat;
+
+								std::string matUuid = resMat->GetUUID();
+								toAdd = matUuid;
+								folders[m]->libItem[k]->resUuid = matUuid;
+							}
+							break;
+						}
+						else if (folders[m]->libItem[k]->name == (LibraryManager::GetFilename(folders[m]->libItem[k]->name) + ".material"))
+						{
 							if (folders[m]->libItem[k]->hasMeta && !folders[m]->libItem[k]->resUuid.empty())
 							{
 								toAdd = folders[m]->libItem[k]->resUuid;
 							}
-							else
-							{
-								ResourceProperties* resProps = ResourceProperties::Instance();
-								folders[m]->libItem[i]->hasMeta = true;
-								ResourceTexture* resource = (ResourceTexture*)resProps->CreateNewResource(folders[m]->libItem[k]->path, RESOURCE_TYPE::TEXTURE);
-
-								TextureImporter::ImportToLibrary(resource);
-								resProps->resources[resource->GetUUID()] = resource;
-
-								std::string texUuid = resource->GetUUID();
-								toAdd = texUuid;
-								folders[m]->libItem[k]->resUuid = texUuid;
-							}
-							break;
 						}
 					}
 					if (!toAdd.empty())

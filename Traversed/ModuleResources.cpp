@@ -3,6 +3,7 @@
 #include "TextureImporter.h"
 #include "MeshImporter.h"
 #include "ShaderManager.h"
+#include "Material.h"
 
 #include "TEUUID.h"
 

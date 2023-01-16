@@ -314,7 +314,6 @@ void PanelLibrary::PopUpFileName()
 
 	if (ImGui::BeginPopup("PopUpFileName", ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		//ImGui::TextColored(ImVec4(1, 0, 0, 1), "Extension not required!");
 		ImGui::InputText(newFileData.extension.c_str(), &newFileData.placeHolderName, ImGuiInputTextFlags_AutoSelectAll);
 
 		if (ImGui::Button("Cancel"))

@@ -22,6 +22,8 @@ public:
 	void* value = nullptr;
 
 public:
+	bool isTexture();
+
 	void VariableSetting();
 	void VariableDeleting();
 	void HandleShaderGUI();
