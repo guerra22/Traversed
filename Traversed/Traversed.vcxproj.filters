@@ -606,6 +606,12 @@
     <ClInclude Include="External\ImGuiColorTextEdit\TextEditor.h">
       <Filter>Sources\External\ImGuiColorTextEdit</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceMaterial.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Sources\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -889,6 +895,12 @@
     </ClCompile>
     <ClCompile Include="External\ImGuiColorTextEdit\TextEditor.cpp">
       <Filter>Sources\External\ImGuiColorTextEdit</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceMaterial.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Sources\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

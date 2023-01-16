@@ -283,11 +283,19 @@ int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 	}
 	if (ImGui::BeginMenu("Create"))
 	{
+		/*if (ImGui::MenuItem("Folder", 0, false))
+		{
+			LibraryManager::CreateDir("dir");
+		}*/
+
+		if (ImGui::MenuItem("Material", 0, false))
+		{
+			newFileData = NewFileData("NewMaterialFile", ".material", "");
+		}
+
 		if (ImGui::MenuItem("Shader", 0, false))
 		{
-			std::string pathfile = "NewShaderFile";
-
-			newFileData = NewFileData(pathfile, ".shader", InEngineShaders::newShaderTextFile);
+			newFileData = NewFileData("NewShaderFile", ".shader", InEngineShaders::newShaderTextFile);
 		}
 
 		ImGui::EndMenu();
@@ -306,7 +314,7 @@ void PanelLibrary::PopUpFileName()
 
 	if (ImGui::BeginPopup("PopUpFileName", ImGuiWindowFlags_AlwaysAutoResize))
 	{
-		ImGui::TextColored(ImVec4(1, 0, 0, 1), "Extension not required!");
+		//ImGui::TextColored(ImVec4(1, 0, 0, 1), "Extension not required!");
 		ImGui::InputText(newFileData.extension.c_str(), &newFileData.placeHolderName, ImGuiInputTextFlags_AutoSelectAll);
 
 		if (ImGui::Button("Cancel"))

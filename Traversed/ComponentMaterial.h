@@ -3,6 +3,7 @@
 
 #include "Component.h"
 
+class Material;
 class Shader;
 struct ResourceProperties;
 
@@ -21,12 +22,14 @@ public:
 	void LoadUnique(nlohmann::JsonData data) override;
 
 private:
-	void ShaderGUICombo();
+	void UpdateDragDrop();
+	void ShaderSelectorCombo();
+	void ShaderCustomGUI();
 
 	ResourceProperties* resInstance = nullptr;
 
 public:
-	Shader* shader = nullptr;
+	Material* material = nullptr;
 };
 
 

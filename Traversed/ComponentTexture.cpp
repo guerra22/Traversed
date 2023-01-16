@@ -35,7 +35,6 @@ ComponentTexture::~ComponentTexture()
 void ComponentTexture::Init()
 {
 	checkersTexture = TextureImporter::checkers;
-	//checkersTexture.path = "DEBUG TEXTURE(CHECKERS)";
 }
 
 void ComponentTexture::Update()

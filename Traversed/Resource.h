@@ -9,6 +9,7 @@ enum class RESOURCE_TYPE
 	MODEL,
 	SCENE,
 	SHADER,
+	MATERIAL,
 	UNKNOWN
 };
 
