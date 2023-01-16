@@ -40,10 +40,10 @@ Resource* ResourceProperties::CreateNewResource(std::string assetsPath, RESOURCE
 
 	switch (type)
 	{
-	case RESOURCE_TYPE::TEXTURE: toReturn = new ResourceTexture(uuid); break;
-	case RESOURCE_TYPE::MODEL: toReturn = new ResourceModel(uuid); break;
-	case RESOURCE_TYPE::SHADER: toReturn = new ResourceShader(uuid); break;
-	default: toReturn = new Resource(uuid, RESOURCE_TYPE::UNKNOWN); break;
+	    case RESOURCE_TYPE::TEXTURE: toReturn = new ResourceTexture(uuid); break;
+	    case RESOURCE_TYPE::MODEL: toReturn = new ResourceModel(uuid); break;
+	    case RESOURCE_TYPE::SHADER: toReturn = new ResourceShader(uuid); break;
+	    default: toReturn = new Resource(uuid, RESOURCE_TYPE::UNKNOWN); break;
 	}
 
 	if (toReturn != nullptr)
@@ -147,9 +147,9 @@ void ModuleResources::ImportFile(Resource* resource)
 {
 	switch (resource->GetType())
 	{
-	case RESOURCE_TYPE::TEXTURE: TextureImporter::ImportToLibrary((ResourceTexture*)resource); break;
-	case RESOURCE_TYPE::MODEL: MeshImporter::ImportToLibrary((ResourceModel*)resource); break;
-	case RESOURCE_TYPE::SHADER: ShaderManager::ImportToLibrary((ResourceShader*)resource); break;
+	    case RESOURCE_TYPE::TEXTURE: TextureImporter::ImportToLibrary((ResourceTexture*)resource); break;
+	    case RESOURCE_TYPE::MODEL: MeshImporter::ImportToLibrary((ResourceModel*)resource); break;
+	    case RESOURCE_TYPE::SHADER: ShaderManager::ImportToLibrary((ResourceShader*)resource); break;
 	}
 
 	resource->Save();
@@ -205,29 +205,29 @@ RESOURCE_TYPE ModuleResources::GetResourceType(std::string extension)
 {
 	switch (str2int(extension.c_str()))
 	{
-	case str2int("dds"):
-	case str2int("DDS"):
-	case str2int("png"):
-	case str2int("PNG"):
-	case str2int("tga"):
-	case str2int("TGA"):
-		return RESOURCE_TYPE::TEXTURE;
-	case str2int("fbx"):
-	case str2int("FBX"):
-	case str2int("dae"):
-	case str2int("DAE"):
-		return RESOURCE_TYPE::MODEL;
-	case str2int("mh"):
-		return RESOURCE_TYPE::MESH;
-	case str2int("sc"):
-	case str2int("SC"):
-		return RESOURCE_TYPE::SCENE;
-	case str2int("lss"):
-	case str2int("LSS"):
-	case str2int("shader"):
-	case str2int("SHADER"):
-		return RESOURCE_TYPE::SHADER;
-	default:
-		return RESOURCE_TYPE::UNKNOWN;
+	    case str2int("dds"):
+	    case str2int("DDS"):
+	    case str2int("png"):
+	    case str2int("PNG"):
+	    case str2int("tga"):
+	    case str2int("TGA"):
+		    return RESOURCE_TYPE::TEXTURE;
+	    case str2int("fbx"):
+	    case str2int("FBX"):
+	    case str2int("dae"):
+	    case str2int("DAE"):
+		    return RESOURCE_TYPE::MODEL;
+	    case str2int("mh"):
+		    return RESOURCE_TYPE::MESH;
+	    case str2int("sc"):
+	    case str2int("SC"):
+		    return RESOURCE_TYPE::SCENE;
+	    case str2int("lss"):
+	    case str2int("LSS"):
+	    case str2int("shader"):
+	    case str2int("SHADER"):
+		    return RESOURCE_TYPE::SHADER;
+	    default:
+		    return RESOURCE_TYPE::UNKNOWN;
 	}
 }

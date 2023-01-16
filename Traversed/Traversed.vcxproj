@@ -90,6 +90,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentMaterial.h" />
+    <ClInclude Include="ComponentTexture.h" />
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="External\GPUDetect\DeviceId.h" />
@@ -253,6 +254,7 @@
     <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="PanelLibrary.h" />
     <ClInclude Include="PanelScene.h" />
+    <ClInclude Include="PanelShaderText.h" />
     <ClInclude Include="Point.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Renderer.h" />
@@ -272,6 +274,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
+    <ClCompile Include="ComponentTexture.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="External\GPUDetect\DeviceId.cpp" />
@@ -351,6 +354,7 @@
     <ClCompile Include="PanelLibrary.cpp" />
     <ClCompile Include="PanelScene.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="PanelShaderText.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="ResourceModel.cpp" />

@@ -15,6 +15,7 @@
 #include "PanelHierarchy.h"
 #include "PanelInspector.h"
 #include "PanelLibrary.h"
+#include "PanelShaderText.h"
 
 #include "ImGuiFileDialog/ImGuiFileDialog.h"
 #include "External/Imgui/imgui_impl_sdl.h"
@@ -24,7 +25,7 @@
 #pragma region EditorProperties
 EditorProperties::EditorProperties()
 {
-
+	requestShaderTextUuid = "NULL";
 }
 
 EditorProperties* EditorProperties::Instance()
@@ -50,6 +51,12 @@ void EditorProperties::SwitchColorMode() {
 	    case COLORMODE::ClassicMode: ImGui::StyleColorsClassic(); break;
 		case COLORMODE::CustomizeMode: SetupImGuiStyle(); break;
 	}
+}
+
+void EditorProperties::RequestShaderTextSwitch(std::string shaderResourceUuid)
+{
+	requestShaderTextSwitch = true;
+	requestShaderTextUuid = shaderResourceUuid;
 }
 
 void EditorProperties::SetupImGuiStyle()
@@ -183,6 +190,8 @@ bool ModuleUI::Init()
 
 bool ModuleUI::Start()
 {
+	panelViewPoolOff = 1;
+
 	//Create Panels
 	panels.emplace_back(new PanelConsole());
 	panels.emplace_back(new PanelConfiguration());
@@ -199,6 +208,10 @@ bool ModuleUI::Start()
 	{
 		panels[i]->Start();
 	}
+
+	//Start Special segments
+	panelShaderText = new PanelShaderText();
+	panelShaderText->Start();
 
 	ImGui_ImplSDL2_InitForOpenGL(WindowProperties::Instance()->window, App->renderer3D->GetGLContext());
 	ImGui_ImplOpenGL3_Init();
@@ -217,6 +230,8 @@ bool ModuleUI::CleanUp()
 	{
 		RELEASE(panels[i]);
 	}
+
+	RELEASE(panelShaderText);
 
 	//Delete Editor Properties
 	eProps->Delete();
@@ -244,6 +259,7 @@ void ModuleUI::DrawEditorGui()
 
 	//Menus
 	MainMenuBar();
+	RequestSwitchHandler();
 	UpdatePanels();
 	FileDialogMenu();
 
@@ -315,7 +331,7 @@ void ModuleUI::MainMenuBar()
 
 		if (ImGui::BeginMenu("View"))
 		{
-			for (int i = 0; i < (panels.size() - 1); ++i)
+			for (int i = 0; i < (panels.size() - panelViewPoolOff); ++i)
 			{
 				if (ImGui::MenuItem(panels[i]->name.c_str(), NULL, &panels[i]->enabled))
 				{
@@ -365,14 +381,31 @@ void ModuleUI::FileDialogMenu()
 
 }
 
+void ModuleUI::RequestSwitchHandler()
+{
+	if (eProps->GetShaderTextRequest())
+	{
+		panelShaderText->enabled = !panelShaderText->enabled;
+
+		panelShaderText->SetResource(eProps->GetShaderTextRequestUuid());
+	}
+}
+
 void ModuleUI::UpdatePanels()
 {
+	//Main acces Panels
 	for (int i = 0; i < panels.size(); ++i)
 	{
 		if (panels[i]->enabled)
 		{
 			panels[i]->Update();
 		}
+	}
+
+	//Special Segments
+	if (panelShaderText->enabled)
+	{
+		panelShaderText->Update();
 	}
 }
 

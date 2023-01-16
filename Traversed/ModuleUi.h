@@ -8,6 +8,7 @@
 
 class Application;
 class UiPanel;
+class PanelShaderText;
 
 enum COLORMODE
 {
@@ -31,8 +32,29 @@ public:
 	void SwitchColorMode();
 
 	void SetupImGuiStyle();
+
+	void RequestShaderTextSwitch(std::string shaderResourceUuid);
+	bool GetShaderTextRequest()
+	{
+		if (requestShaderTextSwitch)
+		{
+			requestShaderTextSwitch = false;
+			return true;
+		}
+		return false;
+	}
+
+	std::string GetShaderTextRequestUuid()
+	{
+		std::string aux = requestShaderTextUuid;
+		requestShaderTextUuid = "NULL";
+		return aux;
+	}
 private:
 	static EditorProperties* instance;
+
+	bool requestShaderTextSwitch = false;
+	std::string requestShaderTextUuid;
 };
 
 class ModuleUI : public Module
@@ -55,6 +77,8 @@ private:
 	void BeginRender();
 	void EndRender();
 
+	void RequestSwitchHandler();
+
 	void UpdatePanels();
 
 	void MainMenuBar();
@@ -68,6 +92,8 @@ private:
 private:
 	
 	std::vector<UiPanel*> panels;
+	PanelShaderText* panelShaderText = nullptr;
+	int panelViewPoolOff;
 	EditorProperties* eProps = nullptr;
 };
 

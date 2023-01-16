@@ -4,7 +4,7 @@
 #include "MeshImporter.h"
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
-#include "ComponentMaterial.h"
+#include "ComponentTexture.h"
 
 PanelHierarchy::PanelHierarchy(bool enabled) : UiPanel(enabled)
 {

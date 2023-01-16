@@ -63,6 +63,7 @@ void PanelInspector::Update()
 						ImGui::Separator();
 
 						comp.second->UpdateGUI();
+						ImGui::NewLine();
 					}
 				}
 				go->UpdateCompMenuGUI();

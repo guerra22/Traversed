@@ -70,7 +70,6 @@ float4x4 ComponentTransform::GetLocalMatrix()
 
 void ComponentTransform::SetWorldMatrix(float4x4 matrix)
 {
-	//if (owner->parent != nullptr)
 	math::Quat q;
 	matrix.Decompose(position, q, localScale);
 

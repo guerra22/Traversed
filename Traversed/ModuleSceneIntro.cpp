@@ -8,7 +8,7 @@
 #include "MeshImporter.h"
 #include "TextureImporter.h"
 #include "ComponentMesh.h"
-#include "ComponentMaterial.h"
+#include "ComponentTexture.h"
 
 #include <fstream>
 

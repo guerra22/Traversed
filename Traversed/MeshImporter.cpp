@@ -8,7 +8,7 @@
 #include "TEUUID.h"
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
-#include "ComponentMaterial.h"
+#include "ComponentTexture.h"
 #include "ModuleFileSystem.h"
 #include "LibraryFolder.h"
 
@@ -177,7 +177,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	aiVector3D position;
 	aiQuaternion rotation;
 	aiVector3D localScale;
-	node->mTransformation.Decompose(position, rotation, localScale);
+	node->mTransformation.Decompose(localScale, rotation, position);
 
 	Quat q = Quat(rotation.x, rotation.y, rotation.z, rotation.w);
 	float3 toDeg = q.ToEulerXYZ();
@@ -206,7 +206,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 			else meshGo = new GameObject(aimesh->mName.C_Str());
 
 			meshGo->CreateComponent(MESH);
-			ComponentMaterial* textMat = (ComponentMaterial*)meshGo->CreateComponent(MATERIAL);
+			ComponentTexture* textMat = (ComponentTexture*)meshGo->CreateComponent(MATERIAL);
 
 			if (textMat != nullptr && !matUuid.empty())
 			{

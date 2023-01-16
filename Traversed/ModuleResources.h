@@ -6,7 +6,7 @@
 #include "Resource.h"
 
 #include <map>
-
+#include <vector>
 
 class LibraryFolder;
 struct FileSystemProperties;
@@ -20,6 +20,23 @@ struct ResourceProperties
 	static void Delete();
 
 	Resource* CreateNewResource(std::string assetsPath, RESOURCE_TYPE type);
+
+	template <class T>
+	std::vector<T*> GetResourcePool(RESOURCE_TYPE type)
+	{
+		std::vector<T*> toReturn;
+
+		for (auto const& res : resources)
+		{
+			if (res.second->GetType() == type)
+			{
+				T* aux = (T*)resources.at(res.first);
+
+				toReturn.emplace_back(aux);
+			}
+		}
+		return toReturn;
+	}
 
 private:
 	static ResourceProperties* instance;

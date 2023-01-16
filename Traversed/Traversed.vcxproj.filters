@@ -135,7 +135,7 @@
     <ClInclude Include="Component.h">
       <Filter>Sources\GameObject\Component</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentMaterial.h">
+    <ClInclude Include="ComponentTexture.h">
       <Filter>Sources\GameObject\Component</Filter>
     </ClInclude>
     <ClInclude Include="ComponentMesh.h">
@@ -594,6 +594,12 @@
     <ClInclude Include="ShaderManager.h">
       <Filter>Sources\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentMaterial.h">
+      <Filter>Sources\GameObject\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelShaderText.h">
+      <Filter>Sources\Ui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">
@@ -665,7 +671,7 @@
     <ClCompile Include="Component.cpp">
       <Filter>Sources\GameObject\Component</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentMaterial.cpp">
+    <ClCompile Include="ComponentTexture.cpp">
       <Filter>Sources\GameObject\Component</Filter>
     </ClCompile>
     <ClCompile Include="ComponentMesh.cpp">
@@ -868,6 +874,12 @@
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
       <Filter>Sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentMaterial.cpp">
+      <Filter>Sources\GameObject\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="PanelShaderText.cpp">
+      <Filter>Sources\Ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

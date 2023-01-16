@@ -3,7 +3,7 @@
 #include "Renderer.h"
 #include "Shader.h"
 #include "GameObject.h"
-#include "ComponentMaterial.h"
+#include "ComponentTexture.h"
 #include "ComponentTransform.h"
 
 #include "External/ImGui/imgui.h"
@@ -151,18 +151,18 @@ void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera, 
 {
 	if (!active || mesh == NULL) return;
 
-	if (owner->GetComponent<ComponentMaterial>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
+	if (owner->GetComponent<ComponentTexture>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
 	{
 		if (game)
 			mesh->LiteDraw(shader,
 				camera,
-				owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
+				owner->GetComponent<ComponentTexture>(MATERIAL)->GetTexture(),
 				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
 		else
 			mesh->FullDraw(shader,
 				debugShader,
 				camera,
-				owner->GetComponent<ComponentMaterial>(MATERIAL)->GetTexture(),
+				owner->GetComponent<ComponentTexture>(MATERIAL)->GetTexture(),
 				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(), normals);
 	}
 }

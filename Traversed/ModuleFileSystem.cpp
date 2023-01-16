@@ -8,7 +8,7 @@
 #include "ModuleSceneintro.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
-#include "ComponentMaterial.h"
+#include "ComponentTexture.h"
 
 #include "External/PhysFS/include/physfs.h"
 
@@ -120,32 +120,10 @@ void ModuleFileSystem::DragAndDrop(std::string path)
 	switch (str2int(extension.c_str()))
 	{
 	    case str2int("fbx"):
-		//MeshImporter::ImportMesh(path, nullptr, true);
-			//break;
 	    case str2int("dds"):
 	    case str2int("png"):
 	    {
 		    LibraryManager::Copy(path, fsProps->currentFolder->path);
-
-		    //TextureImporter::ImportTexture(path);
-		    /*GameObject* aux = sProps->GetSelectedGO();
-		    if (aux != nullptr)
-		    {
-			    ComponentMaterial* auxText = nullptr;
-			    auxText = aux->GetComponent<ComponentMaterial>(MATERIAL);
-			    if (auxText != nullptr)
-			    {
-			 	    auxText->SetTexture(TextureImporter::ImportTexture(path));
-			    }
-			    else
-			    {
-				    LOG(LOG_TYPE::ERRO, "ERROR: The selected 'GameObject' doesn't have a 'CompTexture'");
-			    }
-		    }
-		    else
-		    {
-			    LOG(LOG_TYPE::ERRO, "ERROR: There is no 'GameObject' selected!");
-		     }*/
 	    }
 	        break;
 	    case str2int("jpg"):

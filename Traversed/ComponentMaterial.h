@@ -2,7 +2,9 @@
 #define _COMPONENTMATERIAL_H
 
 #include "Component.h"
-#include "MeshRenderer.h"
+
+class Shader;
+struct ResourceProperties;
 
 class ComponentMaterial : public Component
 {
@@ -18,21 +20,13 @@ public:
 	nlohmann::ordered_json SaveUnique(nlohmann::JsonData data) override;
 	void LoadUnique(nlohmann::JsonData data) override;
 
-	Texture GetTexture();
-
-	void SetTexture(Texture texture);
-	void SetTexture(unsigned int id, std::string path);
-	
-	void SetTextureUuid(std::string uuid);
-
 private:
-	void TextureDrop();
+	void ShaderGUICombo();
 
-private:
-	Texture texture;
-	Texture checkersTexture;
+	ResourceProperties* resInstance = nullptr;
 
-	bool isCheckers;
+public:
+	Shader* shader = nullptr;
 };
 
 
