@@ -211,7 +211,8 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 
 			if (textMat != nullptr && !matUuid.empty())
 			{
-				textMat->SetTextureUuid(matUuid[aimesh->mMaterialIndex]);
+				if (matUuid[aimesh->mMaterialIndex] != "")
+					textMat->SetTextureUuid(matUuid[aimesh->mMaterialIndex]);
 			}
 
 			Meshe mesh;

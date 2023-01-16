@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include "ShaderUniform.h"
+#include "TextureImporter.h"
 
 #include "Glew/include/glew.h"
 
@@ -269,4 +270,17 @@ void Shader::SetVec3(const std::string& name, const float* value) const
 void Shader::SetVec4(const std::string& name, const float* value) const
 {
 	glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, value);
+}
+
+void Shader::SetTexture(const std::string& name, Texture* value)
+{
+	if (value->count == -1)
+	{
+		value->count = textureCount;
+		if (textureCount < 32) ++textureCount;
+	}
+
+	glActiveTexture(GL_TEXTURE0 + value->count);
+	glBindTexture(GL_TEXTURE_2D, value->id);
+	SetInt(name, value->count);
 }

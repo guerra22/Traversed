@@ -58,6 +58,8 @@ MeshRenderer::MeshRenderer(Meshe meshData, bool debug)
 		CreateNormals();
 		CreateBoundingBox();
 	}
+
+	time = 0;
 }
 
 

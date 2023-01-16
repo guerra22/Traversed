@@ -114,5 +114,6 @@ private:
 
 	Shader* shader = nullptr;
 	Shader* debugShader = nullptr;
+	float time;
 };
 
