@@ -1,6 +1,6 @@
 {
     "Name": "Building_V01_C",
-    "UUID": "e8797aa7-e772-6dc2-d696-fdb845574aa6",
+    "UUID": "c126384e-cbca-bb3e-1a83-3417619b21c9",
     "Shader Uuid": "",
     "Shader Compile Version": "BASE SHADER",
     "Uniforms": [
@@ -89,7 +89,7 @@
             "Index": 3,
             "Read": 14,
             "Size": 1,
-            "Value": ""
+            "Value": "176232bb-bbf1-efda-edf4-a9b79097b736"
         }
     ]
 }

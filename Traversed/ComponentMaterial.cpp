@@ -65,7 +65,12 @@ void ComponentMaterial::UpdateDragDrop()
 				if (this->material != nullptr) ResourceProperties::Instance()->resources.at(material->uuid)->DecreaseRC();
 
 				//Import
-				this->material = res->ImportFromLibrary();
+				if (res->material == nullptr) this->material = res->ImportFromLibrary();
+				else
+				{
+					this->material = res->material;
+					res->IncreaseRC();
+				}
 
 			}
 		}
