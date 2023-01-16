@@ -62,14 +62,21 @@ void ComponentMaterial::UpdateDragDrop()
 			{
 				ResourceMaterial* res = (ResourceMaterial*)ResourceProperties::Instance()->resources.at(item.resUuid);
 				//Clean previous (if there is one)
-				if (this->material != nullptr) ResourceProperties::Instance()->resources.at(material->uuid)->DecreaseRC();
+				if (this->material != nullptr)
+				{
+					ResourceMaterial* delRes = (ResourceMaterial*)ResourceProperties::Instance()->resources.at(material->uuid);
+					delRes->RemoveMaterialToComp(this);
+				}
 
 				//Import
-				if (res->material == nullptr) this->material = res->ImportFromLibrary();
+				if (res->GetMaterial() == nullptr)
+				{
+					res->ImportFromLibrary(this);
+				}
 				else
 				{
-					this->material = res->material;
-					res->IncreaseRC();
+					res->SetMaterialToComp(this);
+					//res->IncreaseRC();
 				}
 
 			}
@@ -105,14 +112,16 @@ void ComponentMaterial::ShaderSelectorCombo()
 					if (!material->GetShader()->uuid.empty())
 					{
 						ResourceShader* ress = (ResourceShader*)resInstance->resources.at(material->GetShader()->uuid);
-						if (ress != nullptr) ress->DecreaseRC();
-						if (ress->shader == nullptr) LOG(LOG_TYPE::ATTENTION, "RC 0: Unloading shader '%s' from memory!", ress->GetLibraryFile().c_str());
+						if (ress != nullptr) ress->RemoveShaderFromMat(material);
+						//if (ress->shader == nullptr) LOG(LOG_TYPE::ATTENTION, "RC 0: Unloading shader '%s' from memory!", ress->GetLibraryFile().c_str());
 					}
 				}
 
 				//Set new shader
-				material->SetShader(ShaderManager::ImportFromLibrary(shaderPool[i]));
-				shaderPool[i]->IncreaseRC();
+				/*material->SetShader(ShaderManager::ImportFromLibrary(shaderPool[i]));
+				shaderPool[i]->IncreaseRC();*/
+
+				shaderPool[i]->SetShaderToMat(material);
 			}
 		}
 
@@ -162,12 +171,13 @@ void ComponentMaterial::LoadUnique(nlohmann::JsonData data)
 
 	if (res != nullptr)
 	{
-		if (res->material == nullptr)
-			this->material = res->ImportFromLibrary();
+		if (res->GetMaterial() == nullptr)
+			res->ImportFromLibrary(this);
 		else
 		{
-			this->material = res->material;
-			res->IncreaseRC();
+			res->SetMaterialToComp(this);
+			/*this->material = res->material;
+			res->IncreaseRC();*/
 		}
 
 	}

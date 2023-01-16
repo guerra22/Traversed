@@ -2,6 +2,7 @@
 #include "Resource.h"
 
 class Material;
+class ComponentMaterial;
 
 class ResourceMaterial : public Resource
 {
@@ -16,9 +17,13 @@ public:
 	void PlanDelete() override;
 
 	void ImportToLibrary(Material* material = nullptr);
-	Material* ImportFromLibrary();
+	void ImportFromLibrary(ComponentMaterial* comp);
 
-public:
+	Material* GetMaterial() { return material; }
+	void SetMaterialToComp(ComponentMaterial* comp);
+	void RemoveMaterialToComp(ComponentMaterial* comp);
+
+private:
 	Material* material = nullptr;
-
+	std::vector<ComponentMaterial*>* compRef = nullptr;
 };

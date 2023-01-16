@@ -61,7 +61,8 @@ void Material::SetShader(Shader* shader)
 	this->shader = shader;
 
 	CleanUniforms();
-	shader->VariableParser(this->uniforms);
+
+	if (this->shader != nullptr) shader->VariableParser(this->uniforms);
 }
 
 #pragma region Save&Load
