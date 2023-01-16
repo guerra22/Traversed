@@ -59,6 +59,11 @@ void EditorProperties::RequestShaderTextSwitch(std::string shaderResourceUuid)
 	requestShaderTextUuid = shaderResourceUuid;
 }
 
+void EditorProperties::ForceClose()
+{
+	requestShaderTextSwitch = true;
+}
+
 void EditorProperties::SetupImGuiStyle()
 {
 	// Green Font style by aiekick from ImThemes
@@ -387,7 +392,7 @@ void ModuleUI::RequestSwitchHandler()
 	{
 		panelShaderText->enabled = !panelShaderText->enabled;
 
-		panelShaderText->SetResource(eProps->GetShaderTextRequestUuid());
+		if (panelShaderText->enabled) panelShaderText->SetResource(eProps->GetShaderTextRequestUuid());
 	}
 }
 

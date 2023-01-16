@@ -34,6 +34,9 @@ public:
 	void SetupImGuiStyle();
 
 	void RequestShaderTextSwitch(std::string shaderResourceUuid);
+
+	void ForceClose();
+
 	bool GetShaderTextRequest()
 	{
 		if (requestShaderTextSwitch)

@@ -1,4 +1,5 @@
 #include "ResourceShader.h"
+#include "ModuleUI.h"
 
 ResourceShader::ResourceShader(std::string uuid) : Resource(uuid, RESOURCE_TYPE::SHADER)
 {
@@ -13,6 +14,14 @@ ResourceShader::~ResourceShader()
 void ResourceShader::CleanInstance()
 {
 	if (shader != nullptr) RELEASE(shader);
+}
+
+void ResourceShader::PlanDelete()
+{
+	if (isOpenOnEditor)
+	{
+		EditorProperties::Instance()->ForceClose();
+	}
 }
 
 nlohmann::JsonData ResourceShader::SaveUnique(nlohmann::JsonData data)

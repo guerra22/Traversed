@@ -11,6 +11,23 @@ struct ResourceProperties;
 struct LibraryItem;
 class LibraryFolder;
 
+struct NewFileData
+{
+	NewFileData() {};
+	NewFileData(std::string placeHolderName, std::string extension, std::string buffer)
+	{
+		this->placeHolderName = placeHolderName;
+		this->extension = extension;
+		this->buffer = buffer;
+		openPopUp = true;
+	}
+
+	std::string placeHolderName;
+	std::string extension;
+	std::string buffer;
+	bool openPopUp = false;
+};
+
 class PanelLibrary : public UiPanel
 {
 public:
@@ -27,7 +44,11 @@ private:
 
 	void ExecuteItemActive(LibraryItem* item, float cellSize);
 
-	int RightClickMenuContent(LibraryItem* item);
+	int RightClickMenuContextItem(LibraryItem* item);
+	int RightClickMenuContextWindow();
+	int RightClickMenuContent(LibraryItem* item = nullptr);
+
+	void PopUpFileName();
 
 private:
 	float leftWin;
@@ -39,6 +60,7 @@ private:
 	LibraryFolder* currentFolder = nullptr;
 
 	std::string* package = nullptr;
+	NewFileData newFileData;
 };
 
 #endif

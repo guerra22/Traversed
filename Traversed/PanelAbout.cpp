@@ -6,9 +6,11 @@
 #include "MathGeoLib.h"
 #include "External/Glew/include/glew.h"
 #include "External/Assimp/include/assimp/version.h"
-#include "External/Nlohmann/json.hpp"
+#include "External/Nlohmann/detail/abi_macros.hpp"
 #include "External/PhysFS/include/physfs.h"
 #include "External/PugiXml/src/pugixml.hpp"
+#include "External/ImGuiFileDialog/ImGuiFileDialog.h"
+#include "External/ImGuiColorTextEdit/TextEditor.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -30,13 +32,15 @@ PanelAbout::PanelAbout(bool enabled) : UiPanel(enabled)
 
 	vSdl = "SDL " + std::to_string(version.major) + "." + std::to_string(version.minor) + "." + std::to_string(version.patch);
 	vImGui = "DearImGui " + std::string(ImGui::GetVersion());
+	vImGuiFileDialog = "ImGuiFileDialog " + std::string(IMGUIFILEDIALOG_VERSION);
+	vImGuiColorTextEdit = "ImGuiColorTextEdit " + std::string("0a88824");
 	vMathGeoLib = "MathGeoLib 1.5";
 	vGlew = "Glew ";
 	vGlew += (const char*)glewGetString(GLEW_VERSION);
 	vOpenGl = "OpenGl ";
 	vOpenGl += (const char*)glGetString(GL_VERSION);
 	vNlohmann = "Nlohmann ";
-	vNlohmann += "NOT YET";
+	vNlohmann += std::to_string(NLOHMANN_JSON_VERSION_MAJOR) + "." + std::to_string(NLOHMANN_JSON_VERSION_MINOR) + "." + std::to_string(NLOHMANN_JSON_VERSION_PATCH);
 	vAssimp = "Assimp " + std::to_string(aiGetVersionMajor()) + "." + std::to_string(aiGetVersionMinor()) + "." + std::to_string(aiGetVersionRevision());
 	vPhysfs = "PhysFS " + std::to_string(versionPhys.major) + "." + std::to_string(versionPhys.minor) + "." + std::to_string(versionPhys.patch);
 
@@ -87,6 +91,12 @@ void PanelAbout::ThirdPartyLibs()
 
 	ImGui::BulletText("");
 	ImGui::TextURL(vImGui.c_str(), "https://github.com/ocornut/imgui", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vImGuiFileDialog.c_str(), "https://github.com/aiekick/ImGuiFileDialog", 1, 0);
+
+	ImGui::BulletText("");
+	ImGui::TextURL(vImGuiColorTextEdit.c_str(), "https://github.com/BalazsJako/ImGuiColorTextEdit", 1, 0);
 
 	ImGui::BulletText("");
 	ImGui::TextURL(vGlew.c_str(), "http://glew.sourceforge.net", 1, 0);

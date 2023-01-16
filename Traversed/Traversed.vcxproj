@@ -95,6 +95,7 @@
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="External\GPUDetect\DeviceId.h" />
     <ClInclude Include="External\GPUDetect\dxgi1_4.h" />
+    <ClInclude Include="External\ImGuiColorTextEdit\TextEditor.h" />
     <ClInclude Include="External\ImGuiFileDialog\dirent\dirent.h" />
     <ClInclude Include="External\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="External\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
@@ -278,6 +279,7 @@
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="External\GPUDetect\DeviceId.cpp" />
+    <ClCompile Include="External\ImGuiColorTextEdit\TextEditor.cpp" />
     <ClCompile Include="External\ImGuiFileDialog\ImGuiFileDialog.cpp" />
     <ClCompile Include="External\ImGuizmo\GraphEditor.cpp" />
     <ClCompile Include="External\ImGuizmo\ImCurveEdit.cpp" />

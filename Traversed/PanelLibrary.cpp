@@ -8,9 +8,11 @@
 #include "ResourceModel.h"
 #include "MeshImporter.h"
 #include "MeshRenderer.h"
+#include "BaseShaders.h"
 
 #include "ImGuiUtils.h"
 #include "External/ImGui/imgui_internal.h"
+#include "External/ImGui/misc/cpp/imgui_stdlib.h"
 
 PanelLibrary::PanelLibrary(bool enabled) : UiPanel(enabled)
 {
@@ -57,6 +59,8 @@ void PanelLibrary::Update()
 		if (rightWin > 0.0f)
 		{
 			BoxView();
+
+			RightClickMenuContextWindow();
 		}
 	}
 	ImGui::End();
@@ -154,13 +158,16 @@ void PanelLibrary::BoxView()
 				}
 			}
 
-			//POPUP MENU
-			if (ImGui::BeginPopupContextItem("LibraryItemMenu", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_))
+			//POPUP MENU over item
+
+			/*bool pop = ImGui::BeginPopupContextItem("LibraryItemMenu", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_);
+			if (pop)
 			{
 				k += RightClickMenuContent(currentFolder->libItem[k]);
 
 				ImGui::EndPopup();
-			}
+			}*/
+			k += RightClickMenuContextItem(currentFolder->libItem[k]);
 
 			//Drag
 			if (ImGui::BeginDragDropSource())
@@ -212,9 +219,44 @@ void PanelLibrary::ExecuteItemActive(LibraryItem* item, float cellSize)
 
 }
 
+int PanelLibrary::RightClickMenuContextItem(LibraryItem* item)
+{
+	if (ImGui::IsPopupOpen("LibraryItemMenu##Window")) return 0;
+	int toReturn = 0;
+
+	bool pop = ImGui::BeginPopupContextItem("LibraryItemMenu##Item", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_);
+
+	if (pop)
+	{
+		toReturn = RightClickMenuContent(item);
+
+		ImGui::EndPopup();
+	}
+
+	return toReturn;
+}
+
+int PanelLibrary::RightClickMenuContextWindow()
+{
+	if (ImGui::IsPopupOpen("LibraryItemMenu##Item")) return 0;
+	int toReturn = 0;
+
+	bool pop = ImGui::BeginPopupContextItem("LibraryItemMenu##Window", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_);
+
+	if (pop)
+	{
+		toReturn = RightClickMenuContent();
+
+		ImGui::EndPopup();
+	}
+
+	return toReturn;
+}
+
+
 int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 {
-	if (ImGui::MenuItem("DELETE", 0, false))
+	if (ImGui::MenuItem("DELETE", 0, false, item == nullptr ? false : true))
 	{
 		LOG(LOG_TYPE::ATTENTION, "DELETE LIBITEM %s", item->name.c_str());
 
@@ -225,14 +267,11 @@ int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 		LibraryManager::RemoveFile(iterator->second->GetAssetsFile());
 		LibraryManager::RemoveFile(item->GetMeta());
 
-		//RELEASE(item);
 		currentFolder->libItem.erase(std::find(currentFolder->libItem.begin(), currentFolder->libItem.end(), item));
 
-		//RELEASE(iterator->second);
 		resInstance->resources.erase(iterator);
 
 		RELEASE(item);
-
 
 		//The delete of resources is handled by a vector on the next iterator iterator. 
 		//PlanDelete() method only tells the pointes on the components that they should nullptr themselves.
@@ -242,5 +281,51 @@ int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 
 		return -1;
 	}
+	if (ImGui::BeginMenu("Create"))
+	{
+		if (ImGui::MenuItem("Shader", 0, false))
+		{
+			std::string pathfile = "NewShaderFile";
+
+			newFileData = NewFileData(pathfile, ".shader", InEngineShaders::newShaderTextFile);
+		}
+
+		ImGui::EndMenu();
+	}
 	return 0;
+}
+
+void PanelLibrary::PopUpFileName()
+{
+	if (newFileData.openPopUp) ImGui::OpenPopup("PopUpFileName");
+	else return;
+
+	std::string pathfile = currentFolder->path;
+	pathfile += "/";
+
+
+	if (ImGui::BeginPopup("PopUpFileName", ImGuiWindowFlags_AlwaysAutoResize))
+	{
+		ImGui::TextColored(ImVec4(1, 0, 0, 1), "Extension not required!");
+		ImGui::InputText(newFileData.extension.c_str(), &newFileData.placeHolderName, ImGuiInputTextFlags_AutoSelectAll);
+
+		if (ImGui::Button("Cancel"))
+		{
+			newFileData.openPopUp = false;
+		}
+
+		ImGui::SameLine(0, 4);
+
+		if (ImGui::Button("Create"))
+		{
+			pathfile += newFileData.placeHolderName + newFileData.extension;
+			LibraryManager::SaveJSON(pathfile, newFileData.buffer);
+
+			LibraryManager::FolderSystemUpdate(currentFolder);
+			resInstance->requestFolderFileCheck = true;
+			newFileData.openPopUp = false;
+		}
+
+		ImGui::EndPopup();
+	}
 }

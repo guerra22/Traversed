@@ -23,6 +23,8 @@ private:
 	//Lib versions
 	std::string vSdl;
 	std::string vImGui;
+	std::string vImGuiFileDialog;
+	std::string vImGuiColorTextEdit;
 	std::string vMathGeoLib;
 	std::string vOpenGl;
 	std::string vGlew;
