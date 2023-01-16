@@ -62,14 +62,7 @@ Shader::~Shader()
 
 void Shader::Clear()
 {
-	for (int i = 0; i < uniforms.size(); ++i)
-	{
-		RELEASE(uniforms[i]);
-	}
-
 	glDeleteShader(ID);
-
-	uniforms.clear();
 }
 
 void Shader::RetriveShader(const char* shaderPath)
@@ -163,7 +156,7 @@ void Shader::CompileShader()
 		LOG(LOG_TYPE::SUCCESS, "SUCCESS: Shader '%s' is compiled!", name.c_str());
 
 		//Get ActiveUniforms
-		VariableParser();
+		//VariableParser();
 
 		//compilationVersion = LS_UUID::Generate();
 	}
@@ -180,7 +173,7 @@ void Shader::Recompile(const char* shaderPath, std::string name)
 	CompileShader();
 }
 
-void Shader::VariableParser()
+void Shader::VariableParser(std::vector<ShaderUniform*>& uniforms)
 {
 	GLint maxNameLen, count;
 
@@ -223,7 +216,7 @@ void Shader::LoadBinary(char* buffer, uint size, uint format)
 	else
 	{
 		LOG(LOG_TYPE::SUCCESS, "SUCCESS: Shader '%s' has been loaded from binaries!", name.c_str());
-		VariableParser();
+		//VariableParser();
 	}
 }
 

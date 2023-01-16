@@ -23,6 +23,7 @@ ComponentMaterial::ComponentMaterial(GameObject* owner, std::string uuid) : Comp
 ComponentMaterial::~ComponentMaterial()
 {
 	if (this->material != nullptr) ResourceProperties::Instance()->resources.at(material->uuid)->DecreaseRC();
+	else this->material = nullptr;
 }
 
 void ComponentMaterial::Init()
@@ -124,13 +125,13 @@ void ComponentMaterial::ShaderCustomGUI()
 		ResourceMaterial* res = (ResourceMaterial*)ResourceProperties::Instance()->resources.at(this->material->uuid);
 		this->material->Save(res->GetLibraryFile());
 	}
-	Shader* shader = material->GetShader();
+	
 	//Custom Shader properties
-	for (int i = 0; i < shader->uniforms.size(); ++i)
+	for (int i = 0; i < material->uniforms.size(); ++i)
 	{
-		if (shader->uniforms[i] == nullptr) continue;
-		if (shader->uniforms[i]->name == "Projection" || shader->uniforms[i]->name == "View" || shader->uniforms[i]->name == "odel") continue;
-		shader->uniforms[i]->HandleShaderGUI();
+		if (material->uniforms[i] == nullptr) continue;
+		if (material->uniforms[i]->name == "Projection" || material->uniforms[i]->name == "View" || material->uniforms[i]->name == "Model") continue;
+		material->uniforms[i]->HandleShaderGUI();
 	}
 }
 #pragma endregion
@@ -156,7 +157,14 @@ void ComponentMaterial::LoadUnique(nlohmann::JsonData data)
 
 	if (res != nullptr)
 	{
-		this->material = res->ImportFromLibrary();
+		if (res->material == nullptr)
+			this->material = res->ImportFromLibrary();
+		else
+		{
+			this->material = res->material;
+			res->IncreaseRC();
+		}
+
 	}
 }
 #pragma endregion

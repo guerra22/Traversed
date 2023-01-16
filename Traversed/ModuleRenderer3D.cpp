@@ -224,8 +224,6 @@ bool ModuleRenderer3D::CleanUp()
 		SDL_GL_DeleteContext(context);
 	}
 
-	ShaderManager::Shutdown();
-
 	return true;
 }
 

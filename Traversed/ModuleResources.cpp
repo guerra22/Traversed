@@ -101,6 +101,9 @@ bool ModuleResources::CleanUp()
 	resProps->resources.clear();
 
 	RELEASE(resProps);
+
+	ShaderManager::Shutdown();
+
 	return true;
 }
 
