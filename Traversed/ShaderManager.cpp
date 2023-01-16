@@ -36,9 +36,11 @@ bool ShaderManager::ImportToLibrary(ResourceShader* resource)
 	{
 		//Get name
 		resource->SetName(LibraryManager::GetFilename(resource->GetAssetsFile()));
+
 		//Compile Shader
 		resource->shader = new Shader(resource->GetAssetsFile().c_str(), resource->GetName());
 	}
+
 	//Generate and save binary
 	GLint size = 0;
 	GLenum format = 0;
@@ -46,7 +48,6 @@ bool ShaderManager::ImportToLibrary(ResourceShader* resource)
 	//Binary code
 	glGetProgramiv(resource->shader->ID, GL_PROGRAM_BINARY_LENGTH, &size);
 	std::vector<GLubyte> buffer(size);
-
 	glGetProgramBinary(resource->shader->ID, size, NULL, &format, buffer.data());
 
 	//Write to a library file

@@ -1,6 +1,6 @@
 #include "Shader.h"
 
-#include "External/Glew/include/glew.h"
+#include "Glew/include/glew.h"
 
 #include "Globals.h"
 
@@ -11,7 +11,7 @@
 #include <vector>
 
 /// <summary>
-/// /// Constructor used for shaders binary.
+/// Constructor used for shaders binary.
 /// </summary>
 /// <param name="buffer"></param>
 /// <param name="size"></param>
@@ -35,6 +35,7 @@ Shader::Shader(std::string fragmentCode, std::string vertexCode, std::string nam
 
 	this->fragmentCode = fragmentCode;
 	this->vertexCode = vertexCode;
+
 	CompileShader();
 }
 
@@ -130,7 +131,6 @@ void Shader::CompileShader()
 		LOG(LOG_TYPE::ERRO, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n %s", infoLog);
 	}
 
-
 	//Shader Program
 	ID = glCreateProgram();
 	glAttachShader(ID, vertex);
@@ -193,7 +193,6 @@ void Shader::SetFloat(const std::string& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
-
 void Shader::SetMat4(const std::string& name, const float* value) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);

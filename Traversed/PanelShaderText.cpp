@@ -70,14 +70,7 @@ void PanelShaderText::MenuBar()
 		{
 			if (ImGui::MenuItem("Save", "Ctrl-S"))
 			{
-				editorData.edited = false;
-
-				//Delete previous binary
-				if (LibraryManager::Exists(currentResource->GetLibraryFile()))
-					LibraryManager::RemoveFile(currentResource->GetLibraryFile());
-
-				LibraryManager::SaveJSON(currentResource->GetAssetsFile(), editor.GetText());//Save .shader
-				editorData.compilationError = ShaderManager::ImportToLibrary(currentResource);//Compile
+				SaveAction();
 			}
 
 			ImGui::EndMenu();

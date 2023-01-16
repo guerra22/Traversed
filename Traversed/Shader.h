@@ -13,6 +13,7 @@ public:
 	Shader(const char* shaderPath, std::string name = "Shader");
 	~Shader();
 
+
 	void Use();
 	std::string GetBinary();
 
