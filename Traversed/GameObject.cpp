@@ -259,7 +259,6 @@ void GameObject::Load(nlohmann::JsonData data)
 {
 	this->name = data.GetString("Name");
 	this->uuid = data.GetString("UUID");
-	//if (this->parent != nullptr) this->parent->uuid = data.GetString("Parent_UUID");
 
 	if (data.data.contains("Components"))
 	{

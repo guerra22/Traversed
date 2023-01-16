@@ -52,6 +52,9 @@
     <Filter Include="Sources\External\ImGuiColorTextEdit">
       <UniqueIdentifier>{8070ea76-2669-4aec-ae03-8bbcd5bdad14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Renderer\Shader">
+      <UniqueIdentifier>{c721bb06-84ca-4fde-8c19-c75891989d6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -372,9 +375,6 @@
     <ClInclude Include="External\MathGeo\include\Time\Clock.h">
       <Filter>Sources\External\MathGeo</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Sources\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
@@ -588,14 +588,8 @@
     <ClInclude Include="ResourceModel.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="BaseShaders.h">
-      <Filter>Sources\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceShader.h">
       <Filter>Sources\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Sources\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="ComponentMaterial.h">
       <Filter>Sources\GameObject\Component</Filter>
@@ -609,8 +603,20 @@
     <ClInclude Include="ResourceMaterial.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="BaseShaders.h">
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Sources\Renderer</Filter>
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderUniform.h">
+      <Filter>Sources\Renderer\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -821,9 +827,6 @@
     <ClCompile Include="External\MathGeo\include\Time\Clock.cpp">
       <Filter>Sources\External\MathGeo</Filter>
     </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Sources\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
@@ -884,9 +887,6 @@
     <ClCompile Include="ResourceShader.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Sources\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="ComponentMaterial.cpp">
       <Filter>Sources\GameObject\Component</Filter>
     </ClCompile>
@@ -900,7 +900,16 @@
       <Filter>Sources\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Sources\Renderer</Filter>
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Sources\Renderer\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderUniform.cpp">
+      <Filter>Sources\Renderer\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
