@@ -2,11 +2,13 @@
 #include "ModuleFileSystem.h"
 #include "TextureImporter.h"
 #include "MeshImporter.h"
+#include "ShaderManager.h"
 
 #include "TEUUID.h"
 
 #include "ResourceTexture.h"
 #include "ResourceModel.h"
+#include "ResourceShader.h"
 #include "LibraryManager.h"
 #include "LibraryFolder.h"
 
@@ -40,6 +42,7 @@ Resource* ResourceProperties::CreateNewResource(std::string assetsPath, RESOURCE
 	{
 	case RESOURCE_TYPE::TEXTURE: toReturn = new ResourceTexture(uuid); break;
 	case RESOURCE_TYPE::MODEL: toReturn = new ResourceModel(uuid); break;
+	case RESOURCE_TYPE::SHADER: toReturn = new ResourceShader(uuid); break;
 	default: toReturn = new Resource(uuid, RESOURCE_TYPE::UNKNOWN); break;
 	}
 
@@ -140,24 +143,13 @@ UpdateStatus ModuleResources::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-std::string ModuleResources::Find(std::string assetsFile)
-{
-	std::string toReturn = "";
-
-
-	return toReturn;
-}
-
 void ModuleResources::ImportFile(Resource* resource)
 {
-	//std::string toReturn = "";
-
-	//toReturn = resource->GetUUID();
-	//char* buffer = 
 	switch (resource->GetType())
 	{
 	case RESOURCE_TYPE::TEXTURE: TextureImporter::ImportToLibrary((ResourceTexture*)resource); break;
 	case RESOURCE_TYPE::MODEL: MeshImporter::ImportToLibrary((ResourceModel*)resource); break;
+	case RESOURCE_TYPE::SHADER: ShaderManager::ImportToLibrary((ResourceShader*)resource); break;
 	}
 
 	resource->Save();
@@ -180,16 +172,11 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 			//Check for meta, if it doesn't has meta file, create it.
 			if (!folder->libItem[i]->hasMeta)
 			{
-				//Creates meta and the file inside library
 				folder->libItem[i]->hasMeta = true;
-
-				//ImportFile(folder->libItem[i]->path, GetResourceType(folder->libItem[i]->extension));
-					//folder->libItem[i]->hasMeta = true;
 			}
 			else
 			{
 				//Load meta file
-				//res = CreateNewResource(folder->libItem[i]->path, GetResourceType(folder->libItem[i]->extension));
 				res->Load();
 			}
 
@@ -214,14 +201,6 @@ void ModuleResources::FolderFileCheck(LibraryFolder* folder, bool fullCheck)
 	}
 }
 
-void ModuleResources::ImportToLibrary(LibraryFolder* folder)
-{
-	for (int i = 0; i < folder->libItem.size(); ++i)
-	{
-
-	}
-}
-
 RESOURCE_TYPE ModuleResources::GetResourceType(std::string extension)
 {
 	switch (str2int(extension.c_str()))
@@ -243,6 +222,11 @@ RESOURCE_TYPE ModuleResources::GetResourceType(std::string extension)
 	case str2int("sc"):
 	case str2int("SC"):
 		return RESOURCE_TYPE::SCENE;
+	case str2int("lss"):
+	case str2int("LSS"):
+	case str2int("shader"):
+	case str2int("SHADER"):
+		return RESOURCE_TYPE::SHADER;
 	default:
 		return RESOURCE_TYPE::UNKNOWN;
 	}

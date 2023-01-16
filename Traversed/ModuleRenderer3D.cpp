@@ -3,6 +3,7 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
+#include "ShaderManager.h"
 #include "Renderer.h"
 
 #include "External/Glew/include/glew.h"
@@ -64,8 +65,8 @@ bool ModuleRenderer3D::Init()
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, 0);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -171,6 +172,8 @@ bool ModuleRenderer3D::Init()
 	// Projection matrix for
 	OnResize(wProps->w, wProps->h);
 
+	ShaderManager::Init();
+
 	return ret;
 }
 
@@ -220,6 +223,8 @@ bool ModuleRenderer3D::CleanUp()
 	{
 		SDL_GL_DeleteContext(context);
 	}
+
+	ShaderManager::Shutdown();
 
 	return true;
 }
