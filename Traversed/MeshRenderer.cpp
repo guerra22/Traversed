@@ -129,21 +129,6 @@ void MeshRenderer::DrawMesh(Material* material, Camera* camera, float4x4 model)
 			material->uniforms[i]->Update(shader);
 		}
 
-		/*if (RenderProperties::Instance()->texture2D)
-		{
-			glActiveTexture(GL_TEXTURE0);
-
-			glBindTexture(GL_TEXTURE_2D, text.id);
-
-			shader->SetInt("texture_albedo", 0);
-		}*/
-
-		//Light
-		/*if (RenderProperties::Instance()->lighting)
-		{
-			RenderProperties::Instance()->worldLight->SetShaderData(this->shader);
-		}*/
-
 		//Draw Mesh
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, mesh.indices.size(), GL_UNSIGNED_INT, NULL);

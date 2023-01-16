@@ -204,6 +204,7 @@ bool ModuleUI::Start()
 	panels.emplace_back(new PanelConfiguration());
 	panels.emplace_back(new PanelGame());
 	panels.emplace_back(new PanelScene());
+	panelGameCount = panels.size() - 1;
 	panels.emplace_back(new PanelHierarchy());
 	panels.emplace_back(new PanelInspector());
 	panels.emplace_back(new PanelLibrary());
@@ -383,6 +384,8 @@ void ModuleUI::SubMenuBar()
 			if (ImGui::Button("Play##Toolbar1", btnSize))
 			{
 				GameTime::Play();
+				panels[panelGameCount]->enabled = true;
+				ImGui::SetWindowFocus(panels[panelGameCount]->name.c_str());
 			}
 		}
 		else

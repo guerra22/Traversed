@@ -32,8 +32,6 @@ void PanelLibrary::Start()
 
 	currentFolder = fsIntance->rootFolder;
 	fsIntance->currentFolder = currentFolder;
-	//Checks firsts when the app loads 
-	//resInstance->requestFolderFileCheck = true;
 
 	leftWin = 0;
 	rightWin = 0;
@@ -105,7 +103,6 @@ void PanelLibrary::BoxView()
 		//Iterate folders
 		for (int i = 0; i < currentFolder->children.size(); ++i)
 		{
-			//if (currentFolder->children[i]->name == "Primitives") continue;
 			if (ImGui::Button(currentFolder->children[i]->name.c_str(), { cellSize, cellSize }))
 			{
 				LibraryManager::FolderSystemUpdate(currentFolder->children[i]);
@@ -159,14 +156,6 @@ void PanelLibrary::BoxView()
 			}
 
 			//POPUP MENU over item
-
-			/*bool pop = ImGui::BeginPopupContextItem("LibraryItemMenu", ImGuiPopupFlags_NoOpenOverExistingPopup | ImGuiPopupFlags_MouseButtonDefault_);
-			if (pop)
-			{
-				k += RightClickMenuContent(currentFolder->libItem[k]);
-
-				ImGui::EndPopup();
-			}*/
 			k += RightClickMenuContextItem(currentFolder->libItem[k]);
 
 			//Drag

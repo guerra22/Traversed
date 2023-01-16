@@ -26,7 +26,6 @@ void PanelGame::Start()
 void PanelGame::Update()
 {
 	if (cameraID != camInstance->mainCameraId) LookForCamera();
-	//if (mainCamera == nullptr) LookForCamera();
 
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar;
 	flags |= ImGuiWindowFlags_NoScrollWithMouse;
@@ -72,11 +71,17 @@ void PanelGame::Resize()
 
 void PanelGame::LookForCamera()
 {
-	if (camInstance->gameCameras.size() != 0)
+	if (camInstance->gameCameras.size() != 0 && camInstance->mainCameraId != -1)
 	{
 		cameraID = camInstance->mainCameraId;
 		mainCamera = camInstance->gameCameras.at(cameraID);
 		Resize();
+	}
+	else
+	{
+		mainCamera = nullptr;
+		cameraID = -1;
+		camInstance->mainCameraId = 0;
 	}
 }
 
@@ -84,6 +89,8 @@ void PanelGame::RenderSpace()
 {
 	if (mainCamera != nullptr)
 	{
+		if (mainCamera->isMainCamera == false) mainCamera->isMainCamera = true;
+
 		float aux = (ImGui::GetWindowHeight() + 20 - segmentSize.y) * 0.5f;
 		ImGui::SetCursorPosY(aux);
 		ImTextureID texID = (ImTextureID)mainCamera->camera.renderer->GetFrameBufffer()->GetTextureBuffer();

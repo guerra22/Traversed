@@ -5,6 +5,7 @@
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "ComponentTexture.h"
+#include "ComponentCamera.h"
 
 PanelHierarchy::PanelHierarchy(bool enabled) : UiPanel(enabled)
 {

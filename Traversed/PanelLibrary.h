@@ -3,8 +3,6 @@
 
 #include "UiPanel.h"
 
-//#include "LibraryManager.h"
-
 struct FileSystemProperties;
 struct SceneProperties;
 struct ResourceProperties;

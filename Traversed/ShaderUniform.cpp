@@ -23,9 +23,7 @@ ShaderUniform::ShaderUniform()
 
 ShaderUniform::~ShaderUniform()
 {
-	//if (type != GL_SAMPLER_2D) 
 	VariableDeleting();
-	//else RELEASE(value);
 }
 
 void ShaderUniform::Update(Shader* shader)
@@ -344,7 +342,6 @@ void ShaderUniform::HandleShaderGUI()
 	case GL_FLOAT_MAT4:
 	{
 		float4x4* f44 = static_cast<float4x4*>(value);
-		//ImGui::Text(uni.name.c_str());
 		aux = "1: " + name;
 		ImGui::InputFloat4(aux.c_str(), &f44->v[0][0]);
 		aux = "2: " + name;

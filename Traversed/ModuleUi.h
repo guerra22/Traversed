@@ -99,6 +99,8 @@ private:
 	std::vector<UiPanel*> panels;
 	PanelShaderText* panelShaderText = nullptr;
 	int panelViewPoolOff;
+	int panelGameCount;
+
 	EditorProperties* eProps = nullptr;
 };
 

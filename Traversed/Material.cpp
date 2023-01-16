@@ -21,7 +21,6 @@ Material::~Material()
 	{
 		if (this->shader->uuid.empty() || this->shader->uuid == "")
 		{ //Base Shader
-			//RELEASE(this->shader);
 		}
 		else
 		{

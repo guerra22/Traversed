@@ -144,12 +144,6 @@ bool ModuleRenderer3D::Init()
 		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
-		/*lights[0].ref = GL_LIGHT0;
-		lights[0].ambient.Set(0.60f, 0.25f, 0.25f, 1.0f);
-		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
-		lights[0].SetPos(0.0f, 0.0f, 2.5f);
-		lights[0].Init();*/
-
 		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
 		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -182,16 +176,6 @@ UpdateStatus ModuleRenderer3D::PreUpdate()
 {
 	//Cleaning
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	/*glLoadIdentity();
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(cProps->editorCamera.GetViewMatrix());
-
-	// light 0 on cam pos
-	lights[0].SetPos(cProps->editorCamera.Position.x, cProps->editorCamera.Position.y, cProps->editorCamera.Position.z);
-
-	for (uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();*/
 
 	return UPDATE_CONTINUE;
 }
@@ -202,7 +186,7 @@ UpdateStatus ModuleRenderer3D::PostUpdate()
 	//Meshes
 	cProps->editorCamera.renderer->Render(false);
 
-	if (cProps->gameCameras.size() != 0)
+	if (cProps->gameCameras.size() != 0 && cProps->mainCameraId != -1)
 		if (cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer != nullptr)
 			cProps->gameCameras.at(cProps->mainCameraId)->camera.renderer->Render();
 
@@ -231,16 +215,6 @@ bool ModuleRenderer3D::CleanUp()
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	glViewport(0, 0, width, height);
-
-	/*glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();*/
-	//rProps->ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 2048.0f);
-	//rProps->ProjectionMatrix = rProps->ProjectionMatrix.OpenGLPerspProjRH(0.125f, 2048.0f, 60.f, (float)width / (float)height);
-
-	//glLoadMatrixf(&rProps->ProjectionMatrix); //Without shaders
-
-	/*glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();*/
 }
 
 #pragma region Save/Load Settings
