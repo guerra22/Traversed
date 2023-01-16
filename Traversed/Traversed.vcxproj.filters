@@ -618,6 +618,9 @@
     <ClInclude Include="ShaderUniform.h">
       <Filter>Sources\Renderer\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="LSUUID.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleCamera3D.cpp">

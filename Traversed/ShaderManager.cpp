@@ -13,7 +13,7 @@
 #include "LibraryFolder.h"
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
-
+#include "LSUUID.h"
 
 static Shader* baseShader;
 Shader* ShaderManager::BaseShader() { return baseShader; }
@@ -51,6 +51,7 @@ bool ShaderManager::ImportToLibrary(ResourceShader* resource)
 
 		//Compile Shader
 		resource->shader = new Shader(resource->GetAssetsFile().c_str(), resource->GetName());
+		resource->SetVersion(LS_UUID::Generate());
 	}
 
 	//Generate and save binary

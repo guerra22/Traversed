@@ -93,7 +93,15 @@ void ComponentMaterial::ShaderSelectorCombo()
 			aux += shaderPool[i]->GetUUID();
 			if (ImGui::Selectable(aux.c_str()))
 			{
-				//Do the thing
+				//Clean current Shader
+				if (material->GetShader() != nullptr)
+				{
+					ResourceShader* ress = (ResourceShader*)resInstance->resources.at(material->GetShader()->uuid);
+					if (ress != nullptr) ress->DecreaseRC();
+					if (ress->shader == nullptr) LOG(LOG_TYPE::ATTENTION, "RC 0: Unloading shader '%s' from memory!", ress->GetLibraryFile().c_str());
+				}
+
+				//Set new shader
 				material->SetShader(ShaderManager::ImportFromLibrary(shaderPool[i]));
 				shaderPool[i]->IncreaseRC();
 			}
