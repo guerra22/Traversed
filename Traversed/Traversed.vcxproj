@@ -218,6 +218,7 @@
     <ClInclude Include="External\PugiXml\src\pugixml.hpp" />
     <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameTime.h" />
     <ClInclude Include="ImGuiUtils.h" />
     <ClInclude Include="JsonUtils.h" />
     <ClInclude Include="LibraryFolder.h" />
@@ -328,6 +329,7 @@
     <ClCompile Include="External\PugiXml\src\pugixml.cpp" />
     <ClCompile Include="FrameBuffer.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="LibraryManager.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MemLeaks.h" />

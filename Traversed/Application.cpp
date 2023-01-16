@@ -11,6 +11,7 @@
 #include "ModuleSceneIntro.h"
 #include "ModuleResources.h"
 #include "ModuleFileSystem.h"
+#include "GameTime.h"
 
 #pragma region Time
 Time::Time()
@@ -29,6 +30,12 @@ void Time::Delete()
 	{
 		RELEASE(G_Time);
 	}
+}
+
+float Time::GetActiveDeltaTime()
+{
+	if (GameTime::IsStopped()) return frameTime;
+	else return GameTime::GetDeltaTime();
 }
 
 Time* Time::G_Time = nullptr;
@@ -98,7 +105,7 @@ bool Application::Init()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	
+	GameTime::Update(G_Time->frameTime);
 }
 
 // ---------------------------------------------
