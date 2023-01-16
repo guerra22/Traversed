@@ -15,7 +15,7 @@
 
 ComponentMaterial::ComponentMaterial(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
-	this->type = TESTING;
+	this->type = MATERIAL;
 
 	resInstance = ResourceProperties::Instance();
 }
@@ -125,7 +125,8 @@ void ComponentMaterial::ShaderCustomGUI()
 	//Custom Shader properties
 	for (int i = 0; i < shader->uniforms.size(); ++i)
 	{
-		if (shader->name == "projection" || shader->name == "view" || shader->name == "model") continue;
+		if (shader->uniforms[i] == nullptr) continue;
+		if (shader->uniforms[i]->name == "Projection" || shader->uniforms[i]->name == "View" || shader->uniforms[i]->name == "odel") continue;
 		shader->uniforms[i]->HandleShaderGUI();
 	}
 }

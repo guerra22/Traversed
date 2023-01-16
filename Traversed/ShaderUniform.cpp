@@ -11,6 +11,9 @@
 #include "ModuleResources.h"
 #include "LibraryFolder.h"
 #include "ResourceTexture.h"
+#include "ModuleRenderer3D.h"
+
+#include "Shader.h"
 
 ShaderUniform::ShaderUniform()
 {
@@ -21,6 +24,34 @@ ShaderUniform::~ShaderUniform()
 {
 	VariableDeleting();
 }
+
+void ShaderUniform::Update(Shader* shader)
+{
+	switch (type)
+	{
+	case GL_BOOL: shader->SetBool(name, *static_cast<bool*>(value)); break;
+	case GL_INT:
+	case GL_UNSIGNED_INT: shader->SetInt(name, *static_cast<int*>(value)); break;
+	case GL_FLOAT: shader->SetFloat(name, *static_cast<float*>(value)); break;
+	case GL_FLOAT_VEC2: shader->SetVec2(name, &static_cast<float2*>(value)->At(0)); break;
+	case GL_FLOAT_VEC3:	shader->SetVec3(name, &static_cast<float3*>(value)->At(0)); break;
+	case GL_FLOAT_VEC4: shader->SetVec4(name, &static_cast<float4*>(value)->At(0)); break;
+	case GL_DOUBLE: shader->SetDouble(name, *static_cast<double*>(value)); break;
+	case GL_SAMPLER_2D:
+	{
+		if (RenderProperties::Instance()->texture2D)
+		{
+			Texture* tex = static_cast<Texture*>(value);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, tex->id);
+			shader->SetInt(name, 0);
+		}
+	}
+	break;
+	case GL_FLOAT_MAT4: shader->SetMat4("model", &static_cast<float4x4*>(value)->v[0][0]);  break;
+	}
+}
+
 
 void ShaderUniform::VariableSetting()
 {
@@ -176,7 +207,7 @@ void ShaderUniform::VariableDeleting()
 
 void ShaderUniform::HandleShaderGUI()
 {
-	if (name == "projection" || name == "view" || name == "model") return;
+	if (name == "Projection" || name == "View" || name == "Model") return;
 
 	ImGui::Text("Type: %s", strType.c_str());
 	std::string name = this->name + "##" + std::to_string(index);
@@ -210,12 +241,47 @@ void ShaderUniform::HandleShaderGUI()
 	break;
 	case GL_FLOAT_VEC3:
 	{
-		ImGui::InputFloat3(name.c_str(), &static_cast<float3*>(value)->At(0));
+		if (name.find("Colour") || name.find("Color") || name.find("color") || name.find("colour"))
+		{
+			float4 color = { *static_cast<float3*>(value), 1.0f };
+			if (ImGui::ColorButton(name.c_str(), (ImVec4&)color, 0, { 50, 50 }))
+			{
+				ImGui::OpenPopup("ColorPicker");
+			}
+			ImGui::SameLine();
+			ImGui::Text(name.c_str());
+
+			if (ImGui::BeginPopup("ColorPicker"))
+			{
+				ImGui::ColorPicker3(name.c_str(), (float*) static_cast<float3*>(value), 0 | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview);
+
+				ImGui::EndPopup();
+			}
+
+		}
+		else ImGui::InputFloat3(name.c_str(), &static_cast<float3*>(value)->At(0));
 	}
 	break;
 	case GL_FLOAT_VEC4:
 	{
-		ImGui::InputFloat4(name.c_str(), &static_cast<float4*>(value)->At(0));
+		if (name.find("Colour") || name.find("Color") || name.find("color") || name.find("colour"))
+		{
+			float4 color = *static_cast<float4*>(value);
+			if (ImGui::ColorButton(name.c_str(), (ImVec4&)color, 0, { 50, 50 }))
+			{
+				ImGui::OpenPopup("ColorPicker");
+			}
+			ImGui::SameLine();
+			ImGui::Text(name.c_str());
+
+			if (ImGui::BeginPopup("ColorPicker"))
+			{
+				ImGui::ColorPicker4(name.c_str(), (float*) static_cast<float4*>(value), 0 | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoSmallPreview);
+
+				ImGui::EndPopup();
+			}
+		}
+		else ImGui::InputFloat4(name.c_str(), &static_cast<float4*>(value)->At(0));
 	}
 	break;
 	case GL_DOUBLE:
@@ -246,11 +312,11 @@ void ShaderUniform::HandleShaderGUI()
 
 					ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(item.resUuid);
 
-					if (!tex->resUuid.empty()) //Decrease current RC
-						ResourceProperties::Instance()->resources[tex->resUuid]->DecreaseRC();
+					//Clean current
+					VariableDeleting();
 
-					RELEASE(tex);
-					value = new Texture(TextureImporter::ImportFromLibrary(res));
+					TextureImporter::ImportFromLibrary(res);
+					value = res->texture;
 					tex = static_cast<Texture*>(value);
 				}
 			}

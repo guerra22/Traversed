@@ -11,7 +11,7 @@
 
 ComponentTexture::ComponentTexture(GameObject* owner, std::string uuid) : Component(owner, uuid)
 {
-	this->type = MATERIAL;
+	this->type = TESTING;
 
 	isCheckers = false;
 

@@ -4,7 +4,9 @@
 #include "Shader.h"
 #include "GameObject.h"
 #include "ComponentTexture.h"
+#include "ComponentMaterial.h"
 #include "ComponentTransform.h"
+#include "Material.h"
 
 #include "External/ImGui/imgui.h"
 #include "External/ImGui/imgui_impl_sdl.h"
@@ -151,19 +153,24 @@ void ComponentMesh::Render(Shader* shader, Shader* debugShader, Camera* camera, 
 {
 	if (!active || mesh == NULL) return;
 
-	if (owner->GetComponent<ComponentTexture>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
+	if (owner->GetComponent<ComponentMaterial>(MATERIAL) != nullptr && owner->GetComponent<ComponentTransform>(TRANSFORM) != nullptr)
 	{
-		if (game)
-			mesh->LiteDraw(shader,
-				camera,
-				owner->GetComponent<ComponentTexture>(MATERIAL)->GetTexture(),
-				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix());
-		else
-			mesh->FullDraw(shader,
-				debugShader,
-				camera,
-				owner->GetComponent<ComponentTexture>(MATERIAL)->GetTexture(),
-				owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(), normals);
+		Material* mat = owner->GetComponent<ComponentMaterial>(MATERIAL)->material;
+
+		if (mat != nullptr)
+		{
+			if (game)
+				mesh->LiteDraw(mat->GetShader(),
+					owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(),
+					camera);
+			else
+				mesh->FullDraw(mat->GetShader(),
+					debugShader,
+					owner->GetComponent<ComponentTransform>(TRANSFORM)->GetWorldMatrix(),
+					camera,
+					normals);
+		}
+
 	}
 }
 

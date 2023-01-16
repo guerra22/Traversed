@@ -113,13 +113,13 @@ Component* GameObject::CreateComponent(CO_TYPE type)
 		    toReturn = new ComponentMesh(this, TE_UUID::Generate());
 		    break;
 	    case MATERIAL:
-		    toReturn = new ComponentTexture(this, TE_UUID::Generate());
+		    toReturn = new ComponentMaterial(this, TE_UUID::Generate());
 		    break;
 	    case CAMERA:
 		    toReturn = new ComponentCamera(this, TE_UUID::Generate());
 		    break;
 		case TESTING:
-			toReturn = new ComponentMaterial(this, TE_UUID::Generate());
+			toReturn = new ComponentTexture(this, TE_UUID::Generate());
 			break;
 	}
 

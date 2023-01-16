@@ -56,12 +56,19 @@ Shader::Shader(const char* shaderPath, std::string name)
 
 Shader::~Shader()
 {
+	Clear();
+}
+
+void Shader::Clear()
+{
 	for (int i = 0; i < uniforms.size(); ++i)
 	{
 		RELEASE(uniforms[i]);
 	}
 
 	glDeleteShader(ID);
+
+	uniforms.clear();
 }
 
 void Shader::RetriveShader(const char* shaderPath)
@@ -165,6 +172,13 @@ void Shader::CompileShader()
 	glDeleteShader(fragment);
 }
 
+void Shader::Recompile(const char* shaderPath, std::string name)
+{
+	Clear();
+	RetriveShader(shaderPath);
+	CompileShader();
+}
+
 void Shader::VariableParser()
 {
 	GLint maxNameLen, count;
@@ -231,9 +245,20 @@ void Shader::SetFloat(const std::string& name, float value) const
 {
 	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
 }
+
+void Shader::SetDouble(const std::string& name, double value) const
+{
+	glUniform1d(glGetUniformLocation(ID, name.c_str()), value);
+}
+
 void Shader::SetMat4(const std::string& name, const float* value) const
 {
 	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value);
+}
+
+void Shader::SetVec2(const std::string& name, const float* value) const
+{
+	glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, value);
 }
 
 void Shader::SetVec3(const std::string& name, const float* value) const
@@ -241,7 +266,7 @@ void Shader::SetVec3(const std::string& name, const float* value) const
 	glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, value);
 }
 
-void Shader::SetVec2(const std::string& name, const float* value) const
+void Shader::SetVec4(const std::string& name, const float* value) const
 {
-	glUniform2fv(glGetUniformLocation(ID, name.c_str()), 1, value);
+	glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, value);
 }
