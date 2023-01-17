@@ -1,13 +1,11 @@
-#ifndef __PANEL_LIBRARY_H_
-#define __PANEL_LIBRARY_H_
-
+#pragma once
 #include "UiPanel.h"
 
 struct FileSystemProperties;
 struct SceneProperties;
 struct ResourceProperties;
-struct LibraryItem;
 class LibraryFolder;
+struct LibraryItem;
 
 struct NewFileData
 {
@@ -58,7 +56,7 @@ private:
 	LibraryFolder* currentFolder = nullptr;
 
 	std::string* package = nullptr;
+
 	NewFileData newFileData;
 };
 
-#endif

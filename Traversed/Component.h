@@ -11,7 +11,7 @@ enum CO_TYPE
 	TRANSFORM,
 	MESH,
 	MATERIAL,
-	TESTING,
+	TEXTURE,
 	CAMERA,
 	LAST
 };
@@ -24,7 +24,7 @@ inline const char* CompTypeToString(CO_TYPE type)
 	    case MESH:   return "Mesh";
 	    case MATERIAL: return "Material";
 	    case CAMERA: return "Camera";
-		case TESTING: return "Testing";
+		case TEXTURE: return "Texture";
 	}
 }
 

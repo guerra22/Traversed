@@ -118,7 +118,7 @@ Component* GameObject::CreateComponent(CO_TYPE type)
 	    case CAMERA:
 		    toReturn = new ComponentCamera(this, TE_UUID::Generate());
 		    break;
-		case TESTING:
+		case TEXTURE:
 			toReturn = new ComponentTexture(this, TE_UUID::Generate());
 			break;
 	}

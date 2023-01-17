@@ -1,18 +1,22 @@
 #include "PanelLibrary.h"
+
 #include "ModuleUI.h"
 #include "ModuleSceneintro.h"
 #include "ModuleFileSystem.h"
 #include "ModuleResources.h"
 #include "LibraryFolder.h"
 #include "LibraryManager.h"
+
+#include "ImGui/imgui_internal.h"
+#include "ImGui/misc/cpp/imgui_stdlib.h"
+#include "ImGuiUtils.h"
+
 #include "ResourceModel.h"
+
 #include "MeshImporter.h"
 #include "MeshRenderer.h"
-#include "BaseShaders.h"
 
-#include "ImGuiUtils.h"
-#include "External/ImGui/imgui_internal.h"
-#include "External/ImGui/misc/cpp/imgui_stdlib.h"
+#include "BaseShaders.h"
 
 PanelLibrary::PanelLibrary(bool enabled) : UiPanel(enabled)
 {
@@ -21,7 +25,7 @@ PanelLibrary::PanelLibrary(bool enabled) : UiPanel(enabled)
 
 PanelLibrary::~PanelLibrary()
 {
-
+	RELEASE(package);
 }
 
 void PanelLibrary::Start()
@@ -41,9 +45,12 @@ void PanelLibrary::Update()
 {
 	if (ImGui::Begin(name.c_str()))
 	{
+
 		ImVec2 winSize = ImGui::GetContentRegionAvail();
 		leftWin = 150;
 		rightWin = winSize.x - 150;
+
+
 
 		ImGui::DrawSplitter(0, 10, &leftWin, &rightWin, 150, 200);
 
@@ -60,6 +67,9 @@ void PanelLibrary::Update()
 
 			RightClickMenuContextWindow();
 		}
+
+		PopUpFileName();
+
 	}
 	ImGui::End();
 
@@ -103,6 +113,8 @@ void PanelLibrary::BoxView()
 		//Iterate folders
 		for (int i = 0; i < currentFolder->children.size(); ++i)
 		{
+			//if (currentFolder->children[i]->name == "Primitives") continue;
+
 			if (ImGui::Button(currentFolder->children[i]->name.c_str(), { cellSize, cellSize }))
 			{
 				LibraryManager::FolderSystemUpdate(currentFolder->children[i]);
@@ -114,7 +126,6 @@ void PanelLibrary::BoxView()
 		}
 
 		static bool doubleClick = false;
-
 		//Iterate files
 		for (int k = 0; k < currentFolder->libItem.size(); ++k)
 		{
@@ -123,28 +134,30 @@ void PanelLibrary::BoxView()
 			{
 				switch (str2int(currentFolder->libItem[k]->extension.c_str()))
 				{
-				    case str2int("dds"):
-				    case str2int("png"):
-					    break;
-				    case str2int("shader"):
-				    case str2int("lss"):
-					    if (doubleClick)
-					    {
-						    EditorProperties::Instance()->RequestShaderTextSwitch(currentFolder->libItem[k]->resUuid);
-					    }
-					    break;
-				    case str2int("fbx"):
-				    case str2int("FBX"):
-				    case str2int("dae"):
-				    case str2int("DAE"):
-					    currentFolder->libItem[k]->active = !currentFolder->libItem[k]->active;
-					    break;
-				    default:
+				case str2int("dds"):
+				case str2int("png"):
+					break;
+				case str2int("shader"):
+				case str2int("lss"):
+					if (doubleClick)
+					{
+						EditorProperties::Instance()->RequestShaderTextSwitch(currentFolder->libItem[k]->resUuid);
+					}
+					break;
+				case str2int("fbx"):
+				case str2int("FBX"):
+				case str2int("dae"):
+				case str2int("DAE"):
+					currentFolder->libItem[k]->active = !currentFolder->libItem[k]->active;
+					break;
+				default:
 
-					    break;
+					break;
 				}
 				if (doubleClick) doubleClick = false;
 			}
+
+
 			if (ImGui::IsItemHovered())
 			{ //Hover tooltip
 				ImGui::SetTooltip(currentFolder->libItem[k]->name.c_str());
@@ -162,6 +175,7 @@ void PanelLibrary::BoxView()
 			if (ImGui::BeginDragDropSource())
 			{
 				ImGui::SetDragDropPayload("ContentBrowserItem", currentFolder->libItem[k], sizeof(LibraryItem));
+
 				std::string tooltip = "Dragging ";
 				tooltip += currentFolder->libItem[k]->name;
 				ImGui::Text(tooltip.c_str());
@@ -170,18 +184,25 @@ void PanelLibrary::BoxView()
 			}
 
 			ImGui::Text(currentFolder->libItem[k]->name.c_str());
+			if (currentFolder->libItem[k]->active) ExecuteItemActive(currentFolder->libItem[k], cellSize);
+
+
 
 			ImGui::NextColumn();
 			ImGui::PopID();
 		}
+
 		ImGui::Columns(1);
+		//Options
 	}
 	ImGui::EndChild();
 }
 
+
 void PanelLibrary::ExecuteItemActive(LibraryItem* item, float cellSize)
 {
 	ResourceModel* res = (ResourceModel*)ResourceProperties::Instance()->resources[item->resUuid];
+
 	for (auto const& mesh : *res->meshRendererMap)
 	{
 		if (mesh.second != nullptr)
@@ -191,18 +212,24 @@ void PanelLibrary::ExecuteItemActive(LibraryItem* item, float cellSize)
 			{
 
 			}
+
 			if (ImGui::BeginDragDropSource())
 			{
 				if (package != nullptr) RELEASE(package);
+
 				package = new std::string(res->GetUUID());
 				package->append("/");
 				package->append(mesh.first);
+
 				ImGui::SetDragDropPayload("MeshCFF", package, sizeof(std::string));
+
 				std::string tooltip = "Dragging ";
 				tooltip += mesh.second->libPath;
 				ImGui::Text(tooltip.c_str());
+
 				ImGui::EndDragDropSource();
 			}
+
 		}
 	}
 
@@ -245,6 +272,7 @@ int PanelLibrary::RightClickMenuContextWindow()
 
 int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 {
+
 	if (ImGui::MenuItem("DELETE", 0, false, item == nullptr ? false : true))
 	{
 		LOG(LOG_TYPE::ATTENTION, "DELETE LIBITEM %s", item->name.c_str());
@@ -270,6 +298,7 @@ int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 
 		return -1;
 	}
+
 	if (ImGui::BeginMenu("Create"))
 	{
 		/*if (ImGui::MenuItem("Folder", 0, false))
@@ -289,6 +318,7 @@ int PanelLibrary::RightClickMenuContent(LibraryItem* item)
 
 		ImGui::EndMenu();
 	}
+
 	return 0;
 }
 
@@ -321,6 +351,7 @@ void PanelLibrary::PopUpFileName()
 			resInstance->requestFolderFileCheck = true;
 			newFileData.openPopUp = false;
 		}
+
 
 		ImGui::EndPopup();
 	}
