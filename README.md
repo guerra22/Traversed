@@ -131,6 +131,8 @@ Help:
 - It supports copy, paste, cut, and save.
 - It is used to create and edit a new shader, all the variables can be changed in the inspector.
 
+## Example video
+[Water Demo Scene](https://youtu.be/idL9ePR36PQ)
 # Developers
 - [Hang Xue](https://github.com/Patronum129)
 - [Oriol Via](https://github.com/guerra22)
