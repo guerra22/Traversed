@@ -33,42 +33,42 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 
 # Instruction of the water demo scene.
 
-1. Drag an fbx object and drop into the scene
+- Drag an fbx object and drop into the scene
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/dragfbx.png"> 
 </p>
 
-2. Select the object in hierarchy, then right click on the Library panel and create a new Material.
+- Select the object in hierarchy, then right click on the Library panel and create a new Material.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/createMaterial.png"> 
 </p>
 
-3. Name the new material.
+- Name the new material.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/newmaterial.png"> 
 </p>
 
-4. Drag the material into the material component in inspector to assign the material.
+- Drag the material into the material component in inspector to assign the material.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/assignMaterial.png"> 
 </p>
 
-5. Choose the water shader which is already inside the assets.
+- Choose the water shader which is already inside the assets.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/chooseShader.png"> 
 </p>
 
-6. Choose the color in the color picker and set the value of the variables.
+- Choose the color in the color picker and set the value of the variables.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/SetColor.png"> 
 </p>
 
-7. drag the water textures into the inspector.
+- drag the water textures into the inspector.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/setvalue.png"> 
 </p>
 
-8. Set the value of velocity then you will get a moving water.
+- Set the value of velocity then you will get a moving water.
 <p align="center">
   <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Moving%20water.gif"> 
 </p>
