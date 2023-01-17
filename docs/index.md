@@ -78,16 +78,19 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 
 # Shader Pipeline
 When importing a model to the library, the default shader will be automatically applied to its material. Every ".shader" file created inside the editor starts with a basic template containing the most basic configuration. The template is the same default shader used by the engine every time a new FBX is imported to the library (in case it contains a material).
+
 ## Shader file creation
 - Right click inside the Library window.
 - Create->Shader
 - Type the name and click create.
+
 ## Shader editing and usage
 - Double-click a shader to open the GLSL editor.
 - Edit the shader.
 - Save the shader.
 - Inside the "Material" component, select the desired shader.
 - Edit the uniform values. 
+
 ## Material file creation and usage
 - Right click inside the library window.
 - Create->Material
@@ -98,6 +101,7 @@ When importing a model to the library, the default shader will be automatically 
 - select a Shader.
 - set the uniform value.
 - Click 'SAVE' to save the material.
+- 
 # Editor Windows
 ## Scene panel 
 Camera Controls:
@@ -119,6 +123,7 @@ Mouse picking:
 - You can change the transform of the camera in Inspector to move game view.
 - The other method is select an object then add a camera component.
 - Click "play" and "pause" botton switch the editor mode to game mode.(In the example scene, you can click pause to stop the water's movement)
+
 ## General menu
 File: 
 - New Scene: Create a new scene(clear current scene)
