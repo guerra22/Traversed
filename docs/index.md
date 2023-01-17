@@ -101,9 +101,13 @@ When importing a model to the library, the default shader will be automatically 
 - select a Shader.
 - set the uniform value.
 - Click 'SAVE' to save the material.
-- 
+
 # Editor Windows
+
 ## Scene panel 
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Engine%20image.png"> 
+</p>
 Camera Controls:
 - While Right clicking, free look around is enabled.
 - While Right clicking, “WASD” fps-like movement.()
@@ -117,6 +121,9 @@ Mouse picking:
 - When one object is selected in secen panel, click and drag the axis can chage the transform("Q"->Position, "E"->Rotation, "R"->Scale)
 
 ## Game panel
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Game.png"> 
+</p>
 - The game view only displays when there is a Camera object.
 - In order to do it, u should right click the mouse in the Hierarchy panel and create a camera node.
 - The initial position of a new camera object is (0,0,0)
@@ -150,10 +157,16 @@ Help:
 - License 
 
 ## Hierarchy panel:
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Hierarchy.png"> 
+</p>
 - It displays a list with all GameObjects in this window. The user is able to select a GameObject through this window.
 - Right click the mouse->Creat a new node.(Empty, spetail, mesh, camera)
 
 ## Inspector panel
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Inspector.png"> 
+</p>
 - It display information about the components of the selected GameObject
 - It's allowed to add a new component or delet the component. 
 - Transform: change the value of position, rotation and scale for the selected GameObject.
@@ -165,6 +178,9 @@ Help:
 - It supports drag&drop from library.
 
 ## Console panel
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/console.png"> 
+</p>
 - display the logs messages.
 - Clear->Clear the list of logs.
 - Log types->filter the different log types.
@@ -173,6 +189,9 @@ Help:
 - Time->Shows the time when the log has been registered.
 
 ## Library panel
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Library.png"> 
+</p>
 - Display the game library files for the engine.
 - All files are displayed in box view.
 - You can click the folder file to see the content files.
