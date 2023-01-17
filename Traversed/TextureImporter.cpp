@@ -2,12 +2,14 @@
 
 #include "LibraryManager.h"
 
-#include "External/Glew/include/glew.h"
-#include "External/DevIL/include/il.h"
-#include "External/DevIL/include/ilut.h"
-#include "External/Nlohmann/json.hpp"
+#include "Glew/include/glew.h"
+#include "DevIL/include/il.h"
+#include "DevIL/include/ilut.h"
+
+#include "Nlohmann/json.hpp"
 
 #include "MeshRenderer.h"
+
 #include "ResourceTexture.h"
 
 Texture TextureImporter::checkers;

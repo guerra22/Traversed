@@ -1,11 +1,11 @@
 #include "ResourceTexture.h"
+
 #include "TextureImporter.h"
 
-#include "External/Glew/include/glew.h"
+#include "Glew/include/glew.h"
 
 ResourceTexture::ResourceTexture(std::string uuid) : Resource(uuid, RESOURCE_TYPE::TEXTURE)
 {
-	
 }
 
 ResourceTexture::~ResourceTexture()
@@ -28,6 +28,7 @@ void ResourceTexture::CleanInstance()
 
 nlohmann::JsonData ResourceTexture::SaveUnique(nlohmann::JsonData data)
 {
+
 
 	return data;
 }

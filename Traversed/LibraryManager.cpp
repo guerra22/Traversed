@@ -4,8 +4,8 @@
 
 #include "LibraryFolder.h"
 
-#include "External/SDL/include/SDL.h"
-#include "External/PhysFS/include/physfs.h"
+#include "SDL/include/SDL.h"
+#include "PhysFS/include/physfs.h"
 
 void LibraryManager::Init(LibraryFolder& root)
 {

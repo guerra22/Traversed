@@ -96,6 +96,7 @@ void ResourceModel::LoadUnique(nlohmann::JsonData data)
 			SubMeshResource* subRes = new SubMeshResource();
 			subRes->libPath = meshData.GetString("Library Path");
 
+
 			meshRendererMap->emplace(meshData.GetString("Uuid"), subRes);
 		}
 	}

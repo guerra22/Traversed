@@ -1,6 +1,9 @@
 #include "ShaderManager.h"
+
 #include "LibraryManager.h"
+
 #include "BaseShaders.h"
+
 #include "Glew/include/glew.h"
 #include "ImGui/imgui.h"
 
@@ -13,6 +16,7 @@
 #include "LibraryFolder.h"
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
+
 #include "TEUUID.h"
 
 static Shader* baseShader;
@@ -27,11 +31,11 @@ void ShaderManager::Init()
 
 	baseShader = new Shader(InEngineShaders::baseFragment,
 		InEngineShaders::baseVertex,
-		"Traversed basic");
+		"Lighsteam basic");
 
 	debugShader = new Shader(InEngineShaders::debugFragment,
 		InEngineShaders::debugVertex,
-		"Traversed debug");
+		"Lightsteam debug");
 
 }
 
@@ -44,6 +48,7 @@ void ShaderManager::Shutdown()
 bool ShaderManager::ImportToLibrary(ResourceShader* resource)
 {
 	bool isError = false;
+
 	Shader* shader = resource->GetShader();
 
 	if (shader == nullptr)
@@ -102,7 +107,6 @@ Shader* ShaderManager::ImportFromLibrary(ResourceShader* resource)
 	shader = new Shader(buffer, size, resource->binaryFormat, resource->GetName());
 
 	resource->SetShader(shader);
-
 	RELEASE(buffer);
 
 	return shader;

@@ -1,11 +1,21 @@
 #include "MeshImporter.h"
+
+#include "Assimp/include/assimp/cimport.h"
+#include "Assimp/include/assimp/scene.h"
+#include "Assimp/include/assimp/postprocess.h"
+
+#pragma comment (lib, "assimp.lib")
+
 #include "GameObject.h"
-#include "ComponentMesh.h"
+
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
+
 #include "ModuleSceneintro.h"
 #include "LibraryManager.h"
 #include "ResourceModel.h"
 #include "TEUUID.h"
+
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
 #include "ResourceMaterial.h"
@@ -14,12 +24,7 @@
 #include "ModuleFileSystem.h"
 #include "LibraryFolder.h"
 
-#include "External/MathGeo/include/Math/MathFunc.h"
-#include "External/Assimp/include/assimp/cimport.h"
-#include "External/Assimp/include/assimp/scene.h"
-#include "External/Assimp/include/assimp/postprocess.h"
-
-#pragma comment (lib, "assimp.lib")
+#include "MathGeo/include/Math/MathFunc.h"
 
 MeshImporter::MeshImporter()
 {
@@ -44,7 +49,7 @@ void MeshImporter::CleanUp()
 	//detach log stream
 	aiDetachAllLogStreams();
 }
-			
+
 MeshRenderer* MeshImporter::ImportMeshFromLibrary(ResourceModel* model, std::string meshUuid)
 {
 	if (meshUuid == "NULL") return nullptr;
@@ -61,6 +66,7 @@ MeshRenderer* MeshImporter::ImportMeshFromLibrary(ResourceModel* model, std::str
 			LOG(LOG_TYPE::ATTENTION, "RC > 0: Loading mesh '%s' to memory.", subMesh->libPath.c_str());
 		}
 		else LOG(LOG_TYPE::SUCCESS, "RC '%i': Mesh '%s' is already loaded.", subMesh->referenceCount, subMesh->libPath.c_str());
+
 
 		toReturn = subMesh->meshRenderer;
 
@@ -90,7 +96,6 @@ GameObject* MeshImporter::ImportFromLibrary(ResourceModel* resource)
 		LOG(LOG_TYPE::ERRO, "Error: Model parse at byte %i: %s", ex.byte, ex.what());
 		return nullptr;
 	}
-
 
 	//Load model root
 	std::map<std::string, GameObject*> modelMap;
@@ -145,6 +150,8 @@ void MeshImporter::ImportToLibrary(ResourceModel* resource)
 		std::vector<std::string> matUuid = GetMaterials(scene);
 		parent = GenerateGameObjects(node, scene, matUuid, nullptr, resource);
 	}
+
+
 	if (parent != nullptr)
 	{
 		//Save model to Library/Model
@@ -162,6 +169,7 @@ void MeshImporter::ImportToLibrary(ResourceModel* resource)
 		LibraryManager::SaveJSON(savePath, data.data.dump(4));
 		resource->SetLibraryFile(savePath);
 	}
+
 
 	RELEASE(parent);
 
@@ -192,22 +200,23 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 	transform->rotation = toDeg;
 	transform->localScale = float3(localScale.x, localScale.y, localScale.z);
 
+
 	if (node->mNumMeshes >= 1)
 	{
-		//Meshes
 		for (uint i = 0; i < node->mNumMeshes; ++i)
 		{
 			//New Spatial GameObject with MeshRenderer component
 			aiMesh* aimesh = scene->mMeshes[node->mMeshes[i]];
-
 			GameObject* meshGo = nullptr;
 
 			uint matIn = aimesh->mMaterialIndex;
+
 
 			if (node->mNumMeshes == 1) meshGo = go;
 			else meshGo = new GameObject(aimesh->mName.C_Str());
 
 			meshGo->CreateComponent(MESH);
+
 			//Generate Material
 			ComponentMaterial* mat = (ComponentMaterial*)meshGo->CreateComponent(MATERIAL);
 
@@ -216,6 +225,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 				if (matUuid[aimesh->mMaterialIndex] != "")
 				{
 					ResourceMaterial* res = (ResourceMaterial*)ResourceProperties::Instance()->resources.at(matUuid[aimesh->mMaterialIndex]);
+
 					if (res != nullptr)
 					{
 						if (res->GetMaterial() == nullptr)
@@ -229,7 +239,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 					}
 				}
 			}
-			
+
 			Meshe mesh;
 
 			//Checks if the mesh already exists in the engine's CFF
@@ -240,6 +250,7 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 			aux += ".mh";
 
 			mesh = GenerateMesh(aimesh);
+
 			SaveMesh(mesh, aux);
 			mesh.path = aux;
 
@@ -257,7 +268,6 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 				subRes->meshRenderer = meshRenderer;
 				resource->meshRendererMap->emplace(uuid, subRes);
 			}
-
 			if (node->mNumMeshes != 1) go->AddChildren(meshGo);
 		}
 	}
@@ -273,7 +283,6 @@ GameObject* MeshImporter::GenerateGameObjects(aiNode* node, const aiScene* scene
 
 	//Add GameObject to it's parent
 	if (parent == nullptr) parent = go;
-	
 	else
 	{
 		parent->AddChildren(go);
@@ -346,6 +355,7 @@ std::vector<std::string> MeshImporter::GetMaterials(const aiScene* scene)
 								{
 									resMat = (ResourceMaterial*)resProps->resources.at(item->resUuid);
 								}
+
 							}
 							else
 							{
@@ -353,13 +363,10 @@ std::vector<std::string> MeshImporter::GetMaterials(const aiScene* scene)
 								resMat = (ResourceMaterial*)resProps->CreateNewResource(matName, RESOURCE_TYPE::MATERIAL);
 
 							}
-
 							Material* material = new Material(name);
 							if (resTex != nullptr)	material->SetDefaultShader(resTex);
-
 							resMat->ImportToLibrary(material);
 							resProps->resources[resMat->GetUUID()] = resMat;
-
 							resMat->Save();
 
 							toAdd = resMat->GetUUID();
@@ -405,6 +412,7 @@ void MeshImporter::IterateForFolders(LibraryFolder* fol, std::vector<LibraryFold
 Meshe MeshImporter::GenerateMesh(aiMesh* mesh)
 {
 	Meshe newMesh = Meshe();
+	//newMesh.InitMesh();
 
 	bool hasTex = mesh->HasTextureCoords(0);
 
@@ -418,9 +426,10 @@ Meshe MeshImporter::GenerateMesh(aiMesh* mesh)
 		float2 textCoords = float2(0.0f, 0.0f);
 
 		if (mesh->HasNormals()) normal = float3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
-		if (mesh->HasTextureCoords(i)) textCoords = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+		if (hasTex) textCoords = float2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
 
 		newMesh.vertices.emplace_back(position, normal, textCoords);
+
 	}
 
 	//Index
@@ -456,6 +465,7 @@ void MeshImporter::SaveMesh(Meshe mesh, std::string filePath)
 	};
 
 	uint size = sizeof(ranges) + sizeof(uint) * ranges[0] + sizeof(Vertex) * ranges[1] + sizeof(uint) + sizeof(float3) * 2;
+
 
 	char* fileBuffer = new char[size];//Allocate
 	char* cursor = fileBuffer;

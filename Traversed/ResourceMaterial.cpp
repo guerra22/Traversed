@@ -6,7 +6,6 @@
 
 ResourceMaterial::ResourceMaterial(std::string uuid) : Resource(uuid, RESOURCE_TYPE::MATERIAL)
 {
-	
 }
 
 ResourceMaterial::~ResourceMaterial()

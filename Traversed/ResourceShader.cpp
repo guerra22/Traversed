@@ -1,16 +1,15 @@
 #include "ResourceShader.h"
-#include "ModuleUI.h"
+
 #include "ShaderManager.h"
+#include "ModuleUI.h"
 #include "Material.h"
 
 ResourceShader::ResourceShader(std::string uuid) : Resource(uuid, RESOURCE_TYPE::SHADER)
 {
-
 }
 
 ResourceShader::~ResourceShader()
 {
-
 }
 
 void ResourceShader::CleanInstance()
@@ -81,3 +80,4 @@ void ResourceShader::LoadUnique(nlohmann::JsonData data)
 {
 	this->binaryFormat = data.GetInt("Binary Format");
 }
+#pragma endregion

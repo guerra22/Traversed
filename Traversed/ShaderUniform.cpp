@@ -10,12 +10,13 @@
 #include "TextureImporter.h"
 #include "ModuleResources.h"
 #include "LibraryFolder.h"
+
 #include "ResourceTexture.h"
 #include "ModuleRenderer3D.h"
 
 #include "Shader.h"
-#include "Application.h"
 
+#include "Application.h"
 ShaderUniform::ShaderUniform()
 {
 	time = 0;
@@ -35,6 +36,7 @@ void ShaderUniform::Update(Shader* shader)
 		return;
 	}
 
+
 	switch (type)
 	{
 	case GL_BOOL: shader->SetBool(name, *static_cast<bool*>(value)); break;
@@ -49,6 +51,7 @@ void ShaderUniform::Update(Shader* shader)
 	{
 		if (RenderProperties::Instance()->texture2D)
 		{
+
 			Texture* tex = static_cast<Texture*>(value);
 			shader->SetTexture(name, tex);
 		}
@@ -192,6 +195,7 @@ void ShaderUniform::VariableDeleting()
 	case GL_SAMPLER_2D:
 	{
 		Texture* s2d = static_cast<Texture*>(value);
+
 		if (!s2d->resUuid.empty())
 		{
 			ResourceTexture* res = (ResourceTexture*)ResourceProperties::Instance()->resources.at(s2d->resUuid);
@@ -290,6 +294,7 @@ void ShaderUniform::HandleShaderGUI()
 			}
 		}
 		else ImGui::InputFloat4(name.c_str(), &static_cast<float4*>(value)->At(0));
+
 	}
 	break;
 	case GL_DOUBLE:
@@ -364,6 +369,7 @@ nlohmann::ordered_json ShaderUniform::GetJSON()
 	toReturn.SetInt("Type", type);
 	toReturn.SetString("String Type", strType);
 	toReturn.SetInt("Index", index);
+
 	toReturn.SetInt("Read", read);
 	toReturn.SetInt("Size", size);
 
