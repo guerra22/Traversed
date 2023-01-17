@@ -26,6 +26,29 @@ pixels changes based on its height .
 - You can only quit engine when all the popped up windows are closed.
 - The scene view is not focus any object at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
 - If the game view dosen't display nothing, that because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
+
+# Shader Pipeline
+When importing a model to the library, the default shader will be automatically applied to its material. Every ".shader" file created inside the editor starts with a basic template containing the most basic configuration. The template is the same default shader used by the engine every time a new FBX is imported to the library (in case it contains a material).
+## Shader file creation
+- Right click inside the Library window.
+- Create->Shader
+- Type the name and click create.
+## Shader editing and usage
+- Double-click a shader to open the GLSL editor.
+- Edit the shader.
+- Save the shader.
+- Inside the "Material" component, select the desired shader.
+- Edit the uniform values. 
+## Material file creation and usage
+- Right click inside the library window.
+- Create->Material
+- Type the name and click create.
+- Select a scene Game Object.
+- select Add Component->Material in the inspector window.
+- Drag the created material into the 'EMPTY' box.
+- select a Shader.
+- set the uniform value.
+- Click 'SAVE' to save the material.
 # Editor Windows
 ## Scene panel 
 Camera Controls:
