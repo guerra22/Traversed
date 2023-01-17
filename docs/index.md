@@ -34,31 +34,47 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 # Instruction of the water demo scene.
 
 1. Drag an fbx object and drop into the scene
-![2](https://github.com/guerra22/Traversed/blob/main/Wiki/dragfbx.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/dragfbx.png"> 
+</p>
 
 2. Select the object in hierarchy, then right click on the Library panel and create a new Material.
-![3](https://github.com/guerra22/Traversed/blob/main/Wiki/createMaterial.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/createMaterial.png"> 
+</p>
 
 3. Name the new material.
-![4](https://github.com/guerra22/Traversed/blob/main/Wiki/newmaterial.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/newmaterial.png"> 
+</p>
 
 4. Drag the material into the material component in inspector to assign the material.
-![5](https://github.com/guerra22/Traversed/blob/main/Wiki/assignMaterial.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/assignMaterial.png"> 
+</p>
 
 5. Choose the water shader which is already inside the assets.
-![6](https://github.com/guerra22/Traversed/blob/main/Wiki/chooseShader.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/chooseShader.png"> 
+</p>
 
 6. Choose the color in the color picker and set the value of the variables.
-![7](https://github.com/guerra22/Traversed/blob/main/Wiki/SetColor.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/SetColor.png"> 
+</p>
 
 7. drag the water textures into the inspector.
-![8](https://github.com/guerra22/Traversed/blob/main/Wiki/setvalue.png)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/setvalue.png"> 
+</p>
 
 8. Set the value of velocity then you will get a moving water.
-![8](https://github.com/guerra22/Traversed/blob/main/Wiki/Moving%20water.gif)
+<p align="center">
+  <img src="https://github.com/guerra22/Traversed/raw/main/Wiki/Moving%20water.gif"> 
+</p>
 
 ## Example video for the demo scene(Town and moving water).
-[Water Demo Scene](https://youtu.be/idL9ePR36PQ)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/idL9ePR36PQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Shader Pipeline
 When importing a model to the library, the default shader will be automatically applied to its material. Every ".shader" file created inside the editor starts with a basic template containing the most basic configuration. The template is the same default shader used by the engine every time a new FBX is imported to the library (in case it contains a material).
