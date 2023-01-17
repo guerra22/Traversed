@@ -104,7 +104,7 @@ void Renderer::QueueMesh(ComponentMesh* mesh)
 		meshes.emplace(mesh);
 		numOfMeshes++;
 	}
-	else LOG(LOG_TYPE::ATTENTION, "The mesh of the GO '%s' is outside frustum!", mesh->owner->name.c_str());
+	//else LOG(LOG_TYPE::ATTENTION, "The mesh of the GO '%s' is outside frustum!", mesh->owner->name.c_str());
 }
 
 void Renderer::QueueDebug(DebugMesh* mesh)
