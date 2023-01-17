@@ -137,8 +137,10 @@ Help:
 - [Hang Xue](https://github.com/Patronum129)
 - [Oriol Via](https://github.com/guerra22)
 
-# Link to GitHub repository
-https://github.com/guerra22/Traversed
+# For more details
+- [Last Release](https://github.com/guerra22/Traversed/releases/tag/Assignment3.1)
+- [GitHub repository](https://github.com/guerra22/Traversed)
+- [Github page](https://guerra22.github.io/Traversed/)
 
 # Libraries
 - [SDL](https://github.com/libsdl-org/SDL)
