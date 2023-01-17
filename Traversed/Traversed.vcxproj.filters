@@ -618,9 +618,6 @@
     <ClInclude Include="ShaderUniform.h">
       <Filter>Sources\Renderer\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="LSUUID.h">
-      <Filter>Sources\Tools</Filter>
-    </ClInclude>
     <ClInclude Include="GameTime.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>

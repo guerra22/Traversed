@@ -13,7 +13,7 @@
 #include "LibraryFolder.h"
 #include "ModuleResources.h"
 #include "ResourceTexture.h"
-#include "LSUUID.h"
+#include "TEUUID.h"
 
 static Shader* baseShader;
 Shader* ShaderManager::BaseShader() { return baseShader; }
@@ -79,7 +79,7 @@ bool ShaderManager::ImportToLibrary(ResourceShader* resource)
 	resource->SetLibraryFile(filePath);
 	resource->binaryFormat = format;
 	resource->SetName(shader->name);
-	resource->SetVersion(LS_UUID::Generate());
+	resource->SetVersion(TE_UUID::Generate());
 
 	if (resource->GetRC() < 1) RELEASE(shader);
 

@@ -225,7 +225,6 @@
     <ClInclude Include="LibraryManager.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loggs.h" />
-    <ClInclude Include="LSUUID.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshImporter.h" />
     <ClInclude Include="MeshRenderer.h" />
