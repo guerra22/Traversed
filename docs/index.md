@@ -3,7 +3,7 @@
 Traversed Engine is a 3D Engine for Game Development, this engine is used to learn game development in the third year of citm-upc.
 
 <p align="center">
-  <img src="https://github.com/guerra22/Traversed/blob/main/Wiki/Engine1.png"> 
+  <img src="https://www.carenews.com/sites/default/files/styles/large_actualites/public/articles/2438685877aa65f868a9f4db8bcf493478025101_0.png?itok=oyvdKSDD"> 
 </p>
 
 # Features
