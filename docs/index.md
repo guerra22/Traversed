@@ -3,7 +3,7 @@
 Traversed Engine is a 3D Engine for Game Development, this engine is used to learn game development in the third year of citm-upc.
 
 <p align="center">
-  <img src="https://www.carenews.com/sites/default/files/styles/large_actualites/public/articles/2438685877aa65f868a9f4db8bcf493478025101_0.png?itok=oyvdKSDD"> 
+  <img src="https://www.gamerfocus.co/wp-content/uploads/2014/03/hearthstone-heroes-of-warcraft-sale-fase-beta-oficial-parche-1.jpg"> 
 </p>
 
 # Features
