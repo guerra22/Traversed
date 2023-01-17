@@ -4,9 +4,7 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 
 # Features
 - Shader Pipeline implemented.
-- The ‘Street Environment’ scene is automatically loaded at the start(rendered with shaders).
-- In the middle of town scene there is a flat mesh which simulates simple water with wave movement, and the color of the
-pixels changes based on its height .
+- All the fbx object will be rendered with shaders.
 - The user is able to use the inspector to modify a GameObject:
 - Hierarchy:create empty and create children
 - Transform: translate, rotate and scale Game Objects.
@@ -23,6 +21,8 @@ pixels changes based on its height .
 - In the top of editor there are "Play" and "Pause" botton which can be used to stwith the editor mode to game mode.
 
 # Attention
+- Watch the instructions in the last release or in our github page before running the engine.
+- Delete the "Library" folder when you are the first time to run the engine(If there's a Library folder inside the Engine folder).
 - You can only quit engine when all the popped up windows are closed.
 - The scene view is not focus any object at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
 - If the game view dosen't display nothing, that because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
