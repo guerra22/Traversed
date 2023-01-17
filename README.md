@@ -3,7 +3,10 @@
 Traversed Engine is a 3D Engine for Game Development, this engine is used to learn game development in the third year of citm-upc.
 
 # Features
-- The ‘Street Environment’ scene is automatically loaded at the start.
+- Shader Pipeline implemented.
+- The ‘Street Environment’ scene is automatically loaded at the start(rendered with shaders).
+- In the middle of town scene there is a flat mesh which simulates simple water with wave movement, and the color of the
+pixels changes based on its height .
 - The user is able to use the inspector to modify a GameObject:
 - Hierarchy:create empty and create children
 - Transform: translate, rotate and scale Game Objects.
@@ -14,11 +17,14 @@ Traversed Engine is a 3D Engine for Game Development, this engine is used to lea
 - Models, meshes and textures are saved to custom format under “Library” folder
 - Scene can be serialized to a file that can be loaded.
 - The editor has 2 windows one with the scene(editor view) and another captured from a gameobject with a camera component(main game camera), each one has its own framebuffer and the user can visualize both at the same time.
--  Resource Management
+- Resource Management
+- In the library panel, all the library files can be drag&drop to the scene and Inspector, it is also allowed to create new material and shader, and they can be edit in the Inspector.
+- Double click the shader file, you are able to edit the shader text and code a new shader by yourself.
+- In the top of editor there are "Play" and "Pause" botton which can be used to stwith the editor mode to game mode.
 
 # Attention
-- The scene view is black at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
-- The game view dosen't display nothing  because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
+- The scene view is not focus any object at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
+- If the game view dosen't display nothing, that because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
 # Editor Windows
 ## Scene panel 
 Camera Controls:
@@ -39,7 +45,7 @@ Mouse picking:
 - The initial position of a new camera object is (0,0,0)
 - You can change the transform of the camera in Inspector to move game view.
 - The other method is select an object then add a camera component.
-
+- Click "play" and "pause" botton switch the editor mode to game mode.(In the example scene, you can click pause to stop the water's movement)
 ## General menu
 File: 
 - New Scene: Create a new scene(clear current scene)
@@ -76,6 +82,9 @@ Help:
 - Mesh: information about the loaded mesh.
 - Texture: information about the loaded texture.(support drag&drop from Library panel)
 - Camera: information about the loaded camera.
+- Material: it displays the detail of the material and the shader which is applyed to this material.
+- Material and the values of a shader can be edited here.
+- It supports drag&drop from library.
 
 ## Console panel
 - display the logs messages.
@@ -92,6 +101,12 @@ Help:
 - It accepts drag&drop of FBX files from the Library panel folder to the scene panel.
 - It accepts drag&drop of DDS/PNG files from the Library panel folder(apply the texture to the selected GameObject)(firstly select a gameobject, then drop the file into Material component in inspector).
 
+## Shader Text Editor
+- A GLSL editor powered by ImGuiColorTextEdit that allows Vertex and Fragment shader programing on the same file, improving reliabilty inside the engine and easing the coding.
+- Display the script of a shader.
+- It supports copy, paste, cut, and save.
+- It is used to create and edit a new shader, all the variables can be changed in the inspector.
+
 # Developers
 - [Hang Xue](https://github.com/Patronum129)
 - [Oriol Via](https://github.com/guerra22)
@@ -107,6 +122,8 @@ https://github.com/guerra22/Traversed
 - [MathGeoLib](https://github.com/juj/MathGeoLib)
 - [Assimp](https://github.com/assimp/assimp)
 - [DevIL](https://github.com/DentonW/DevIL)
+- [ImGuiFileDialog](https://github.com/aiekick/ImGuiFileDialog)
+- [ImGuiColorTextEdit](https://github.com/BalazsJako/ImGuiColorTextEdit)
 
 # License 
 Permission is hereby granted, free of charge, to any person obtaining a copy
