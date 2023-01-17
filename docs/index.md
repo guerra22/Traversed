@@ -209,9 +209,10 @@ Help:
 - [Oriol Via](https://github.com/guerra22)
 
 # For more details
-- [Last Release](https://github.com/guerra22/Traversed/releases/tag/Assignment3.1)
 - [GitHub repository](https://github.com/guerra22/Traversed)
-- [Github page](https://guerra22.github.io/Traversed/)
+- - [Github page](https://guerra22.github.io/Traversed/)
+
+# [Download Engine](https://github.com/guerra22/Traversed/releases/tag/Assignment3.1)
 
 # Libraries
 - [SDL](https://github.com/libsdl-org/SDL)
