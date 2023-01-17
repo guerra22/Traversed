@@ -31,11 +31,11 @@ void ShaderManager::Init()
 
 	baseShader = new Shader(InEngineShaders::baseFragment,
 		InEngineShaders::baseVertex,
-		"Lighsteam basic");
+		"Traversed basic");
 
 	debugShader = new Shader(InEngineShaders::debugFragment,
 		InEngineShaders::debugVertex,
-		"Lightsteam debug");
+		"Traversed debug");
 
 }
 
