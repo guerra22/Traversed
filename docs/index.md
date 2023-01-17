@@ -1,122 +1,198 @@
-## What is audio?
+Traversed Engine is a 3D Engine for Game Development, this engine is used to learn game development in the third year of citm-upc.
 
-In these page i will dedicate it to explain several contents that i consider important about audio, give some tips and try to help on the basics of audio, followed by a template example.
+### Features
 
-### Dialogue
+- Shader Pipeline implemented.
+- The ‘Street Environment’ scene is automatically loaded at the start(rendered with shaders).
+- In the middle of town scene there is a flat mesh which simulates simple water with wave movement, and the color of the pixels changes based on its height .
+- The user is able to use the inspector to modify a GameObject:
+- Hierarchy:create empty and create children
+- Transform: translate, rotate and scale Game Objects.
+- Texture: select or drop any imported texture.
+- Camera is a component with settings that can be modified.
+- GameObjects can be picked from the world using the mouse.
+- All meshes use a bounding volume (AABB) and can be discarded using Frustum Culling. This process is visualized in the editor (debug raycast and boxes).
+- Models, meshes and textures are saved to custom format under “Library” folder.
+- Scene can be serialized to a file that can be loaded.
+- The editor has 2 windows one with the scene(editor view) and another captured from a gameobject with a camera component(main game camera), each one has its own framebuffer and the user can visualize both at the same time.
+- Resource Management.
+- In the library panel, all the library files can be drag&drop to the scene and Inspector, it is also allowed to create new material and shader, and they can be edit in the Inspector.
+- Double click the shader file, you are able to edit the shader text and code a new shader by yourself.
+- In the top of editor there are "Play" and "Pause" botton which can be used to stwith the editor mode to game mode.
 
-Dialogue takes mainly all the speeches made by any characters or entities in the game; this type of audio tends to have several types of preparation behind it, from scripting to editing.
+### Attention
 
-- Scripting
+- You can only quit engine when all the popped up windows are closed.
+- The scene view is not focus any object at the start because the initial postion of the editor camera is in the origin point(there's nothing in the view of camera), you should move the camera with camera controls.(Review the instructions below)
+- If the game view dosen't display nothing, that because it dosen't have a Camera object, in order to do that please read the instruction of game panel below.
 
-The audio requires a certain type of preparation, which is used in films, series, theater and some others, video games are no exception, normally before recording any audio you must script what the character will say, that will be bond to the lore and characteristics of the characters, and must representante the character, if he stutterer, if he is a feelingles entity, maybe he have a strange accent, all this things must be prepared and written down before the recording.
+### Shader Pipeline
 
-- Recording
+When importing a model to the library, the default shader will be automatically applied to its material. Every ".shader" file created inside the editor starts with a basic template containing the most basic configuration. The template is the same default shader used by the engine every time a new FBX is imported to the library (in case it contains a material).
 
-During a recording we can choose how we want the audio to sound, or else if we want to add it during the editing, the effects that you may add during the recording can range from rain to a cave echo, these can be hard to make, but they may make the dialogue sound more realistic compared to adding a echo filter to the audio.
+## Shader file creation
 
-- Editing
+- Right click inside the Library window.
+- Create->Shader
+- Type the name and click create.
 
-In these part we add any needed effect on the audio to make it sound the way we want, maybe we want a robotic enemy, therefore we will have to add a robotic filter to the voice recorded to make it sound like it, or maybe we want a impossibly demonic voice and we must lower the pitch to one unhumand level. Also in this phase we must make sure the editing is as unnoticeable as possible, avoiding making a loop too obvious or clearing unwanted background noises as static or fan noises.
+## Shader editing and usage
 
-### Encourage emotions
+- Double-click a shader to open the GLSL editor.
+- Edit the shader.
+- Save the shader.
+- Inside the "Material" component, select the desired shader.
+- Edit the uniform values.
 
-Audio can influence the way that a player engages any obstacle, or how they perceive a scene, these can be used in order to control to a certain degree the player’s decision making.
+## Material file creation and usage
 
-- Music
+- Right click inside the library window.
+- Create->Material
+- Type the name and click create.
+- Select a scene Game Object.
+- select Add Component->Material in the inspector window.
+- Drag the created material into the 'EMPTY' box.
+- select a Shader.
+- set the uniform value.
+- Click 'SAVE' to save the material.
 
-A clear example of music would be Doom, in which the music boosts the player’s feeling of power and or confidence making it feel unstoppable therefore the player will engage more ferociously against its opponents. Another example of this would be a sad scene, in which the players tend to feel sad by the loss of one important character, these feelings can be increased with a proper soundtrack that goes along the scene.
+### Editor Windows
 
-- Sounds
+## Scene panel
 
-Sounds can be helpful on horror scenes, where we want to scare our players, a properly settled sound effect around him or in the distance can increase the tension in the scene. As another example of these can be found in any war game when we want to make the player feel the power of any weaponry by adding a strong sound effect to it.
+# Camera Controls:
 
-- Storytelling
+- While Right clicking, free look around is enabled.
+- While Right clicking, “WASD” fps-like movement.()
+- holding the "shift" key to duplicate the movement speed.
+- Mouse wheel zoom in and out.
+- Pressing “f” focus the camera around the selected object.
+- Holding SHIFT duplicates movement speed.
+- "Alt Left/right" can orbit camera around the selected object.
 
-A properly implemented story and dialogue, we can make the player who likes the story feel what the characters are going through. These can be achieved with a properly written story with interesting characters and a good sound development.
+# Mouse picking:
 
-### Immersion
+- An object can be selected if you move the cursor on an object and left click the mouse.(The axis of the object displayed)
+- When one object is selected in secen panel, click and drag the axis can chage the transform("Q"->Position, "E"->Rotation, "R"->Scale)
 
-Immersion in video games is really important in case we want a serious approach, therefore a proper implementation of audio and music is critical.
+## Game panel
 
-One example of these is Pavlov(vr), in these game the sound feels real, making the player believe that he is actually shooting a real weapon, these feeling of reality or immersion can be improved through environmental sounds, which can include wind, animals and climate between others, these is really important in games where we want to give a realistic feeling of freedom and exploration.
+- The game view only displays when there is a Camera object.
+- In order to do it, u should right click the mouse in the Hierarchy panel and create a camera node.
+- The initial position of a new camera object is (0,0,0)
+- You can change the transform of the camera in Inspector to move game view.
+- The other method is select an object then add a camera component.
+- Click "play" and "pause" botton switch the editor mode to game mode.(In the example scene, you can click pause to stop the water's movement)
 
-### Indicate locations
+## General menu
 
-Audio can help to notice locations, these can range from several things, all of them tend to be mainly a tool for the player to help him know where he is or where something is located.
+# File: 
 
-A simple example of these is to know where you are being attacked from, these is indirectly used in many games, but a properly implemented sound range can help to locate where you are being attacked from, to the distance of the aggressor; Another examples which is related to these one would be haunting or horror games, in which the noises take great importance to track down the target or the aggressor, in these sort of games the audio can be critical to help the player on it’s awareness of its surroundings.
+- New Scene: Create a new scene. (clear current scene)
+- Save Scene: Save current scene to Library folder.
+- Load Scene: Pop up the file browser window, u can find and choose the target scene file to load.
+- Exit: quit the engine.
 
-### Audio types
+# View:
 
-There are 4 main sound types, these are used to order audio in these categories for better team coordination.
+- Enable and disable the panels.
 
-- Sound Effects (SFX)
+# Help:
 
-Sound effects envolve all generic souns, these sounds can go from gunshots to walking, tend to gane importance on games that relay more on storytelling.
+- Visit github page
+- About information
 
-- Foley
+## Configuration panel
 
-Foley is the most common technique used in this type of recording, so it’s worth to know about its existence.
+- A graph for the frames per second.
+- Configuration for all variables on each module. (window, renderer, input)
+- Information of Game and Resources.
+- Information output of memory consumption, hardware detection and software.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/_MOFMa-Lt78?start=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+## About panel
 
-- Music (MX)
+- Engine introduction.
+- Versions. (SDL, OpenGL, DevIL...)
+- License.
 
-These gropes all the music data, from simple single instrument sounds to full singed songs.
+## Hierarchy panel:
 
-- Dialogue (DX)
+- It displays a list with all GameObjects in this window. The user is able to select a GameObject through this window.
+- Right click the mouse->Creat a new node. (Empty, spetail, mesh, camera)
 
-Dialogue is any speech that needs to be added to the game.
+## Inspector panel
 
-- Backgrounds (BG)
+- It display information about the components of the selected GameObject.
+- It's allowed to add a new component or delet the component.
+- Transform: change the value of position, rotation and scale for the selected GameObject.
+- Mesh: information about the loaded mesh.
+- Texture: information about the loaded texture. (support drag&drop from Library panel)
+- Camera: information about the loaded camera.
+- Material: it displays the detail of the material and the shader which is applyed to this material.
+- Material and the values of a shader can be edited here.
+- It supports drag&drop from library.
 
-Background overtakes any sound effect that plays in the rear of the main action.
+## Console panel
 
-### Audio Bible
+- Display the logs messages.
+- Clear->Clear the list of logs.
+- Log types->filter the different log types.
+- Options->extra options.
+- Collapse->Collapses all the logs that are exactly the same.
+- Time->Shows the time when the log has been registered.
 
-The audio bible refers to one important document, the Audio design document, which contains all the important data about audio. 
+## Library panel
 
-This document is used for large development groups, it contains things such as the audio pillars, music styles, sound effects between some others which I'll discuss later, these can be used to coordinate all the team and help new additions adapt quicker and with ease.
+- Display the game library files for the engine.
+- All files are displayed in box view.
+- You can click the folder file to see the content files.
+- It accepts drag&drop of FBX files from the Library panel folder to the scene panel.
+- It accepts drag&drop of DDS/PNG files from the Library panel folder.(apply the texture to the selected GameObject)(firstly select a gameobject, then drop the file into Material component in inspector)
 
-- Synopsis
+## Shader Text Editor
 
-A description of the game must be provided, which explains the main concepts of the game in order to let us know what type of project we are pursuing alongside with a link or documentation of de GDD.
+- A GLSL editor powered by ImGuiColorTextEdit that allows Vertex and Fragment shader programing on the same file, improving reliabilty inside the engine and easing the coding.
+- Display the script of a shader.
+- It supports copy, paste, cut, and save.
+- It is used to create and edit a new shader, all the variables can be changed in the inspector.
 
-- Audio pillars
+### Developers
 
-These pillars resemble the ones used for the game, but focused on the audio aspect of it.
+- Hang Xue
+- Oriol Via
 
-- Sound effects
+### Link to GitHub repository
 
-In these parts we must define the sound palette where we will find all sounds needed,Ambience sounds are all the background noises and Dynamic range which basically means the distance in which a sound can be heard.
+https://github.com/guerra22/Traversed
 
-- Music
+### Libraries
 
-On the music side we must describe its style, the instrumentation that is going to be needed, the methodology of recording and once again the range.
+- SDL
+- Glew
+- ImGUI
+- JSON
+- MathGeoLib
+- Assimp
+- DevIL
+- ImGuiFileDialog
+- ImGuiColorTextEdit
 
-- Dialog
+### License
 
-The dialog category will consist of a list containing all the characters that will need to be recorded, voice types, an orientation of the characters attitude, special effects for the voices, the cast size needed and the scripts.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-- Technology
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-In here we will need to list the budget, space limit, file formats, platforms that are going to be used, all the instruments needed for recording and implementing the audio in the game.
-
-- Naming Conventions
-
-All the rules about the files and audio naming.
-
-### Links
-
-PowerPoint:
-https://docs.google.com/presentation/d/1ZQBcWx4gOJCuDjvSRwI3MFVYu0bWLBadUluMPchFZFg/edit?usp=sharing
-Convert:
-https://audio.online-convert.com/es/convertir-a-ogg
-Audio/music:
-https://freemusicarchive.org/home
-Audio/music:
-https://board.flashkit.com/board/
-Audio/music:
-https://freesound.org/
-Source:
-https://eduardiko.github.io/
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
